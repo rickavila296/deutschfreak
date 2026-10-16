@@ -1,4 +1,4 @@
-import { getTableConfig, type PgTable } from 'drizzle-orm/pg-core';
+import { getTableConfig } from 'drizzle-orm/pg-core';
 import { describe, expect, it } from 'vitest';
 import {
   blockRole,
@@ -12,52 +12,9 @@ import {
   skill,
   units,
 } from './schema.ts';
+import { columns, enumValues, foreignKeys, standard, timestamps, uniques } from './testing/table-config.ts';
 
 // Schema §8.1 to 8.6 and the matching rows of §9, with decisions 0005 (DB-REC-01 to 12) and 0006 (skill).
-
-type Column = { type: string; notNull: boolean; default?: string };
-
-function columns(table: PgTable): Record<string, Column> {
-  const out: Record<string, Column> = {};
-  for (const c of getTableConfig(table).columns) {
-    const entry: Column = { type: c.getSQLType(), notNull: c.notNull };
-    if (c.default !== undefined) entry.default = typeof c.default === 'object' ? 'sql' : String(c.default);
-    out[c.name] = entry;
-  }
-  return out;
-}
-
-function foreignKeys(table: PgTable) {
-  return getTableConfig(table)
-    .foreignKeys.map((fk) => {
-      const ref = fk.reference();
-      return {
-        column: ref.columns.map((c) => c.name).join(','),
-        table: getTableConfig(ref.foreignTable).name,
-        onDelete: fk.onDelete,
-      };
-    })
-    .sort((a, b) => a.column.localeCompare(b.column));
-}
-
-function uniques(table: PgTable) {
-  return getTableConfig(table)
-    .uniqueConstraints.map((u) => ({ name: u.name, columns: u.columns.map((c) => c.name) }))
-    .sort((a, b) => (a.name ?? '').localeCompare(b.name ?? ''));
-}
-
-const enumValues = (e: { enumValues: readonly string[] }) => [...e.enumValues];
-
-const timestamps = {
-  created_at: { type: 'timestamp with time zone', notNull: true, default: 'sql' },
-  updated_at: { type: 'timestamp with time zone', notNull: true, default: 'sql' },
-};
-
-const standard = {
-  id: { type: 'uuid', notNull: true, default: 'sql' },
-  code: { type: 'text', notNull: true },
-  ...timestamps,
-};
 
 describe('enumerated types (Schema §8, DB-REC-12)', () => {
   it('skill has the eight skills', () => {

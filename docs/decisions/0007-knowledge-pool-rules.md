@@ -10,3 +10,4 @@
   4. DB-OQ-13: pronouns, numerals and similar classes stay under `function_word`. No new word classes are added now.
 - **Reason:** Each rule is the smallest choice that fits Schema v1. Rule 3 reuses an existing enum, so it adds one column and no enum value. Rejected: authoring recall exercises twice, seeding concepts again later, and changing the `word_class` enum before content needs it. All four can be revisited before Phase 2b content exists.
 - **Affects:** Schema §8.8 `lesson_blocks` (rule 3, new `mode` column), §8.9 `concepts` (rule 2), §8.11 `vocabulary_items` (rules 1 and 4), enum `word_class` in §8 (rule 4), §10 seed data requirements (rule 2), §15 open questions; Plan §5 Phase 2b (tasks 2b.1 to 2b.4).
+- **Amended 2026-10-16:** The owner added a check: only exercise blocks carry a mode (`lesson_blocks_mode_check`: `mode` is null or `kind` is `exercise`). Applied in migration `0004_lesson_blocks_mode_check`.

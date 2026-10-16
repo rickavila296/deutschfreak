@@ -1,0 +1,1 @@
+ALTER TABLE "lesson_blocks" ADD CONSTRAINT "lesson_blocks_mode_check" CHECK ("lesson_blocks"."mode" is null or "lesson_blocks"."kind" = 'exercise');
