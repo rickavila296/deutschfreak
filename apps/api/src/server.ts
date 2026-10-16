@@ -7,6 +7,6 @@ import { database } from './db.ts';
 loadRootEnv();
 
 const port = Number(process.env.PORT ?? 4000);
-createApp({ ...readApiConfig(), checkDatabase: database.check }).listen(port, () => {
+createApp({ ...readApiConfig(), checkDatabase: database.check, db: database.db }).listen(port, () => {
   process.stdout.write(`API listening on http://localhost:${port}\n`);
 });
