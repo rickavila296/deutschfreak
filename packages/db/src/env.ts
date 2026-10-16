@@ -23,3 +23,15 @@ export function readDatabaseUrl(name: DatabaseUrlName, env: NodeJS.ProcessEnv = 
   }
   return value;
 }
+
+/**
+ * The pooled connection string the running API uses (TRD-BE-07, TRD-DB-14, TRD-PERF-03). Neon's pooled endpoints
+ * carry `-pooler` in the host; a direct string here would let serverless functions exhaust Postgres connections.
+ */
+export function readPooledDatabaseUrl(env: NodeJS.ProcessEnv = process.env): string {
+  const url = readDatabaseUrl('DATABASE_URL', env);
+  if (!new URL(url).hostname.includes('-pooler')) {
+    throw new Error('DATABASE_URL must be the pooled connection string (its host contains -pooler).');
+  }
+  return url;
+}

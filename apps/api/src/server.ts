@@ -1,13 +1,12 @@
-import { existsSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
+import { loadRootEnv } from '@deutschfreak/db';
 import { createApp } from './app.ts';
 import { readApiConfig } from './config.ts';
+import { database } from './db.ts';
 
 // Local development server. The Vercel entry point comes with task 3.8.
-const rootEnvFile = fileURLToPath(new URL('../../../.env', import.meta.url));
-if (existsSync(rootEnvFile)) process.loadEnvFile(rootEnvFile);
+loadRootEnv();
 
 const port = Number(process.env.PORT ?? 4000);
-createApp(readApiConfig()).listen(port, () => {
+createApp({ ...readApiConfig(), checkDatabase: database.check }).listen(port, () => {
   process.stdout.write(`API listening on http://localhost:${port}\n`);
 });

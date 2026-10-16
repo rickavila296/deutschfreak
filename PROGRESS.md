@@ -346,3 +346,15 @@ The entry format is in `CLAUDE.md`, under "PROGRESS.md entry".
 - **Checks:** Making ready skip the database check on purpose made 4 tests fail; restored. Dev server smoke run: `/health` 200, `/health/ready` 503 database_unavailable with one error log line. `pnpm lint` clean; `pnpm typecheck` passed; `pnpm test` 220 passed (api 27, validation 101, db 75, content 10, config 7); `pnpm content:check` valid.
 - **Status:** passed
 - **Notes:** The 3 s timeout and the two response bodies are not in the Bible (owner approved them with 3.3). No database touched in this task.
+
+## 2026-10-16 · Phase 3 · apps/api, packages/db · Task 3.4 database client
+
+- **Phase:** 3 API foundation
+- **Module:** apps/api, packages/db
+- **Update:** Task 3.4: the API's database client, created once at module scope with the pooled connection string
+- **Type:** feature
+- **What was done:** `packages/db/src/client.ts`: `createDatabase(url)` makes one `pg.Pool` (pg defaults, max 10) with Drizzle and the schema on top, `check()` (`select 1`) for readiness, `close()`, and a pool `error` listener so a lost idle connection is reported instead of crashing the process. `readPooledDatabaseUrl` reads `DATABASE_URL` and refuses a string whose host lacks `-pooler`, never echoing it (TRD-BE-07, TRD-DB-14). `apps/api/src/db.ts` creates the client at module scope (TRD-PERF-03); `server.ts` passes `database.check` to `/health/ready`. `apps/api` now depends on `@deutschfreak/db` (allowed: only apps/api talks to the database, TRD-BE-01).
+- **Files:** packages/db/src/client.ts, packages/db/src/client.test.ts, packages/db/src/client.db.test.ts, packages/db/src/env.ts, packages/db/src/env.test.ts, packages/db/src/index.ts, apps/api/src/db.ts, apps/api/src/server.ts, apps/api/src/app.ts, apps/api/package.json, pnpm-lock.yaml, PROGRESS.md
+- **Checks:** Switching off the pooled-string guard on purpose made 1 test fail; restored. `test:db` on the test branch: first run 2 failed (an existing seed test timed out at 30 s, the next failed with 25P02 in the aborted transaction), re-run 76 passed in 154 s; the new client test passed alone and in the suite (one pooled connection reused). Local dev server against `DATABASE_URL`, read-only: `/health/ready` 200 reachable twice. `pnpm lint` clean; `pnpm typecheck` passed; `pnpm test` 226 passed (db 81, api 27, validation 101, content 10, config 7); `pnpm content:check` valid.
+- **Status:** passed
+- **Notes:** The seed test timeout looks like the per-row round trips of decision 0013 finding 7 (Phase 6) on a slow network; no seed code changed here. Pool settings on Vercel are to be checked against current Vercel docs in 3.8.

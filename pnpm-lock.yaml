@@ -181,6 +181,9 @@ importers:
 
   apps/api:
     dependencies:
+      '@deutschfreak/db':
+        specifier: workspace:*
+        version: link:../../packages/db
       '@deutschfreak/validation':
         specifier: workspace:*
         version: link:../../packages/validation

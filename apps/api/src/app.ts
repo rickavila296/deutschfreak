@@ -10,7 +10,7 @@ import { requestLog, stdoutSink, type LogSink } from './request-log.ts';
 export interface AppOptions extends ApiConfig {
   /** Where log lines go; tests pass their own. */
   logSink?: LogSink;
-  /** Used by `/health/ready`. Until the database client is wired (task 3.4), readiness reports the database unavailable. */
+  /** Used by `/health/ready`; server.ts passes the module-scope client's check. Without one, the database counts as unavailable. */
   checkDatabase?: DatabaseCheck;
   /** Extra routes, mounted after the API's own; tests use this to probe the middleware. */
   extraRoutes?: Router;
