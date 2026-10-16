@@ -1,8 +1,14 @@
 import { z } from 'zod';
-import { levelCodeSchema, lessonCodeSchema, objectiveCodeSchema, partCodeSchema, unitCodeSchema } from './codes.ts';
+import {
+  levelCodeSchema,
+  lessonCodeSchema,
+  objectiveCodeSchema,
+  partCodeSchema,
+  slugSchema,
+  unitCodeSchema,
+} from './codes.ts';
 
 // Schema for packages/content/structure/a1.yaml (TRD-CNT-01). Strict: unknown fields are rejected (TRD-VAL-02).
-// Learning-objective skills are not part of the file yet (PLAN-DEC-02).
 
 /** The nine lesson archetypes (Schema enum `lesson_archetype`, Spec §3). */
 export const lessonArchetypeSchema = z.enum([
@@ -17,16 +23,30 @@ export const lessonArchetypeSchema = z.enum([
   'checkpoint',
 ]);
 
+/** The eight skills (Schema enum `skill`, PRD FR-054). One per objective (PLAN-DEC-02, decision 0006). */
+export const skillSchema = z.enum([
+  'listening',
+  'reading',
+  'spoken_interaction',
+  'spoken_production',
+  'writing',
+  'vocabulary',
+  'grammar',
+  'pronunciation',
+]);
+
 const text = z.string().trim().min(1);
 
 export const structureObjectiveSchema = z.strictObject({
   code: objectiveCodeSchema,
   can_do_en: text,
+  skill: skillSchema,
 });
 
 export const structureLessonSchema = z.strictObject({
   code: lessonCodeSchema,
   title: text,
+  slug: slugSchema,
   /** Primary type first (Schema §8.4). */
   archetypes: z.array(lessonArchetypeSchema).min(1),
   mastery_task_en: text,
@@ -38,6 +58,7 @@ export const structureLessonSchema = z.strictObject({
 export const structureUnitSchema = z.strictObject({
   code: unitCodeSchema,
   title: text,
+  slug: slugSchema,
   subtitle_en: text,
   lessons: z.array(structureLessonSchema).min(1),
 });
@@ -61,6 +82,12 @@ export const structureFileSchema = z
   })
   .superRefine((file, ctx) => {
     const seen = new Set<string>();
+    // Slugs are unique within their table (DB-UQ-02), so units and lessons are checked separately.
+    const slugs = { unit: new Set<string>(), lesson: new Set<string>() };
+    const checkSlug = (kind: keyof typeof slugs, slug: string, path: (string | number)[]) => {
+      if (slugs[kind].has(slug)) ctx.addIssue({ code: 'custom', message: `Duplicate ${kind} slug ${slug}`, path });
+      slugs[kind].add(slug);
+    };
     const check = (code: string, parent: string | null, path: (string | number)[]) => {
       if (seen.has(code)) ctx.addIssue({ code: 'custom', message: `Duplicate code ${code}`, path });
       seen.add(code);
@@ -76,9 +103,11 @@ export const structureFileSchema = z
       part.units.forEach((unit, u) => {
         const up = [...pp, 'units', u];
         check(unit.code, part.code, [...up, 'code']);
+        checkSlug('unit', unit.slug, [...up, 'slug']);
         unit.lessons.forEach((lesson, l) => {
           const lp = [...up, 'lessons', l];
           check(lesson.code, unit.code, [...lp, 'code']);
+          checkSlug('lesson', lesson.slug, [...lp, 'slug']);
           lesson.objectives.forEach((objective, o) => {
             check(objective.code, lesson.code, [...lp, 'objectives', o, 'code']);
           });

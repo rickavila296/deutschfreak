@@ -1,0 +1,11 @@
+# 0013 — Phase 2 review: parts removed from a file are deleted; fixes and follow-ups
+
+- **ID:** Phase 2 review (`/review 2`), finding 1 and the owner's triage (no PLAN-DEC number)
+- **Date:** 2026-10-16
+- **Status:** decided
+- **Decision:**
+  1. Option A for finding 1. When a lesson, dialogue or exercise file is imported, its parts that the file no longer has (lesson sections and blocks, dialogue lines, exercise items) are deleted before the remaining parts are written, and the seed lists them as removed. Knowledge objects (words, phrases, concepts, examples, dialogues, exercises) and structure rows keep DB-IMP-07: reported, never deleted. Once learner tables exist (Phase 9), deleting an exercise item with learner history is refused by their RESTRICT keys.
+  2. Fixed now: finding 3 (codes and slugs unique across files; a lesson file is named after its lesson), finding 4 (only a planned lesson is published, never a retired one), finding 5 (a lesson file must hold all nine sections, checked by its schema), finding 6 (the test guard also checks DATABASE_URL and refuses to run with neither dev variable set), finding 8 (shared seed helpers in one file; no circular import), finding 10 (show-refusals reports a connection failure as itself). For finding 2, the seed command now names the database constraint and its detail when it fails.
+  3. Logged as follow-ups, not fixed now: finding 2 beyond the message (lessons removed from or moved within a1.yaml can clash with their old rows; lessons are retired, not removed), finding 7 (link rewrites and absent checks make one round-trip per row; bulk statements are due when the pool grows) and finding 9 (three versions of the link-rewrite rule; fold into `rewriteLinks` with finding 7). Proposed for Phase 6 (content pipeline).
+- **Reason:** Blocks, sections, lines and items are parts of their lesson, dialogue or exercise, which the Schema already deletes with their owner (DB-DEL-01, DB-DEL-05). Keeping them made a reseed fail on a position clash or left removed content in a published lesson.
+- **Affects:** `packages/db` (seed runner, test guard, scripts), `packages/content` (cross-file checks), `packages/validation` (lesson-file schema); Schema §10 DB-IMP-07 (note added to the local Bible)

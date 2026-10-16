@@ -1,0 +1,100 @@
+# Greetings, farewells and "how are you". Source: Curriculum Specification §4, A1.1.U01.L01 and L04 new language,
+# written as the Spec writes them. "Guten Morgen / Tag / Abend" and "Wie geht es dir / Ihnen?" are split into one
+# phrase each. Registers and meanings are Claude Code's and listed for the teacher (decision 0011).
+phrases:
+  - code: "phrase:hallo"
+    slug: "hallo"
+    german: "Hallo"
+    meaning_en: "Hello, hi"
+    register: informal
+    level: A1
+  - code: "phrase:guten-morgen"
+    slug: "guten-morgen"
+    german: "Guten Morgen"
+    meaning_en: "Good morning"
+    register: neutral
+    level: A1
+  - code: "phrase:guten-tag"
+    slug: "guten-tag"
+    german: "Guten Tag"
+    meaning_en: "Hello, good day"
+    register: neutral
+    level: A1
+  - code: "phrase:guten-abend"
+    slug: "guten-abend"
+    german: "Guten Abend"
+    meaning_en: "Good evening"
+    register: neutral
+    level: A1
+  - code: "phrase:gute-nacht"
+    slug: "gute-nacht"
+    german: "Gute Nacht"
+    meaning_en: "Good night"
+    register: neutral
+    level: A1
+  - code: "phrase:tschuess"
+    slug: "tschuess"
+    german: "Tschüss"
+    meaning_en: "Bye"
+    register: informal
+    level: A1
+  - code: "phrase:auf-wiedersehen"
+    slug: "auf-wiedersehen"
+    german: "Auf Wiedersehen"
+    meaning_en: "Goodbye"
+    register: formal
+    level: A1
+  - code: "phrase:bis-spaeter"
+    slug: "bis-spaeter"
+    german: "Bis später"
+    meaning_en: "See you later"
+    register: neutral
+    level: A1
+  - code: "phrase:wie-gehts"
+    slug: "wie-gehts"
+    german: "Wie geht's?"
+    meaning_en: "How are you? How's it going?"
+    register: informal
+    level: A1
+  - code: "phrase:wie-geht-es-dir"
+    slug: "wie-geht-es-dir"
+    german: "Wie geht es dir?"
+    meaning_en: "How are you? (to someone you call du)"
+    register: informal
+    level: A1
+  - code: "phrase:wie-geht-es-ihnen"
+    slug: "wie-geht-es-ihnen"
+    german: "Wie geht es Ihnen?"
+    meaning_en: "How are you? (to someone you call Sie)"
+    register: formal
+    level: A1
+  - code: "phrase:gut-danke"
+    slug: "gut-danke"
+    german: "Gut, danke."
+    meaning_en: "Fine, thanks."
+    register: neutral
+    level: A1
+  - code: "phrase:sehr-gut"
+    slug: "sehr-gut"
+    german: "Sehr gut."
+    meaning_en: "Very well."
+    register: neutral
+    level: A1
+  - code: "phrase:es-geht"
+    slug: "es-geht"
+    german: "Es geht."
+    meaning_en: "So-so."
+    register: neutral
+    level: A1
+  - code: "phrase:nicht-so-gut"
+    slug: "nicht-so-gut"
+    german: "Nicht so gut."
+    meaning_en: "Not so good."
+    register: neutral
+    level: A1
+  - code: "phrase:und-dir"
+    slug: "und-dir"
+    german: "Und dir?"
+    meaning_en: "And you? (to someone you call du)"
+    register: informal
+    level: A1

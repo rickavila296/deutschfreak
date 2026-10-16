@@ -1,0 +1,23 @@
+# Example sentences for A1.1.U01.L01, composed by Claude Code only from that lesson's new language
+# (Curriculum Specification §4). Every sentence is listed in docs/content-review/A1.1.U01.md for the teacher.
+examples:
+  - code: "eg:ja-danke-01"
+    german: "Ja, danke."
+    meaning_en: "Yes, thanks."
+    level: A1
+    vocabulary: ["vocab:ja", "vocab:danke"]
+  - code: "eg:nein-danke-01"
+    german: "Nein, danke."
+    meaning_en: "No, thanks."
+    level: A1
+    vocabulary: ["vocab:nein", "vocab:danke"]
+  - code: "eg:ja-bitte-01"
+    german: "Ja, bitte."
+    meaning_en: "Yes, please."
+    level: A1
+    vocabulary: ["vocab:ja", "vocab:bitte"]
+  - code: "eg:tschuess-bis-spaeter-01"
+    german: "Tschüss, bis später!"
+    meaning_en: "Bye, see you later!"
+    level: A1
+    concepts: ["sound:ue"]

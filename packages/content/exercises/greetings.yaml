@@ -1,0 +1,157 @@
+# Exercises for A1.1.U01.L01. German appears only as the lesson's phrases and words (Curriculum Specification §4);
+# prompts and checklists are Claude Code's English. Payload shape is provisional until Phase 8 (decisions 0010, 0011):
+# choice and fill-in items carry prompt, options and answers; self-check items carry prompt, model and checklist.
+# All items are listed in docs/content-review/A1.1.U01.md for the teacher.
+exercises:
+  - code: "ex:greetings-multiple-choice-01"
+    type: multiple_choice
+    skill: vocabulary
+    instruction_en: "Choose the greeting that fits the time of day."
+    targets: ["phrase:guten-morgen", "phrase:guten-tag", "phrase:guten-abend", "phrase:gute-nacht", "A1.1.U01.L01.O1"]
+    items:
+      - code: "ex:greetings-multiple-choice-01:i01"
+        payload:
+          prompt: "8 a.m. You meet a colleague at work."
+          options: ["Guten Morgen", "Guten Abend", "Gute Nacht"]
+          answers: ["Guten Morgen"]
+        feedback_en: "Guten Morgen is for the morning."
+      - code: "ex:greetings-multiple-choice-01:i02"
+        payload:
+          prompt: "2 p.m. You walk into a shop."
+          options: ["Gute Nacht", "Guten Tag", "Guten Morgen"]
+          answers: ["Guten Tag"]
+        feedback_en: "Guten Tag is for the daytime."
+      - code: "ex:greetings-multiple-choice-01:i03"
+        payload:
+          prompt: "7 p.m. You meet your neighbour on the stairs."
+          options: ["Guten Abend", "Guten Morgen", "Guten Tag"]
+          answers: ["Guten Abend"]
+        feedback_en: "Guten Abend is for the evening."
+      - code: "ex:greetings-multiple-choice-01:i04"
+        payload:
+          prompt: "11 p.m. Your family is going to bed."
+          options: ["Guten Abend", "Gute Nacht", "Guten Tag"]
+          answers: ["Gute Nacht"]
+        feedback_en: "Gute Nacht is said when someone goes to bed."
+
+  - code: "ex:greetings-listening-selection-01"
+    type: listening_selection
+    skill: listening
+    instruction_en: "Listen and choose what it means."
+    targets: ["phrase:hallo", "phrase:tschuess", "phrase:auf-wiedersehen", "phrase:bis-spaeter"]
+    items:
+      - code: "ex:greetings-listening-selection-01:i01"
+        payload:
+          audio: "phrase:hallo"
+          options: ["Hello", "Goodbye", "See you later"]
+          answers: ["Hello"]
+      - code: "ex:greetings-listening-selection-01:i02"
+        payload:
+          audio: "phrase:tschuess"
+          options: ["Good night", "Bye", "Hello"]
+          answers: ["Bye"]
+      - code: "ex:greetings-listening-selection-01:i03"
+        payload:
+          audio: "phrase:auf-wiedersehen"
+          options: ["Goodbye", "Good morning", "Thanks"]
+          answers: ["Goodbye"]
+      - code: "ex:greetings-listening-selection-01:i04"
+        payload:
+          audio: "phrase:bis-spaeter"
+          options: ["Good evening", "See you later", "Yes, please"]
+          answers: ["See you later"]
+
+  - code: "ex:greetings-vocabulary-recall-01"
+    type: vocabulary_recall
+    skill: vocabulary
+    instruction_en: "Write the German word."
+    targets: ["vocab:danke", "vocab:bitte", "vocab:ja", "vocab:nein"]
+    items:
+      - code: "ex:greetings-vocabulary-recall-01:i01"
+        payload:
+          prompt: "thank you"
+          answers: ["danke"]
+      - code: "ex:greetings-vocabulary-recall-01:i02"
+        payload:
+          prompt: "please"
+          answers: ["bitte"]
+      - code: "ex:greetings-vocabulary-recall-01:i03"
+        payload:
+          prompt: "yes"
+          answers: ["ja"]
+      - code: "ex:greetings-vocabulary-recall-01:i04"
+        payload:
+          prompt: "no"
+          answers: ["nein"]
+
+  - code: "ex:greetings-pronunciation-repetition-01"
+    type: pronunciation_repetition
+    skill: pronunciation
+    instruction_en: "Listen, then say it after the model."
+    targets: ["sound:ue", "phrase:tschuess"]
+    items:
+      - code: "ex:greetings-pronunciation-repetition-01:i01"
+        payload:
+          prompt: "Say the ü in Tschüss: round your lips as for oo, but say ee."
+          model: "Tschüss"
+          checklist: ["My ü did not sound like the oo in English too."]
+      - code: "ex:greetings-pronunciation-repetition-01:i02"
+        payload:
+          prompt: "Now the whole sentence."
+          model: "Tschüss, bis später!"
+          checklist: ["My ü did not sound like the oo in English too."]
+        example: "eg:tschuess-bis-spaeter-01"
+
+  - code: "ex:greetings-speaking-01"
+    type: speaking
+    skill: spoken_interaction
+    instruction_en: "Say it aloud, then compare with the model."
+    targets: ["phrase:hallo", "phrase:tschuess", "phrase:guten-abend", "phrase:auf-wiedersehen", "A1.1.U01.L01.O1"]
+    items:
+      - code: "ex:greetings-speaking-01:i01"
+        payload:
+          prompt: "You meet a friend in the afternoon. Say hello. Then you leave: say goodbye."
+          model: "Hallo! … Tschüss!"
+          checklist: ["I used an informal greeting.", "I used an informal goodbye."]
+      - code: "ex:greetings-speaking-01:i02"
+        payload:
+          prompt: "In the evening you meet a neighbour you hardly know. Say hello. Then you leave: say goodbye."
+          model: "Guten Abend! … Auf Wiedersehen!"
+          checklist: ["My greeting fits the evening.", "I used a formal goodbye."]
+
+  - code: "ex:greetings-speaking-02"
+    type: speaking
+    skill: spoken_interaction
+    instruction_en: "Six situations: say the fitting greeting aloud, then compare with the model."
+    targets: ["A1.1.U01.L01.O1"]
+    items:
+      - code: "ex:greetings-speaking-02:i01"
+        payload:
+          prompt: "8 a.m. You meet a colleague."
+          model: "Guten Morgen!"
+          checklist: ["My greeting fits the morning."]
+      - code: "ex:greetings-speaking-02:i02"
+        payload:
+          prompt: "A friend says hello to you in the afternoon."
+          model: "Hallo!"
+          checklist: ["I used an informal greeting."]
+      - code: "ex:greetings-speaking-02:i03"
+        payload:
+          prompt: "You leave a shop."
+          model: "Auf Wiedersehen!"
+          checklist: ["I used a formal goodbye."]
+      - code: "ex:greetings-speaking-02:i04"
+        payload:
+          prompt: "A friend leaves. You will see each other again tonight."
+          model: "Tschüss, bis später!"
+          checklist: ["I said goodbye informally.", "I said that we will see each other later."]
+      - code: "ex:greetings-speaking-02:i05"
+        payload:
+          prompt: "7 p.m. You meet your neighbour."
+          model: "Guten Abend!"
+          checklist: ["My greeting fits the evening."]
+      - code: "ex:greetings-speaking-02:i06"
+        payload:
+          prompt: "Your child goes to bed."
+          model: "Gute Nacht!"
+          checklist: ["I used the bedtime greeting."]

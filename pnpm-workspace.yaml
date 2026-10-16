@@ -1,3 +1,8 @@
 packages:
   - "apps/*"
   - "packages/*"
+
+# Dependency build scripts (pnpm allowBuilds). esbuild (used by drizzle-kit) ships its binary as a platform package,
+# so its postinstall script is not needed and is not run.
+allowBuilds:
+  esbuild: false

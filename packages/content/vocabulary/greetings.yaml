@@ -1,0 +1,32 @@
+# Single words used in greeting exchanges. Source: Curriculum Specification §4, A1.1.U01.L01 new language.
+# Word class function_word per decision 0011; meanings and tiers are Claude Code's and listed for the teacher.
+topic: "topic:greetings"
+items:
+  - code: "vocab:danke"
+    slug: "danke"
+    lemma: "danke"
+    word_class: function_word
+    meaning_en: "thank you, thanks"
+    tier: core_active
+    level: A1
+  - code: "vocab:bitte"
+    slug: "bitte"
+    lemma: "bitte"
+    word_class: function_word
+    meaning_en: "please; you're welcome"
+    tier: core_active
+    level: A1
+  - code: "vocab:ja"
+    slug: "ja"
+    lemma: "ja"
+    word_class: function_word
+    meaning_en: "yes"
+    tier: core_active
+    level: A1
+  - code: "vocab:nein"
+    slug: "nein"
+    lemma: "nein"
+    word_class: function_word
+    meaning_en: "no"
+    tier: core_active
+    level: A1
