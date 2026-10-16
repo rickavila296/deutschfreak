@@ -320,6 +320,14 @@ export const lessonFileSchema = z
       f.sections.flatMap((s) => s.blocks),
       ['sections', 'blocks'],
     );
+    // DB-INT-08: a lesson file publishes its lesson, and a published lesson has all nine sections (review finding 5).
+    if (f.sections.length !== 9) {
+      ctx.addIssue({
+        code: 'custom',
+        message: `${f.lesson} has ${f.sections.length} sections; a lesson file needs all 9`,
+        path: ['sections'],
+      });
+    }
     const stages = new Set<number>();
     f.sections.forEach((s, i) => {
       const path = ['sections', i];

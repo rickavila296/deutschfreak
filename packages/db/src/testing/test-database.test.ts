@@ -35,3 +35,23 @@ describe('testDatabaseUrl (decision 0012)', () => {
     ).toThrow(/DATABASE_URL_TEST must be a direct connection string/);
   });
 });
+
+describe('testDatabaseUrl when DATABASE_URL_DIRECT is not set (review finding 6)', () => {
+  const pooledDev = dev.replace('ep-dev-123', 'ep-dev-123-pooler');
+
+  it('refuses a test database on the dev endpoint known only from the pooled DATABASE_URL', () => {
+    expect(() => testDatabaseUrl({ DATABASE_URL_TEST: dev, DATABASE_URL: pooledDev })).toThrow(
+      /DATABASE_URL_TEST points at the same database host as DATABASE_URL/,
+    );
+  });
+
+  it('accepts a separate test database when only DATABASE_URL is set', () => {
+    expect(testDatabaseUrl({ DATABASE_URL_TEST: test, DATABASE_URL: pooledDev })).toBe(test);
+  });
+
+  it('refuses to run when neither dev variable is set, so the guard cannot be skipped', () => {
+    expect(() => testDatabaseUrl({ DATABASE_URL_TEST: test })).toThrow(
+      /Set DATABASE_URL_DIRECT or DATABASE_URL so the tests can check they are not using the dev database/,
+    );
+  });
+});

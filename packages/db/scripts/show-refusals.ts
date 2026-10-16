@@ -19,9 +19,11 @@ async function attempt(label: string, sql: string) {
   await client.query('rollback to savepoint s');
 }
 
+let inTransaction = false;
 try {
   await client.connect();
   await client.query('begin');
+  inTransaction = true;
   await attempt(
     '1. A block with two targets (a word and a phrase)',
     `insert into lesson_blocks (code, section_id, position, kind, vocabulary_item_id, phrase_id)
@@ -40,7 +42,11 @@ try {
     '2. Deleting the word danke, which lesson A1.1.U01.L01 uses',
     `delete from vocabulary_items where code = 'vocab:danke'`,
   );
+} catch (error) {
+  console.error(`show-refusals failed: ${(error as Error).message}`);
+  process.exitCode = 1;
 } finally {
-  await client.query('rollback');
+  // Roll back only a transaction that was started, so a connection failure is reported as itself (review finding 10).
+  if (inTransaction) await client.query('rollback');
   await client.end();
 }

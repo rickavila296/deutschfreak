@@ -1,8 +1,8 @@
-import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
-import { countContent, loadContentFiles } from './pool.ts';
+import { CONTENT_ROOT, countContent, loadContentFiles } from './pool.ts';
 
 describe('knowledge pool and lesson files (task 2b.3; TRD-CNT-01, DB-IMP-01; decisions 0010, 0011)', () => {
   it('validates every content file against its schema', () => {
@@ -23,6 +23,41 @@ describe('knowledge pool and lesson files (task 2b.3; TRD-CNT-01, DB-IMP-01; dec
     expect(countContent(files)).toMatchObject({ voices: 2, lessons: 1 });
     expect(files.lessons[0]!.lesson).toBe('A1.1.U01.L01');
     expect(files.lessons[0]!.sections.map((s) => s.stage)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+  });
+
+  /** Writes the given files into a temporary content folder and loads it. */
+  function loadFrom(files: Record<string, string>) {
+    const dir = mkdtempSync(join(tmpdir(), 'df-pool-'));
+    try {
+      for (const [name, text] of Object.entries(files)) {
+        mkdirSync(join(dir, name, '..'), { recursive: true });
+        writeFileSync(join(dir, name), text);
+      }
+      return loadContentFiles(dir).problems;
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
+  }
+  const phrase = (code: string, slug: string) =>
+    `phrases:\n  - code: "${code}"\n    slug: "${slug}"\n    german: "X"\n    meaning_en: "x"\n    level: A1\n`;
+
+  it('rejects a code defined in two files (review finding 3)', () => {
+    expect(
+      loadFrom({ 'phrases/a.yaml': phrase('phrase:x', 'x'), 'phrases/b.yaml': phrase('phrase:x', 'y') }),
+    ).toContain('Duplicate code phrase:x in phrases/a.yaml and phrases/b.yaml');
+  });
+
+  it('rejects a slug used in two files of the same table (review finding 3)', () => {
+    expect(
+      loadFrom({ 'phrases/a.yaml': phrase('phrase:x', 'same'), 'phrases/b.yaml': phrase('phrase:y', 'same') }),
+    ).toContain('Duplicate phrases slug same in phrases/a.yaml and phrases/b.yaml');
+  });
+
+  it('rejects a lesson file whose name does not match its lesson code (review finding 3)', () => {
+    const lesson = readFileSync(join(CONTENT_ROOT, 'lessons', 'A1.1.U01.L01.yaml'), 'utf8');
+    expect(loadFrom({ 'lessons/copy.yaml': lesson })).toContain(
+      'lessons/copy.yaml holds A1.1.U01.L01; a lesson file is named after its lesson: A1.1.U01.L01.yaml',
+    );
   });
 
   it('reports a broken file with its name instead of skipping it', () => {

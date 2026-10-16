@@ -192,6 +192,54 @@ describe('inside a transaction', () => {
     expect(report.absent).toEqual(['phrases phrase:retired']);
     expect(await one(`select count(*)::int as n from phrases where code = 'phrase:retired'`)).toEqual({ n: 1 });
   });
+
+  it('deletes a block removed from its lesson file and closes the gap in positions (decision 0013)', async () => {
+    await seedContent(db, content);
+    const changed = copy();
+    changed.lessons[0]!.sections[2]!.blocks.splice(1, 1); // S3.B02, phrase:hallo
+    const report = await seedContent(db, changed);
+    expect(report.removed).toEqual([`lesson_blocks ${L01}.S3.B02`]);
+    expect(await one(`select count(*)::int as n from lesson_blocks where code = $1`, [`${L01}.S3.B02`])).toEqual({
+      n: 0,
+    });
+    const { rows } = await client.query(
+      `select b.position from lesson_blocks b join lesson_sections s on s.id = b.section_id where s.code = $1 order by 1`,
+      [`${L01}.S3`],
+    );
+    expect(rows.map((r) => r.position)).toEqual(Array.from({ length: 16 }, (_, i) => i + 1));
+  });
+
+  it('deletes a dialogue line and an exercise item removed from their files (decision 0013)', async () => {
+    await seedContent(db, content);
+    const changed = copy();
+    changed.dialogues[0]!.dialogues[0]!.lines.splice(0, 1);
+    changed.exercises[0]!.exercises[0]!.items.splice(0, 1);
+    const report = await seedContent(db, changed);
+    expect(report.removed).toEqual([
+      'dialogue_lines dlg:erste-begegnung-01:l01',
+      'exercise_items ex:greetings-multiple-choice-01:i01',
+    ]);
+    expect(await one(`select position from dialogue_lines where code = 'dlg:erste-begegnung-01:l02'`)).toEqual({
+      position: 1,
+    });
+    expect(await one(`select position from exercise_items where code = 'ex:greetings-multiple-choice-01:i02'`)).toEqual(
+      {
+        position: 1,
+      },
+    );
+  });
+
+  it('removes nothing on a plain reseed', async () => {
+    await seedContent(db, content);
+    expect((await seedContent(db, content)).removed).toEqual([]);
+  });
+
+  it('never publishes a retired lesson again (review finding 4)', async () => {
+    await seedContent(db, content);
+    await client.query(`update lessons set status = 'retired' where code = $1`, [L01]);
+    await seedContent(db, content);
+    expect(await one(`select status from lessons where code = $1`, [L01])).toEqual({ status: 'retired' });
+  });
 });
 
 describe('one transaction for the whole run (DB-IMP-02, TRD-CNT-06)', () => {

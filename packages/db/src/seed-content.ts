@@ -1,8 +1,7 @@
 import type { ContentFiles } from '@deutschfreak/content';
 import { codeKind } from '@deutschfreak/validation';
-import { and, eq, inArray, notInArray, sql, type SQL } from 'drizzle-orm';
+import { and, eq, inArray, notInArray } from 'drizzle-orm';
 import type { PgColumn, PgTable } from 'drizzle-orm/pg-core';
-import { absentCodes, type Db, type SeedReport } from './seed.ts';
 import {
   conceptPrerequisites,
   concepts,
@@ -24,51 +23,43 @@ import {
   vocabularyTopics,
   voices,
 } from './schema.ts';
+import {
+  absentCodes,
+  excluded,
+  existing,
+  idOf,
+  idsByCode,
+  now,
+  rewriteLinks,
+  type Db,
+  type Ids,
+  type SeedReport,
+} from './seed-helpers.ts';
 
 // Seed runner for the knowledge pool and lesson files (Plan task 2b.4; Schema §10, DB-IMP-01 to 09; TRD-CNT-06 to 08).
 // Runs after the structure seed, in the same transaction, in the seed order of DB-IMP-04 / TRD-CNT-07. Every row is
 // upserted on its code; references are resolved from code to id and an unknown code fails the whole run. Link tables
 // are rewritten to match the files (DB-IMP-06). A lesson whose file is imported becomes `published`, and its file must
-// hold all nine sections (DB-INT-08, decision 0009). Audio assets are written by the audio script, not here.
+// hold all nine sections (DB-INT-08, decision 0009). Parts of an imported lesson, dialogue or exercise that its
+// file no longer has are deleted (decision 0013); knowledge objects are only reported (DB-IMP-07). Audio assets are written by the audio script, not here.
 
-const excluded = (column: string) => sql.raw(`excluded."${column}"`);
-const now = sql`now()`;
-
-type Ids = Map<string, string>;
-const idsByCode = (rows: { id: string; code: string }[]): Ids => new Map(rows.map((r) => [r.code, r.id]));
-
-function idOf(ids: Ids, code: string): string {
-  const id = ids.get(code);
-  if (!id) throw new Error(`Unknown code ${code}`); // DB-CODE-06: fail loudly
-  return id;
-}
-
-/** Ids of rows that already exist in the database, by code (for codes defined in a1.yaml, not in the pool files). */
-async function existing(db: Db, table: PgTable & { id: PgColumn; code: PgColumn }, codes: string[]): Promise<Ids> {
-  if (codes.length === 0) return new Map();
-  const rows = (await db.select({ id: table.id, code: table.code }).from(table).where(inArray(table.code, codes))) as {
-    id: string;
-    code: string;
-  }[];
-  return idsByCode(rows);
-}
-
-/** Deletes the owner's links that the file no longer has, then inserts the ones it lists (DB-IMP-06). */
-async function rewriteLinks(
+/**
+ * Deletes the parts of an imported owner (lines of a dialogue, items of an exercise, sections or blocks of a lesson)
+ * that its file no longer has, before the remaining parts are written, so their positions cannot collide
+ * (decision 0013). Returns "table code" for each deleted row.
+ */
+async function removeParts(
   db: Db,
-  table: PgTable,
+  table: PgTable & { code: PgColumn },
+  name: string,
   ownerColumn: PgColumn,
-  targetColumn: PgColumn,
   ownerId: string,
-  targetIds: string[],
-  row: (targetId: string) => Record<string, unknown>,
-) {
-  const stale: SQL | undefined =
-    targetIds.length > 0
-      ? and(eq(ownerColumn, ownerId), notInArray(targetColumn, targetIds))
-      : eq(ownerColumn, ownerId);
-  await db.delete(table).where(stale);
-  if (targetIds.length > 0) await db.insert(table).values(targetIds.map(row)).onConflictDoNothing();
+  keep: string[],
+): Promise<string[]> {
+  const where =
+    keep.length > 0 ? and(eq(ownerColumn, ownerId), notInArray(table.code, keep)) : eq(ownerColumn, ownerId);
+  const rows = (await db.delete(table).where(where).returning({ code: table.code })) as { code: string }[];
+  return rows.map((r) => `${name} ${r.code}`).sort();
 }
 
 const flat = <F, T>(files: F[], rows: (f: F) => T[]) => files.flatMap(rows);
@@ -76,6 +67,7 @@ const flat = <F, T>(files: F[], rows: (f: F) => T[]) => files.flatMap(rows);
 /** Writes the pool and lesson files. Call it after `seedStructure`, inside the same transaction. */
 export async function seedContent(db: Db, files: ContentFiles): Promise<SeedReport> {
   const written: Record<string, number> = {};
+  const removed: string[] = [];
 
   // 1. Topics and voices.
   const topicRows = flat(files.topics, (f) => f.topics);
@@ -325,6 +317,18 @@ export async function seedContent(db: Db, files: ContentFiles): Promise<SeedRepo
           .returning({ id: dialogues.id, code: dialogues.code }),
   );
   written.dialogues = dialogueIds.size;
+  for (const d of dialogueRows) {
+    removed.push(
+      ...(await removeParts(
+        db,
+        dialogueLines,
+        'dialogue_lines',
+        dialogueLines.dialogueId,
+        idOf(dialogueIds, d.code),
+        d.lines.map((l) => l.code),
+      )),
+    );
+  }
   const lineRows = dialogueRows.flatMap((d) =>
     d.lines.map((line, i) => ({
       code: line.code,
@@ -380,6 +384,18 @@ export async function seedContent(db: Db, files: ContentFiles): Promise<SeedRepo
           .returning({ id: exercises.id, code: exercises.code }),
   );
   written.exercises = exerciseIds.size;
+  for (const e of exerciseRows) {
+    removed.push(
+      ...(await removeParts(
+        db,
+        exerciseItems,
+        'exercise_items',
+        exerciseItems.exerciseId,
+        idOf(exerciseIds, e.code),
+        e.items.map((i) => i.code),
+      )),
+    );
+  }
   const itemRows = exerciseRows.flatMap((e) =>
     e.items.map((item, i) => ({
       code: item.code,
@@ -470,6 +486,17 @@ export async function seedContent(db: Db, files: ContentFiles): Promise<SeedRepo
     if (file.sections.length !== 9) {
       throw new Error(`${file.lesson} has ${file.sections.length} sections; a published lesson needs 9`);
     }
+    // Sections the file no longer has go first; their blocks go with them (DB-DEL-01).
+    removed.push(
+      ...(await removeParts(
+        db,
+        lessonSections,
+        'lesson_sections',
+        lessonSections.lessonId,
+        lessonId,
+        file.sections.map((sec) => sec.code),
+      )),
+    );
     const sectionIds = idsByCode(
       await db
         .insert(lessonSections)
@@ -486,6 +513,18 @@ export async function seedContent(db: Db, files: ContentFiles): Promise<SeedRepo
         .returning({ id: lessonSections.id, code: lessonSections.code }),
     );
     written.lesson_sections += sectionIds.size;
+    for (const sec of file.sections) {
+      removed.push(
+        ...(await removeParts(
+          db,
+          lessonBlocks,
+          'lesson_blocks',
+          lessonBlocks.sectionId,
+          idOf(sectionIds, sec.code),
+          sec.blocks.map((b) => b.code),
+        )),
+      );
+    }
 
     const blockRows = file.sections.flatMap((s) =>
       s.blocks.map((b, i) => {
@@ -535,7 +574,11 @@ export async function seedContent(db: Db, files: ContentFiles): Promise<SeedRepo
       written.lesson_blocks += blocks.length;
     }
     // Schema §8.4: a lesson becomes published when its sections and blocks are imported (decision 0009).
-    await db.update(lessons).set({ status: 'published', updatedAt: now }).where(eq(lessons.id, lessonId));
+    // Only a planned lesson is published; a retired one stays retired (review finding 4).
+    await db
+      .update(lessons)
+      .set({ status: 'published', updatedAt: now })
+      .where(and(eq(lessons.id, lessonId), eq(lessons.status, 'planned')));
   }
 
   const absent: string[] = [];
@@ -559,5 +602,5 @@ export async function seedContent(db: Db, files: ContentFiles): Promise<SeedRepo
   absent.push(...(await absentCodes(db, 'lesson_sections', sectionCodes)));
   absent.push(...(await absentCodes(db, 'lesson_blocks', blockCodes)));
 
-  return { written, absent };
+  return { written, absent, removed };
 }

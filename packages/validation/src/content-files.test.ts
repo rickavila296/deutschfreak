@@ -244,6 +244,15 @@ describe('exercises/ (Schema §8.22 to 8.24; decision 0010)', () => {
 
 describe('lessons/<code>.yaml (Schema §8.7, 8.8; TRD-CNT-02, TRD-CNT-08; decisions 0007, 0010)', () => {
   const L = 'A1.1.U01.L01';
+  type Block = {
+    code: string;
+    kind: string;
+    ref?: string;
+    text_en?: string;
+    role?: string;
+    status?: string;
+    mode?: string;
+  };
   const lesson = () => ({
     lesson: L,
     sections: [
@@ -254,13 +263,15 @@ describe('lessons/<code>.yaml (Schema §8.7, 8.8; TRD-CNT-02, TRD-CNT-08; decisi
         blocks: [
           { code: `${L}.S1.B01`, kind: 'text', text_en: 'Intro' },
           { code: `${L}.S1.B02`, kind: 'vocabulary', ref: 'vocab:a', role: 'introduces', status: 'productive' },
-        ],
+        ] as Block[],
       },
       {
         code: `${L}.S7`,
         stage: 7,
-        blocks: [{ code: `${L}.S7.B01`, kind: 'exercise', ref: 'ex:a-01', mode: 'recall' }],
+        blocks: [{ code: `${L}.S7.B01`, kind: 'exercise', ref: 'ex:a-01', mode: 'recall' }] as Block[],
       },
+      // The other seven stages, without blocks: a lesson file holds all nine sections (DB-INT-08, review finding 5).
+      ...[2, 3, 4, 5, 6, 8, 9].map((stage) => ({ code: `${L}.S${stage}`, stage, blocks: [] as Block[] })),
     ],
   });
   type LessonData = ReturnType<typeof lesson>;
@@ -272,6 +283,14 @@ describe('lessons/<code>.yaml (Schema §8.7, 8.8; TRD-CNT-02, TRD-CNT-08; decisi
 
   it('accepts a lesson that arranges references by code', () => {
     valid(lessonFileSchema, lesson());
+  });
+
+  it('rejects a lesson file without all nine sections (DB-INT-08, review finding 5)', () => {
+    invalid(
+      lessonFileSchema,
+      edit((l) => l.sections.pop()),
+      `${L} has 8 sections; a lesson file needs all 9`,
+    );
   });
 
   it('rejects a section code that does not match its lesson and stage', () => {
