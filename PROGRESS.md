@@ -154,3 +154,15 @@ The entry format is in `CLAUDE.md`, under "PROGRESS.md entry".
 - **Checks:** The four env tests failed before `env.ts` existed (module not found) and pass now. `pnpm --filter @deutschfreak/db check-connection`: connected, database neondb, PostgreSQL 18.6, region eu-central-1. `pnpm lint` clean; `pnpm typecheck` passed; `pnpm test` 5 files, 32 tests passed (db 4, validation 18, content 3, config 7); `pnpm content:check` 4 parts, 24 units, 92 lessons, 92 objectives, valid.
 - **Status:** passed
 - **Notes:** The Bible names no PostgreSQL driver; `pg` was chosen (owner informed). `@types/node` pinned to major 24 to match the runtime. pnpm blocked esbuild's build script (used by drizzle-kit); left blocked, ask the owner before allowing it if 2a.3 needs it. The connection check cannot tell which Neon branch is used; the owner confirms the endpoint matches the dev branch. Next: 2a.2 enums and tables 1 to 6.
+
+## 2026-10-16 · Phase 2 · packages/db, packages/validation · Task 2a.2 enums and tables 1 to 6
+
+- **Phase:** 2 Database v1
+- **Module:** packages/db, packages/validation
+- **Update:** Task 2a.2: Drizzle definitions of the enumerated types and tables 1 to 6
+- **Type:** feature
+- **What was done:** Defined the enums `skill`, `lesson_archetype`, `lesson_status` and `block_role`, with values taken from `packages/validation` (new `enums.ts` adds `lessonStatusSchema` and `blockRoleSchema`). Defined `levels`, `course_parts`, `units`, `lessons`, `learning_objectives` and `lesson_objectives` per Schema §8.1 to 8.6: standard columns (uuid id, code, timestamptz created_at and updated_at), unique code, slug and position constraints (DB-UQ-01 to 05), check `lessons_archetypes_check` (DB-CK-04), RESTRICT down the structure tree (DB-DEL-03), CASCADE from lesson and RESTRICT on objective in `lesson_objectives` (DB-DEL-02, 04), composite primary key on the link table (DB-REC-08), and an index on `lesson_objectives.objective_id`. No migration generated (2a.3).
+- **Files:** packages/db/src/schema.ts, packages/db/src/schema.test.ts, packages/db/package.json, packages/validation/src/enums.ts, packages/validation/src/index.ts, pnpm-lock.yaml, PROGRESS.md
+- **Checks:** 23 of the 27 db tests failed before `schema.ts` held the definitions; all 27 pass now. `pnpm lint` clean; `pnpm typecheck` passed; `pnpm test` 55 passed (db 27, validation 18, content 3, config 7); `pnpm content:check` valid.
+- **Status:** passed
+- **Notes:** Only the enums tables 1 to 6 use are defined; the others come with their tables in 2b. DB-IX-01 (lessons unit_id, position) is not added: it is R, not in decision 0005, and duplicates the index of `lessons_unit_id_position_key`. Tests that insert violating rows into the database, and making the position constraints deferrable, belong to 2a.3. Next: 2a.3 generate and apply the first migration.

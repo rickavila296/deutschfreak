@@ -12,6 +12,7 @@
     "check-connection": "node scripts/check-connection.ts"
   },
   "dependencies": {
+    "@deutschfreak/validation": "workspace:*",
     "drizzle-orm": "^0.45.4",
     "pg": "^8.23.1"
   },
