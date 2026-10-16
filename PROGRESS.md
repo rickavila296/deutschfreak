@@ -106,3 +106,15 @@ The entry format is in `CLAUDE.md`, under "PROGRESS.md entry".
 - **Checks:** GitHub Actions run 38878790744 green; local fresh-clone checks passed
 - **Status:** passed
 - **Notes:** Next: the owner merges phase-01/1.3-structure-schema (all of Phase 1) into main once CI is green on this commit. main must exist on GitHub, be the default branch and require the `check` job (TRD-CI-02). Phase 2 starts in a new thread; PLAN-DEC-01 blocks it, and PLAN-DEC-02 blocks task 2a.4.
+
+## 2026-10-16 · Phase 2 · docs/decisions · Decision 0005 (PLAN-DEC-01 schema recommendations)
+
+- **Phase:** 2 Database v1
+- **Module:** docs/decisions
+- **Update:** PLAN-DEC-01 decided: DB-REC-01 to 12 confirmed; DB-OQ-15 answered
+- **Type:** decision
+- **What was done:** The owner accepted all twelve schema recommendations in Schema §12 as written. DB-OQ-15 was checked: drizzle-orm 0.45.4 and drizzle-kit 0.31.11 cannot declare or generate deferrable constraints, so the position unique constraints will be made deferrable in a hand-written custom migration; `code` uniqueness stays non-deferrable for upserts.
+- **Files:** docs/decisions/0005-schema-recommendations.md, PROGRESS.md
+- **Checks:** none (decision only); drizzle packages inspected for a `deferrable` constraint option, none found
+- **Status:** passed
+- **Notes:** PLAN-DEC-02 (a skill for every objective) still blocks 2a.4; PLAN-DEC-03 blocks 2b. Proposed Bible edit (local, not applied): mark Schema §12 rows as confirmed by 0005 and replace "that is unverified (DB-OQ-15)" in §9 with the finding.
