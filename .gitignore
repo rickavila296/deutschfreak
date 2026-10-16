@@ -1,0 +1,13 @@
+# Claude Code kit and project docs: local only (backed up privately)
+CLAUDE.md
+README-VIBECODING.md
+.claude/
+docs/bible/
+docs/prompts/
+docs/sources/
+docs/content-review/
+
+# Secrets
+.env
+.env.*
+!.env.example
