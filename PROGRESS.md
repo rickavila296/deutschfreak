@@ -334,3 +334,15 @@ The entry format is in `CLAUDE.md`, under "PROGRESS.md entry".
 - **Checks:** Removing the error handler on purpose made 7 tests fail; disabling the Zod mapping made 1 fail; both restored. `pnpm lint` clean; `pnpm typecheck` passed; `pnpm test` 213 passed (api 20, validation 101, db 75, content 10, config 7); `pnpm content:check` valid.
 - **Status:** passed
 - **Notes:** Approved test change: `app.test.ts` now mounts its probe routes through `extraRoutes` (before the not-found handler); no assertion changed. Bible follow-up (owner): write the decision 0015 code list into TRD §19 / TRD-API-20 at the next Bible documentation update; also pending, the TRD-LOG-03 row (decision 0014). Open for 3.6: the code for a planned lesson.
+
+## 2026-10-16 · Phase 3 · apps/api, packages/validation · Task 3.3 health routes
+
+- **Phase:** 3 API foundation
+- **Module:** apps/api, packages/validation
+- **Update:** Task 3.3: `GET /health` and `GET /health/ready`
+- **Type:** feature
+- **What was done:** `healthRouter` (outside `/v1`, no auth, `Cache-Control: no-store` on these two routes only). `/health` answers `{ status: 'ok' }` without touching the database. `/health/ready` runs an injected `DatabaseCheck` with a 3 s timeout and answers `{ status: 'ready', database: 'reachable' }`, or `database_unavailable` (503, decision 0015) with no cause in the response; the cause is logged with the request id (decision 0014). `createApp` takes `checkDatabase`; without one, readiness reports the database unavailable (the real check is wired in 3.4). Response schemas `healthResponseSchema` and `readyResponseSchema` in `packages/validation`.
+- **Files:** apps/api/src/app.ts, apps/api/src/health.ts, apps/api/src/health.test.ts, packages/validation/src/health.ts, packages/validation/src/index.ts, PROGRESS.md
+- **Checks:** Making ready skip the database check on purpose made 4 tests fail; restored. Dev server smoke run: `/health` 200, `/health/ready` 503 database_unavailable with one error log line. `pnpm lint` clean; `pnpm typecheck` passed; `pnpm test` 220 passed (api 27, validation 101, db 75, content 10, config 7); `pnpm content:check` valid.
+- **Status:** passed
+- **Notes:** The 3 s timeout and the two response bodies are not in the Bible (owner approved them with 3.3). No database touched in this task.
