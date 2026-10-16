@@ -14,7 +14,8 @@
     "generate": "drizzle-kit generate",
     "migrate": "drizzle-kit migrate",
     "seed": "node scripts/seed.ts",
-    "counts": "node scripts/counts.ts"
+    "counts": "node scripts/counts.ts",
+    "show-refusals": "node scripts/show-refusals.ts"
   },
   "dependencies": {
     "@deutschfreak/content": "workspace:*",

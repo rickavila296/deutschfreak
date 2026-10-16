@@ -2,7 +2,8 @@ import { countContent, loadA1Structure, loadContentFiles, type ContentFiles } fr
 import { drizzle } from 'drizzle-orm/node-postgres';
 import pg from 'pg';
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest';
-import { loadRootEnv, readDatabaseUrl } from './env.ts';
+import { loadRootEnv } from './env.ts';
+import { testDatabaseUrl } from './testing/test-database.ts';
 import * as schema from './schema.ts';
 import { seed, seedStructure } from './seed.ts';
 import { seedContent } from './seed-content.ts';
@@ -11,7 +12,7 @@ import { seedContent } from './seed-content.ts';
 // TRD-CNT-06, 07, 08). Tests "inside a transaction" roll back and leave the database as they found it.
 
 loadRootEnv();
-const client = new pg.Client({ connectionString: readDatabaseUrl('DATABASE_URL_DIRECT') });
+const client = new pg.Client({ connectionString: testDatabaseUrl() });
 const db = drizzle({ client, schema });
 const structure = loadA1Structure();
 const { files: content } = loadContentFiles();

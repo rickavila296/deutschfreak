@@ -1,12 +1,13 @@
 import pg from 'pg';
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest';
-import { loadRootEnv, readDatabaseUrl } from './env.ts';
+import { loadRootEnv } from './env.ts';
+import { testDatabaseUrl } from './testing/test-database.ts';
 
 // Schema §9 rules for tables 7 to 24, checked against the migrated Neon dev branch (task 2b.1). Every test runs in
 // a transaction that is rolled back. Codes start with TEST so they never meet authored codes.
 
 loadRootEnv();
-const client = new pg.Client({ connectionString: readDatabaseUrl('DATABASE_URL_DIRECT') });
+const client = new pg.Client({ connectionString: testDatabaseUrl() });
 
 beforeAll(() => client.connect());
 afterAll(() => client.end());

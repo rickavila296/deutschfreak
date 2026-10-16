@@ -3,7 +3,8 @@ import type { StructureFile } from '@deutschfreak/validation';
 import { drizzle } from 'drizzle-orm/node-postgres';
 import pg from 'pg';
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest';
-import { loadRootEnv, readDatabaseUrl } from './env.ts';
+import { loadRootEnv } from './env.ts';
+import { testDatabaseUrl } from './testing/test-database.ts';
 import * as schema from './schema.ts';
 import { seed, seedStructure } from './seed.ts';
 
@@ -11,7 +12,7 @@ import { seed, seedStructure } from './seed.ts';
 // Tests in "inside a transaction" roll back, so they leave the database as they found it.
 
 loadRootEnv();
-const url = readDatabaseUrl('DATABASE_URL_DIRECT');
+const url = testDatabaseUrl();
 const client = new pg.Client({ connectionString: url });
 const db = drizzle({ client, schema });
 const file = loadA1Structure();

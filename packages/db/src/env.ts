@@ -2,9 +2,10 @@ import { existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 
 // Database connection settings (TRD §25). The running app uses DATABASE_URL (pooled); migrations and
-// local scripts use DATABASE_URL_DIRECT (TRD-DB-14). Values are never logged or put in error messages (TRD-ENV-02).
+// local scripts use DATABASE_URL_DIRECT (TRD-DB-14); database tests use DATABASE_URL_TEST, their own Neon
+// branch (decision 0012). Values are never logged or put in error messages (TRD-ENV-02).
 
-export type DatabaseUrlName = 'DATABASE_URL' | 'DATABASE_URL_DIRECT';
+export type DatabaseUrlName = 'DATABASE_URL' | 'DATABASE_URL_DIRECT' | 'DATABASE_URL_TEST';
 
 const rootEnvFile = fileURLToPath(new URL('../../../.env', import.meta.url));
 
