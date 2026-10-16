@@ -8,6 +8,7 @@ export default defineConfig({
     globalSetup: ['src/testing/db-setup.ts'],
     fileParallelism: false,
     testTimeout: 30_000,
-    hookTimeout: 300_000,
+    // The global setup seeds the test branch; from a US CI runner that takes minutes (decision 0020).
+    hookTimeout: 600_000,
   },
 });
