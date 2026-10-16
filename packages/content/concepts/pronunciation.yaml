@@ -1,0 +1,142 @@
+# The 23 A1 pronunciation concepts. Source: Curriculum Specification §8 (Sound progression).
+# title = the Spec's concept name; explanation_en = the Spec's "Typical English-speaker error", word for word,
+# until each concept's teaching lesson is authored (decision 0011). Codes are short slugs (decision 0011).
+concepts:
+  - code: "sound:ue"
+    slug: "ue"
+    type: pronunciation
+    title: "ü"
+    explanation_en: "Said as oo"
+    level: A1
+  - code: "sound:ei-ie"
+    slug: "ei-ie"
+    type: pronunciation
+    title: "ei versus ie"
+    explanation_en: "Swapped because of English spelling habits"
+    level: A1
+  - code: "sound:eszett"
+    slug: "eszett"
+    type: pronunciation
+    title: "ß"
+    explanation_en: "Read as B"
+    level: A1
+  - code: "sound:alphabet"
+    slug: "alphabet"
+    type: pronunciation
+    title: "Alphabet and letter names"
+    explanation_en: "English letter names"
+    level: A1
+  - code: "sound:ich-laut"
+    slug: "ich-laut"
+    type: pronunciation
+    title: "ich-sound"
+    explanation_en: "Said as k or sh"
+    level: A1
+  - code: "sound:melody"
+    slug: "melody"
+    type: pronunciation
+    title: "Question and statement melody"
+    explanation_en: "Rising on W-questions"
+    level: A1
+  - code: "sound:w-v"
+    slug: "w-v"
+    type: pronunciation
+    title: "w and v"
+    explanation_en: "English w; English v"
+    level: A1
+  - code: "sound:sp-st"
+    slug: "sp-st"
+    type: pronunciation
+    title: "sp- and st-"
+    explanation_en: "Said as English sp, st"
+    level: A1
+  - code: "sound:z"
+    slug: "z"
+    type: pronunciation
+    title: "z"
+    explanation_en: "Said as English z"
+    level: A1
+  - code: "sound:oe"
+    slug: "oe"
+    type: pronunciation
+    title: "ö"
+    explanation_en: "Said as o or er"
+    level: A1
+  - code: "sound:final-devoicing"
+    slug: "final-devoicing"
+    type: pronunciation
+    title: "Final devoicing"
+    explanation_en: "Voiced final consonant"
+    level: A1
+  - code: "sound:vowel-length"
+    slug: "vowel-length"
+    type: pronunciation
+    title: "Long and short vowels"
+    explanation_en: "One vowel length for both"
+    level: A1
+  - code: "sound:ach-laut"
+    slug: "ach-laut"
+    type: pronunciation
+    title: "ach-sound"
+    explanation_en: "Said as k"
+    level: A1
+  - code: "sound:ae-plural-umlaut"
+    slug: "ae-plural-umlaut"
+    type: pronunciation
+    title: "ä and umlaut in plurals"
+    explanation_en: "Umlaut ignored"
+    level: A1
+  - code: "sound:r"
+    slug: "r"
+    type: pronunciation
+    title: "Vocalic r and consonantal r"
+    explanation_en: "English r in both positions"
+    level: A1
+  - code: "sound:h"
+    slug: "h"
+    type: pronunciation
+    title: "h: pronounced and silent"
+    explanation_en: "Silent h pronounced"
+    level: A1
+  - code: "sound:ig"
+    slug: "ig"
+    type: pronunciation
+    title: "-ig"
+    explanation_en: "Hard g"
+    level: A1
+  - code: "sound:eu-aeu"
+    slug: "eu-aeu"
+    type: pronunciation
+    title: "eu and äu"
+    explanation_en: "Said as oo or ow"
+    level: A1
+  - code: "sound:compound-stress"
+    slug: "compound-stress"
+    type: pronunciation
+    title: "Compound stress"
+    explanation_en: "Stress on the last element"
+    level: A1
+  - code: "sound:separable-prefix-stress"
+    slug: "separable-prefix-stress"
+    type: pronunciation
+    title: "Separable-prefix stress"
+    explanation_en: "Stress on the stem"
+    level: A1
+  - code: "sound:contractions"
+    slug: "contractions"
+    type: pronunciation
+    title: "Contractions"
+    explanation_en: "Not heard as two words"
+    level: A1
+  - code: "sound:participle-stress"
+    slug: "participle-stress"
+    type: pronunciation
+    title: "Participle stress and weak ge-"
+    explanation_en: "Stress on ge-"
+    level: A1
+  - code: "sound:phrasing"
+    slug: "phrasing"
+    type: pronunciation
+    title: "Phrasing and back-channel"
+    explanation_en: "Flat delivery"
+    level: A1

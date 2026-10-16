@@ -9,7 +9,7 @@
   "scripts": {
     "typecheck": "tsc",
     "test": "vitest run",
-    "validate": "node scripts/validate-structure.ts"
+    "validate": "node scripts/validate-structure.ts && node scripts/validate-pool.ts"
   },
   "dependencies": {
     "@deutschfreak/validation": "workspace:*",

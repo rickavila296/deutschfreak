@@ -1,0 +1,21 @@
+# Personal-data nouns. Source: Curriculum Specification §4, A1.1.U01.L03 new language ("der Vorname, der Nachname").
+# The Spec gives no plurals, so plural is left empty. Herr and Frau (A1.1.U01.L02) are added with the L02 lesson
+# file in Phase 6 (decision 0011).
+topic: "topic:personal-data"
+items:
+  - code: "vocab:vorname"
+    slug: "vorname"
+    lemma: "Vorname"
+    word_class: noun
+    article: der
+    meaning_en: "first name"
+    tier: core_active
+    level: A1
+  - code: "vocab:nachname"
+    slug: "nachname"
+    lemma: "Nachname"
+    word_class: noun
+    article: der
+    meaning_en: "surname"
+    tier: core_active
+    level: A1

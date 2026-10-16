@@ -1,0 +1,8 @@
+# Voices for synthetic audio (decision 0011). Piper voices; licences are checked before any audio is generated.
+voices:
+  - code: "voice:thorsten"
+    name: "Thorsten"
+    gender: "male"
+  - code: "voice:kerstin"
+    name: "Kerstin"
+    gender: "female"

@@ -1,0 +1,197 @@
+# A1.1.U01.L01 Hallo und Tschüss (archetype C, conversation). Source: Curriculum Specification §3 (stages and
+# weights) and §4 (this lesson's language, sound and mastery task); PRD §23 (what each stage shows).
+# Weights for C: heavy Discover, Hear, Use, Mastery; light Understand; the rest normal.
+# The English texts are Claude Code's and listed in docs/content-review/A1.1.U01.md for the teacher.
+lesson: "A1.1.U01.L01"
+sections:
+  - code: "A1.1.U01.L01.S1"
+    stage: 1
+    blocks:
+      - code: "A1.1.U01.L01.S1.B01"
+        kind: text
+        text_en: "By the end of this lesson you can greet people and say goodbye, choosing words that fit the time of day and whether the situation is formal or informal."
+
+  - code: "A1.1.U01.L01.S2"
+    stage: 2
+    weight: heavy
+    blocks:
+      - code: "A1.1.U01.L01.S2.B01"
+        kind: text
+        text_en: "Listen to two short meetings: two people on a course, then two neighbours."
+      - code: "A1.1.U01.L01.S2.B02"
+        kind: dialogue
+        ref: "dlg:erste-begegnung-01"
+        role: introduces
+      - code: "A1.1.U01.L01.S2.B03"
+        kind: dialogue
+        ref: "dlg:erste-begegnung-02"
+        role: introduces
+      - code: "A1.1.U01.L01.S2.B04"
+        kind: text
+        text_en: "Which words do the course participants use, and which do the neighbours use?"
+
+  - code: "A1.1.U01.L01.S3"
+    stage: 3
+    weight: light
+    blocks:
+      - code: "A1.1.U01.L01.S3.B01"
+        kind: text
+        text_en: "German greetings change with the time of day: Guten Morgen in the morning, Guten Tag during the day, Guten Abend in the evening, and Gute Nacht when someone goes to bed. Hallo and Tschüss are informal: use them with friends and people your own age. Auf Wiedersehen is the formal goodbye. Bis später means you will see each other again soon."
+      - code: "A1.1.U01.L01.S3.B02"
+        kind: phrase
+        ref: "phrase:hallo"
+        role: introduces
+        status: productive
+      - code: "A1.1.U01.L01.S3.B03"
+        kind: phrase
+        ref: "phrase:guten-morgen"
+        role: introduces
+        status: productive
+      - code: "A1.1.U01.L01.S3.B04"
+        kind: phrase
+        ref: "phrase:guten-tag"
+        role: introduces
+        status: productive
+      - code: "A1.1.U01.L01.S3.B05"
+        kind: phrase
+        ref: "phrase:guten-abend"
+        role: introduces
+        status: productive
+      - code: "A1.1.U01.L01.S3.B06"
+        kind: phrase
+        ref: "phrase:gute-nacht"
+        role: introduces
+        status: productive
+      - code: "A1.1.U01.L01.S3.B07"
+        kind: phrase
+        ref: "phrase:tschuess"
+        role: introduces
+        status: productive
+      - code: "A1.1.U01.L01.S3.B08"
+        kind: phrase
+        ref: "phrase:auf-wiedersehen"
+        role: introduces
+        status: productive
+      - code: "A1.1.U01.L01.S3.B09"
+        kind: phrase
+        ref: "phrase:bis-spaeter"
+        role: introduces
+        status: productive
+      - code: "A1.1.U01.L01.S3.B10"
+        kind: text
+        text_en: "Four small words you will need all the time: danke, bitte, ja and nein."
+      - code: "A1.1.U01.L01.S3.B11"
+        kind: vocabulary
+        ref: "vocab:danke"
+        role: introduces
+        status: productive
+      - code: "A1.1.U01.L01.S3.B12"
+        kind: vocabulary
+        ref: "vocab:bitte"
+        role: introduces
+        status: productive
+      - code: "A1.1.U01.L01.S3.B13"
+        kind: vocabulary
+        ref: "vocab:ja"
+        role: introduces
+        status: productive
+      - code: "A1.1.U01.L01.S3.B14"
+        kind: vocabulary
+        ref: "vocab:nein"
+        role: introduces
+        status: productive
+      - code: "A1.1.U01.L01.S3.B15"
+        kind: example
+        ref: "eg:ja-danke-01"
+        role: introduces
+      - code: "A1.1.U01.L01.S3.B16"
+        kind: example
+        ref: "eg:nein-danke-01"
+        role: introduces
+      - code: "A1.1.U01.L01.S3.B17"
+        kind: example
+        ref: "eg:ja-bitte-01"
+        role: introduces
+
+  - code: "A1.1.U01.L01.S4"
+    stage: 4
+    weight: heavy
+    blocks:
+      - code: "A1.1.U01.L01.S4.B01"
+        kind: text
+        text_en: "Listen line by line, then repeat. Stress the first syllable: GUten MORgen, TSCHÜSS."
+      - code: "A1.1.U01.L01.S4.B02"
+        kind: dialogue
+        ref: "dlg:erste-begegnung-01"
+        role: reinforces
+      - code: "A1.1.U01.L01.S4.B03"
+        kind: dialogue
+        ref: "dlg:erste-begegnung-02"
+        role: reinforces
+      - code: "A1.1.U01.L01.S4.B04"
+        kind: concept
+        ref: "sound:ue"
+        role: introduces
+      - code: "A1.1.U01.L01.S4.B05"
+        kind: example
+        ref: "eg:tschuess-bis-spaeter-01"
+        role: introduces
+      - code: "A1.1.U01.L01.S4.B06"
+        kind: exercise
+        ref: "ex:greetings-pronunciation-repetition-01"
+        role: applies
+
+  - code: "A1.1.U01.L01.S5"
+    stage: 5
+    blocks:
+      - code: "A1.1.U01.L01.S5.B01"
+        kind: exercise
+        ref: "ex:greetings-multiple-choice-01"
+        role: applies
+      - code: "A1.1.U01.L01.S5.B02"
+        kind: exercise
+        ref: "ex:greetings-listening-selection-01"
+        role: applies
+      - code: "A1.1.U01.L01.S5.B03"
+        kind: exercise
+        ref: "ex:greetings-vocabulary-recall-01"
+        role: applies
+
+  - code: "A1.1.U01.L01.S6"
+    stage: 6
+    weight: heavy
+    blocks:
+      - code: "A1.1.U01.L01.S6.B01"
+        kind: exercise
+        ref: "ex:greetings-speaking-01"
+        role: applies
+
+  - code: "A1.1.U01.L01.S7"
+    stage: 7
+    blocks:
+      - code: "A1.1.U01.L01.S7.B01"
+        kind: exercise
+        ref: "ex:greetings-listening-selection-01"
+        role: reinforces
+        mode: recall
+      - code: "A1.1.U01.L01.S7.B02"
+        kind: exercise
+        ref: "ex:greetings-vocabulary-recall-01"
+        role: reinforces
+        mode: recall
+
+  - code: "A1.1.U01.L01.S8"
+    stage: 8
+    blocks:
+      - code: "A1.1.U01.L01.S8.B01"
+        kind: text
+        text_en: "This is your first lesson, so there is nothing to review yet. From the next lesson on, words and phrases from earlier lessons come back here."
+
+  - code: "A1.1.U01.L01.S9"
+    stage: 9
+    weight: heavy
+    blocks:
+      - code: "A1.1.U01.L01.S9.B01"
+        kind: exercise
+        ref: "ex:greetings-speaking-02"
+        role: assesses

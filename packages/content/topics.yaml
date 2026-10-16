@@ -1,0 +1,8 @@
+# Vocabulary topics. Source: Curriculum Specification §4, A1.1 vocabulary domains.
+topics:
+  - code: "topic:greetings"
+    slug: "greetings"
+    title: "Greetings"
+  - code: "topic:personal-data"
+    slug: "personal-data"
+    title: "Personal data"

@@ -1,0 +1,191 @@
+# The 27 A1 grammar concepts. Source: Curriculum Specification §10 (Grammar Progression).
+# title = the Spec's concept name; explanation_en = the Spec's "What it lets the learner do", word for word,
+# until each concept's teaching lesson is authored (decision 0011). requires = the Spec's Requires column;
+# "Numbers" (G13, G22) is not a concept and is left out.
+concepts:
+  - code: "G01"
+    slug: "personal-pronouns"
+    type: grammar
+    title: "Personal pronouns"
+    explanation_en: "Talk about self and others"
+    level: A1
+  - code: "G02"
+    slug: "regular-present-tense"
+    type: grammar
+    title: "Regular present tense"
+    explanation_en: "Say what people do"
+    level: A1
+    requires: ["G01"]
+  - code: "G03"
+    slug: "verb-second-statements"
+    type: grammar
+    title: "Verb-second statements"
+    explanation_en: "Build a correct sentence"
+    level: A1
+    requires: ["G02"]
+  - code: "G04"
+    slug: "w-and-yes-no-questions"
+    type: grammar
+    title: "W- and yes/no questions"
+    explanation_en: "Ask for information"
+    level: A1
+    requires: ["G03"]
+  - code: "G05"
+    slug: "sein"
+    type: grammar
+    title: "sein"
+    explanation_en: "Say who, what and how someone is"
+    level: A1
+    requires: ["G01"]
+  - code: "G06"
+    slug: "gender-and-definite-article"
+    type: grammar
+    title: "Gender and definite article"
+    explanation_en: "Name things"
+    level: A1
+  - code: "G07"
+    slug: "ein-kein-nominative"
+    type: grammar
+    title: "ein, kein (nominative)"
+    explanation_en: "Say what something is and is not"
+    level: A1
+    requires: ["G06"]
+  - code: "G08"
+    slug: "plural"
+    type: grammar
+    title: "Plural"
+    explanation_en: "Talk about more than one"
+    level: A1
+    requires: ["G06"]
+  - code: "G09"
+    slug: "haben"
+    type: grammar
+    title: "haben"
+    explanation_en: "Say what you have"
+    level: A1
+    requires: ["G01"]
+  - code: "G10"
+    slug: "possessive-articles"
+    type: grammar
+    title: "Possessive articles"
+    explanation_en: "Say whose"
+    level: A1
+    requires: ["G06", "G07"]
+  - code: "G11"
+    slug: "accusative-articles"
+    type: grammar
+    title: "Accusative articles"
+    explanation_en: "Say what you order, buy, need, see, have"
+    level: A1
+    requires: ["G07", "G09"]
+  - code: "G12"
+    slug: "vowel-changing-verbs"
+    type: grammar
+    title: "Vowel-changing verbs"
+    explanation_en: "Talk about what others eat, read, take"
+    level: A1
+    requires: ["G02"]
+  - code: "G13"
+    slug: "time-expressions"
+    type: grammar
+    title: "Time expressions um, am, von…bis"
+    explanation_en: "Say when"
+    level: A1
+  - code: "G14"
+    slug: "inversion"
+    type: grammar
+    title: "Inversion"
+    explanation_en: "Start with the time or place"
+    level: A1
+    requires: ["G03", "G13"]
+  - code: "G15"
+    slug: "separable-verbs"
+    type: grammar
+    title: "Separable verbs, sentence bracket"
+    explanation_en: "Describe routines"
+    level: A1
+    requires: ["G03"]
+  - code: "G16"
+    slug: "nicht-and-kein"
+    type: grammar
+    title: "nicht and kein"
+    explanation_en: "Say no accurately"
+    level: A1
+    requires: ["G07", "G11"]
+  - code: "G17"
+    slug: "gern-lieber-am-liebsten"
+    type: grammar
+    title: "gern, lieber, am liebsten"
+    explanation_en: "Express preference"
+    level: A1
+    requires: ["G02"]
+  - code: "G18"
+    slug: "modal-verbs"
+    type: grammar
+    title: "Modal verbs"
+    explanation_en: "Say what you can, want, must, may, should do"
+    level: A1
+    requires: ["G15"]
+  - code: "G19"
+    slug: "es-gibt"
+    type: grammar
+    title: "es gibt + accusative"
+    explanation_en: "Say what exists"
+    level: A1
+    requires: ["G11"]
+  - code: "G20"
+    slug: "imperative"
+    type: grammar
+    title: "Imperative (Sie, du)"
+    explanation_en: "Give and follow instructions"
+    level: A1
+    requires: ["G02", "G12"]
+  - code: "G21"
+    slug: "location-prepositions"
+    type: grammar
+    title: "Location prepositions with dative forms"
+    explanation_en: "Say where something is"
+    level: A1
+    requires: ["G06"]
+  - code: "G22"
+    slug: "ordinals-in-dates"
+    type: grammar
+    title: "Ordinals in dates"
+    explanation_en: "Give a date"
+    level: A1
+    requires: ["G13"]
+  - code: "G23"
+    slug: "war-hatte"
+    type: grammar
+    title: "war, hatte"
+    explanation_en: "Say how something was"
+    level: A1
+    requires: ["G05", "G09"]
+  - code: "G24"
+    slug: "perfekt"
+    type: grammar
+    title: "Perfekt"
+    explanation_en: "Say what you did"
+    level: A1
+    requires: ["G05", "G09", "G15"]
+  - code: "G25"
+    slug: "und-oder-aber-denn"
+    type: grammar
+    title: "und, oder, aber, denn"
+    explanation_en: "Link ideas and give a reason"
+    level: A1
+    requires: ["G03"]
+  - code: "G26"
+    slug: "accusative-pronouns"
+    type: grammar
+    title: "Accusative pronouns"
+    explanation_en: "Refer to people and things as objects"
+    level: A1
+    requires: ["G11"]
+  - code: "G27"
+    slug: "man"
+    type: grammar
+    title: "man"
+    explanation_en: "State general rules"
+    level: A1
+    requires: ["G02"]

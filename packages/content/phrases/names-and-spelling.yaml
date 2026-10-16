@@ -1,0 +1,58 @@
+# Giving and asking names; spelling. Source: Curriculum Specification §4, A1.1.U01.L02 and L03 new language,
+# written as the Spec writes them ("…" marks where the learner adds their own name). Registers and meanings are
+# Claude Code's and listed for the teacher (decision 0011).
+phrases:
+  - code: "phrase:ich-heisse"
+    slug: "ich-heisse"
+    german: "Ich heiße …"
+    meaning_en: "My name is …"
+    register: neutral
+    level: A1
+  - code: "phrase:ich-bin"
+    slug: "ich-bin"
+    german: "Ich bin …"
+    meaning_en: "I am …"
+    register: neutral
+    level: A1
+  - code: "phrase:wie-heisst-du"
+    slug: "wie-heisst-du"
+    german: "Wie heißt du?"
+    meaning_en: "What's your name? (to someone you call du)"
+    register: informal
+    level: A1
+  - code: "phrase:wie-heissen-sie"
+    slug: "wie-heissen-sie"
+    german: "Wie heißen Sie?"
+    meaning_en: "What's your name? (to someone you call Sie)"
+    register: formal
+    level: A1
+  - code: "phrase:und-du"
+    slug: "und-du"
+    german: "Und du?"
+    meaning_en: "And you? (to someone you call du)"
+    register: informal
+    level: A1
+  - code: "phrase:und-sie"
+    slug: "und-sie"
+    german: "Und Sie?"
+    meaning_en: "And you? (to someone you call Sie)"
+    register: formal
+    level: A1
+  - code: "phrase:freut-mich"
+    slug: "freut-mich"
+    german: "Freut mich."
+    meaning_en: "Nice to meet you."
+    register: neutral
+    level: A1
+  - code: "phrase:wie-schreibt-man-das"
+    slug: "wie-schreibt-man-das"
+    german: "Wie schreibt man das?"
+    meaning_en: "How do you spell that?"
+    register: neutral
+    level: A1
+  - code: "phrase:buchstabieren-sie-bitte"
+    slug: "buchstabieren-sie-bitte"
+    german: "Buchstabieren Sie, bitte."
+    meaning_en: "Please spell it."
+    register: formal
+    level: A1
