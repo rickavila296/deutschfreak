@@ -13,7 +13,8 @@
     "check-connection": "node scripts/check-connection.ts",
     "generate": "drizzle-kit generate",
     "migrate": "drizzle-kit migrate",
-    "seed": "node scripts/seed.ts"
+    "seed": "node scripts/seed.ts",
+    "counts": "node scripts/counts.ts"
   },
   "dependencies": {
     "@deutschfreak/content": "workspace:*",

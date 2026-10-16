@@ -190,3 +190,15 @@ The entry format is in `CLAUDE.md`, under "PROGRESS.md entry".
 - **Checks:** Red first: 4 new slug tests failed before the schema change; the 11 seed tests could not load before `seed.ts` existed. Disabling the link removal made the DB-IMP-06 test fail (1 of 24); restored. `pnpm lint` clean; `pnpm typecheck` passed; `pnpm test` 65 passed (validation 28, db 27, config 7, content 3); `pnpm --filter @deutschfreak/db test:db` 24 passed (all in rolled-back transactions); `pnpm content:check` 4 parts, 24 units, 92 lessons, 92 objectives, valid.
 - **Status:** passed
 - **Notes:** The dev branch still holds no content rows. Slugs were not logged in docs/content-review (derived from reviewed titles); the owner may ask for that. Next: 2a.5 seed twice and compare counts.
+
+## 2026-10-16 · Phase 2 · packages/db · Task 2a.5 seed twice, identical counts
+
+- **Phase:** 2 Database v1
+- **Module:** packages/db
+- **Update:** Task 2a.5: a1.yaml seeded twice into the Neon dev branch with identical row counts; Phase 2a acceptance met
+- **Type:** test
+- **What was done:** Added `scripts/counts.ts` and a `counts` script (row count per structure table and lessons by status). Ran counts, `seed`, counts, `seed`, counts on the dev branch, with owner approval. The dev branch now holds the A1 structure tree.
+- **Files:** packages/db/scripts/counts.ts, packages/db/package.json, PROGRESS.md
+- **Checks:** Counts before / after seed 1 / after seed 2: levels 0/1/1, course_parts 0/4/4, units 0/24/24, lessons 0/92/92 (all planned), learning_objectives 0/92/92, lesson_objectives 0/92/92. `pnpm --filter @deutschfreak/db test:db` 24 passed with the seeded data present. `pnpm lint` clean; `pnpm typecheck` passed; `pnpm test` 65 passed; `pnpm content:check` valid.
+- **Status:** passed
+- **Notes:** Phase 2a acceptance met (Phase 2 brief). The full gate (migrate and seed twice on an empty branch) is best re-proved on a fresh Neon branch at the end of 2b. Before 2b.3 the owner must decide whether A1.1.U01 may be published before the teacher review (PRD-NFR-005 against Plan 2b and 6). Next: 2b.1 tables 7 to 24.
