@@ -1,5 +1,12 @@
 import { z } from 'zod';
-import { levelCodeSchema, lessonCodeSchema, objectiveCodeSchema, partCodeSchema, unitCodeSchema } from './codes.ts';
+import {
+  levelCodeSchema,
+  lessonCodeSchema,
+  objectiveCodeSchema,
+  partCodeSchema,
+  slugSchema,
+  unitCodeSchema,
+} from './codes.ts';
 
 // Schema for packages/content/structure/a1.yaml (TRD-CNT-01). Strict: unknown fields are rejected (TRD-VAL-02).
 
@@ -29,11 +36,6 @@ export const skillSchema = z.enum([
 ]);
 
 const text = z.string().trim().min(1);
-
-/** Slug form (TRD-CNT-05, DB-SLUG-02): lower-case ASCII letters and digits in hyphen-separated words, written literally. */
-export const slugSchema = z
-  .string()
-  .regex(/^[a-z0-9]+(-[a-z0-9]+)*$/, 'Expected a lower-case hyphenated slug like hallo-und-tschuess');
 
 export const structureObjectiveSchema = z.strictObject({
   code: objectiveCodeSchema,
