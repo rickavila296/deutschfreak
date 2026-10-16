@@ -41,6 +41,9 @@ describe('inside a transaction', () => {
   afterEach(() => client.query('rollback'));
 
   it('seeds 1 level, 4 parts, 24 units, 92 planned lessons and 92 objectives with their links (Schema §10)', async () => {
+    // The shared test branch may hold content published by the API tests (decision 0018); start from planned lessons.
+    // Rolled back with the rest of the test.
+    await client.query(`update lessons set status = 'planned' where code like 'A1.%'`);
     await seedStructure(db, file);
     expect(await counts()).toEqual({
       levels: 1,

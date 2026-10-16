@@ -55,3 +55,19 @@ describe('testDatabaseUrl when DATABASE_URL_DIRECT is not set (review finding 6)
     );
   });
 });
+
+describe('testDatabaseUrl in CI, with a host-only placeholder DATABASE_URL (decision 0016)', () => {
+  const devHost = new URL(dev).hostname;
+
+  it('accepts the separate test branch', () => {
+    const placeholder = `postgresql://ci-placeholder@${devHost}/neondb`;
+    expect(testDatabaseUrl({ DATABASE_URL_TEST: test, DATABASE_URL: placeholder })).toBe(test);
+  });
+
+  it('still refuses a DATABASE_URL_TEST that points at the dev host', () => {
+    const placeholder = `postgresql://ci-placeholder@${devHost.replace('ep-dev-123', 'ep-dev-123-pooler')}/neondb`;
+    expect(() => testDatabaseUrl({ DATABASE_URL_TEST: dev, DATABASE_URL: placeholder })).toThrow(
+      /DATABASE_URL_TEST points at the same database host as DATABASE_URL/,
+    );
+  });
+});
