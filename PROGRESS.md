@@ -286,3 +286,15 @@ The entry format is in `CLAUDE.md`, under "PROGRESS.md entry".
 - **Checks:** `pnpm lint` clean; `pnpm typecheck` passed; `pnpm test` 189 passed; `test:db` 74 passed on the test branch; `pnpm content:check` valid; `counts` before and after a further seed identical (levels 1, course_parts 4, units 24, lessons 92, learning_objectives 92, lesson_objectives 92, topics 2, voices 2, concepts 50, concept_prerequisites 32, vocabulary_items 6, vocabulary_topics 6, phrases 25, examples 4, example_vocabulary 6, example_concepts 1, dialogues 2, dialogue_lines 8, exercises 6, exercise_items 22, exercise_targets 21, lesson_sections 9, lesson_blocks 36, audio_assets 0; planned 91, published 1); `show-refusals` both refused.
 - **Status:** passed
 - **Notes:** Phase 1 is merged into main (PR #1, 28aaf81); main is the default branch and requires the `check` job. Next: push phase-02/review-fixes (owner OK) and merge it into main by pull request once `check` is green; CI runs no database tests. Still open outside the gate: the teacher review of docs/content-review/A1.1.U01.md, and the Phase 6 follow-ups of decision 0013. Phase 3 starts in a new session.
+
+## 2026-10-16 · Phase 2 · repo · CI install fix: esbuild build script declined
+
+- **Phase:** 2 Database v1
+- **Module:** repo
+- **Update:** CI failed on the first push of Phase 2 at `pnpm install --frozen-lockfile`; fixed
+- **Type:** fix
+- **What was done:** Symptom: CI run 38931049775 on phase-02/review-fixes failed at install with ERR_PNPM_IGNORED_BUILDS ("Ignored build scripts: esbuild"). Root cause: esbuild, a dependency of drizzle-kit since 2a.1, has an install script; pnpm v12 refuses to install in CI until the script is allowed or declined (locally it only warns), and the decision had been left open (2a.1 notes). Fix, owner approved: `allowBuilds: esbuild: false` in `pnpm-workspace.yaml`, so the script is declined; esbuild's binary comes from its platform package.
+- **Files:** pnpm-workspace.yaml, PROGRESS.md
+- **Checks:** `CI=true pnpm install --frozen-lockfile` passed locally (failed before the change); `drizzle-kit check` fine and `drizzle-kit generate` reports no schema changes; `pnpm lint` clean; `pnpm typecheck` passed; `pnpm test` 189 passed; `pnpm content:check` valid. CI result on GitHub follows the push.
+- **Status:** passed
+- **Notes:** Any new dependency with an install script must be listed under `allowBuilds` (true or false) or CI install fails.
