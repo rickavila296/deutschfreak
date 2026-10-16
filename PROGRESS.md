@@ -82,3 +82,15 @@ The entry format is in `CLAUDE.md`, under "PROGRESS.md entry".
 - **Checks:** `pnpm lint` clean; `pnpm typecheck` passed; `pnpm test` 3 files, 22 tests passed; `pnpm content:check` reports 4 parts, 24 units, 92 lessons, 92 objectives, valid. The 13 structure tests failed before the schema existed. A deliberately broken lesson code made `content:check` exit 1 with 3 problems; the file was restored unchanged.
 - **Status:** passed
 - **Notes:** Not pushed (owner asked to hold pushes), so the CI step has not run on GitHub yet. Plan marks session 3 as R; the owner directed it to be built. No `skill` field yet (PLAN-DEC-02).
+
+## 2026-10-16 · Phase 1 · packages/config, packages/content, docs/decisions · Phase 1 review fixes
+
+- **Phase:** 1 Repo and tooling
+- **Module:** packages/config, packages/content, docs/decisions, repo root
+- **Update:** Fixes for the five notes of the independent Phase 1 review, all approved by the owner
+- **Type:** fix
+- **What was done:** (1) The architecture rule 1 lint check now also catches dynamic `import()` and `require()` of `@deutschfreak/db` or `packages/db` in `apps/web` (`no-restricted-syntax`), with four new tests. (2) `docs/content-review/` is now tracked in git; the kit stays local. (3) Logged decisions 0003 (build Phase 1 session 3 despite its R mark) and 0004 (kit local, content review tracked). (4) Reworded the A1.4.U06 L01 and L02 objective and mastery text from the first person into the specification's style; decision 0002 amended with the previous wording. (5) The duplicate-code test now removes its temp folder, and the objective count is asserted as exactly 92.
+- **Files:** packages/config/eslint.config.js, packages/config/eslint-boundaries.test.js, packages/content/src/structure.test.ts, packages/content/structure/a1.yaml, .gitignore, docs/content-review/README.md, docs/decisions/0002-a1-4-u06-objectives.md, docs/decisions/0003-build-phase-1-session-3.md, docs/decisions/0004-kit-local-content-review-tracked.md, PROGRESS.md
+- **Checks:** `pnpm lint` clean; `pnpm typecheck` passed; `pnpm test` 3 files, 26 tests passed; `pnpm content:check` 4 parts, 24 units, 92 lessons, 92 objectives, valid. The three new dynamic-import and require tests failed before the rule change. Local half of gate M1: a fresh clone of b13246d passed install (frozen lockfile), lint, typecheck, test and content:check.
+- **Status:** passed
+- **Notes:** Review verdict was Pass with notes, nothing blocking. Rule 1 still covers only files under `apps/web/**`; a shared package that re-exports db would not be caught (review note, for Phase 4). Gate M1 stays open until a CI run on GitHub includes `content:check`; nothing is pushed by owner request. A fresh clone under a deep folder path fails on Windows path length (pnpm run-state file); use a short path.

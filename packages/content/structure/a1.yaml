@@ -745,10 +745,10 @@ level:
             - code: "A1.4.U06.L01"
               title: "A1 Review Map"
               archetypes: [checkpoint]
-              mastery_task_en: "Complete a mixed session built from my weakest concepts, words and objectives"
+              mastery_task_en: "Complete a mixed session built from their weakest concepts, words and objectives"
               objectives:
                 - code: "A1.4.U06.L01.O1"
-                  can_do_en: "Close my weakest A1 gaps before the final assessment"
+                  can_do_en: "Close their weakest A1 gaps before the final assessment"
               notes: "Purpose: Close individual gaps before the assessment Content: A mixed session assembled from the learner's weakest concepts, vocabulary and objectives"
             - code: "A1.4.U06.L02"
               title: "A1 Abschlusstest"
@@ -756,7 +756,7 @@ level:
               mastery_task_en: "Pass the A1 final assessment: 70% overall and at least 60% in each of listening, reading, writing and speaking"
               objectives:
                 - code: "A1.4.U06.L02.O1"
-                  can_do_en: "Show I perform at A1 in listening, reading, writing and speaking"
+                  can_do_en: "Perform at A1 in listening, reading, writing and speaking"
               notes: "Purpose: Establish whether the learner performs at A1 Content: The final assessment in section 12"
             - code: "A1.4.U06.L03"
               title: "A1 → A2 Readiness"
