@@ -1,0 +1,9 @@
+{
+  "name": "deutschfreak",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm -r test"
+  }
+}

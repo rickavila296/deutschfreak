@@ -11,3 +11,5 @@ docs/content-review/
 .env
 .env.*
 !.env.example
+# Dependencies
+node_modules/

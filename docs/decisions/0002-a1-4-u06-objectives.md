@@ -1,0 +1,11 @@
+# 0002 — Objectives and mastery tasks for A1.4.U06 L01 to L03
+- **ID:** none (spec gap; Schema §8.4 `mastery_task_en` and §8.5 `can_do_en` are NOT NULL)
+- **Date:** 2026-10-16
+- **Status:** decided
+- **Decision:** 
+  - A1.4.U06.L01 A1 Review Map. can_do_en: "Close my weakest A1 gaps before the final assessment". mastery_task_en: "Complete a mixed session built from my weakest concepts, words and objectives".
+  - A1.4.U06.L02 A1 Abschlusstest. can_do_en: "Show I perform at A1 in listening, reading, writing and speaking". mastery_task_en: "Pass the A1 final assessment: 70% overall and at least 60% in each of listening, reading, writing and speaking".
+  - A1.4.U06.L03 A1 → A2 Readiness. can_do_en: "Know what to strengthen before A2". mastery_task_en: "Complete the 15-minute top-up task set and receive a readiness result".
+  - Each lesson has one objective, `<lesson code>.O1`. Skills stay unassigned until PLAN-DEC-02.
+- **Reason:** Spec §7 gives these three lessons only Purpose and Content columns. The wording is derived from those columns and from Spec §12 (final assessment pass rule; readiness checkpoint), not invented.
+- **Affects:** `packages/content/structure/a1.yaml`; Schema §8.4, §8.5; Phase 2a seed
