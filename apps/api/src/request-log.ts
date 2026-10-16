@@ -1,8 +1,9 @@
 import type { RequestHandler } from 'express';
 
-// One structured JSON line per request (TRD-LOG-01). What a line must never hold (decision 0014, TRD-LOG-03):
-// the body, the headers (cookies and session tokens travel there) and the query string. Only the path is logged.
+// Structured JSON log lines (TRD-LOG-01). What a line must never hold (decision 0014, TRD-LOG-03): the body, the
+// headers (cookies and session tokens travel there) and the query string. Only the path is logged.
 
+/** One line per request. */
 export interface RequestLogLine {
   level: 'info' | 'warn' | 'error';
   time: string;
@@ -13,7 +14,17 @@ export interface RequestLogLine {
   durationMs: number;
 }
 
-export type LogSink = (line: RequestLogLine) => void;
+/** One line per unexpected error, written by the error handler before it answers `internal_error`. */
+export interface ErrorLogLine {
+  level: 'error';
+  time: string;
+  requestId: string;
+  error: { name: string; message: string; stack: string | undefined };
+}
+
+export type LogLine = RequestLogLine | ErrorLogLine;
+
+export type LogSink = (line: LogLine) => void;
 
 /** Writes each line to stdout, where Vercel's built-in logs collect it (TRD-DEC-03). */
 export const stdoutSink: LogSink = (line) => {

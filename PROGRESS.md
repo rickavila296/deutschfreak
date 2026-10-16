@@ -322,3 +322,15 @@ The entry format is in `CLAUDE.md`, under "PROGRESS.md entry".
 - **Checks:** Opening CORS to every origin and logging the full URL on purpose made 4 tests fail; restored. Dev server smoke run: 404 with `X-Request-Id`, CSP header, one log line without the query. `pnpm lint` clean; `pnpm typecheck` passed; `pnpm test` 201 passed (api 12, validation 97, db 75, content 10, config 7); `pnpm content:check` valid.
 - **Status:** passed
 - **Notes:** Express type augmentation goes through the global `Express` namespace; `express-serve-static-core` is not a direct dependency under pnpm. No routes yet; 404s are Express's default until 3.2.
+
+## 2026-10-16 · Phase 3 · apps/api, packages/validation · Task 3.2 error handler and error codes
+
+- **Phase:** 3 API foundation
+- **Module:** apps/api, packages/validation, docs/decisions
+- **Update:** Task 3.2: the single error-handling middleware, the one error shape and the fixed list of error codes (decision 0015)
+- **Type:** feature
+- **What was done:** Decision 0015 (owner approved): ten error codes, each with one status: validation_failed 400, invalid_json 400, unauthorized 401, not_found 404, level_not_found 404, lesson_not_found 404, payload_too_large 413, rate_limited 429, internal_error 500, database_unavailable 503. `packages/validation/src/api-errors.ts` holds the code-to-status map and the strict `apiErrorResponseSchema` (TRD-API-20). In `apps/api`: `ApiError(code, message)` takes its status from the map; `notFound` answers unmatched routes; `errorHandler`, registered last (TRD-ERR-01, TRD-BE-08), maps ApiError, ZodError (validation_failed, field paths only, TRD-ERR-03) and body-parser errors (invalid_json, payload_too_large); anything else becomes internal_error with a generic message, and one error log line (name, message, stack, request id) is written. `createApp` takes `extraRoutes`, mounted before the not-found handler.
+- **Files:** docs/decisions/0015-api-error-codes.md, packages/validation/src/api-errors.ts, packages/validation/src/api-errors.test.ts, packages/validation/src/index.ts, apps/api/package.json, apps/api/src/app.ts, apps/api/src/app.test.ts, apps/api/src/errors.ts, apps/api/src/error-handler.ts, apps/api/src/error-handler.test.ts, apps/api/src/request-log.ts, pnpm-lock.yaml, PROGRESS.md
+- **Checks:** Removing the error handler on purpose made 7 tests fail; disabling the Zod mapping made 1 fail; both restored. `pnpm lint` clean; `pnpm typecheck` passed; `pnpm test` 213 passed (api 20, validation 101, db 75, content 10, config 7); `pnpm content:check` valid.
+- **Status:** passed
+- **Notes:** Approved test change: `app.test.ts` now mounts its probe routes through `extraRoutes` (before the not-found handler); no assertion changed. Bible follow-up (owner): write the decision 0015 code list into TRD §19 / TRD-API-20 at the next Bible documentation update; also pending, the TRD-LOG-03 row (decision 0014). Open for 3.6: the code for a planned lesson.

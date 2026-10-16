@@ -1,28 +1,29 @@
-import type { Express } from 'express';
+import { Router, type Express } from 'express';
 import request from 'supertest';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { createApp } from './app.ts';
-import type { RequestLogLine } from './request-log.ts';
+import type { LogLine, RequestLogLine } from './request-log.ts';
 
 const webOrigin = 'https://deutschfreak.com';
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
 
 let app: Express;
-let lines: RequestLogLine[];
+let lines: LogLine[];
 
 beforeEach(() => {
   lines = [];
-  app = createApp({ webOrigin, logSink: (line) => lines.push(line) });
   // Probe routes for the middleware tests; real routes come in later tasks.
-  app.get('/probe', (_req, res) => {
+  const probes = Router();
+  probes.get('/probe', (_req, res) => {
     res.json({ ok: true });
   });
-  app.post('/probe', (_req, res) => {
+  probes.post('/probe', (_req, res) => {
     res.status(201).json({ ok: true });
   });
-  app.get('/broken', (_req, res) => {
+  probes.get('/broken', (_req, res) => {
     res.status(503).json({ ok: false });
   });
+  app = createApp({ webOrigin, logSink: (line) => lines.push(line), extraRoutes: probes });
 });
 
 describe('request id', () => {
@@ -63,13 +64,13 @@ describe('request log (TRD-LOG-01, decision 0014)', () => {
     for (const secret of ['query-secret', 'header-secret', 'cookie-secret', 'body-secret', 'token=']) {
       expect(text).not.toContain(secret);
     }
-    expect(lines[0]!.path).toBe('/probe');
+    expect((lines[0] as RequestLogLine).path).toBe('/probe');
   });
 
   it('marks client errors as warn and server errors as error', async () => {
     await request(app).get('/no-such-route');
     await request(app).get('/broken');
-    expect(lines.map((l) => [l.status, l.level])).toEqual([
+    expect((lines as RequestLogLine[]).map((l) => [l.status, l.level])).toEqual([
       [404, 'warn'],
       [503, 'error'],
     ]);
@@ -110,10 +111,11 @@ describe('CORS (TRD-SEC-15)', () => {
 
 describe('JSON body parser', () => {
   it('parses JSON bodies for routes', async () => {
-    const echo = createApp({ webOrigin, logSink: () => {} });
-    echo.post('/echo', (req, res) => {
+    const routes = Router();
+    routes.post('/echo', (req, res) => {
       res.json(req.body);
     });
+    const echo = createApp({ webOrigin, logSink: () => {}, extraRoutes: routes });
     const res = await request(echo).post('/echo').send({ hallo: 'welt' });
     expect(res.body).toEqual({ hallo: 'welt' });
   });
