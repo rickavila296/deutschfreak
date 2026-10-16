@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "exports": {
-    ".": "./src/structure.ts"
+    ".": "./src/index.ts"
   },
   "scripts": {
     "typecheck": "tsc",
