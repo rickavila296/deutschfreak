@@ -3,7 +3,7 @@ import { testDatabaseUrl } from '@deutschfreak/db/testing';
 import { apiErrorResponseSchema, levelMapResponseSchema } from '@deutschfreak/validation';
 import request from 'supertest';
 import { afterAll, describe, expect, it } from 'vitest';
-import { createApp } from '../app.ts';
+import { createApp } from '../create-app.ts';
 
 // Task 3.5: Supertest against the real app and the seeded Neon test branch (TRD-ERR-02: success, 404, invalid input).
 const database = createDatabase(testDatabaseUrl());

@@ -1,7 +1,7 @@
 import { Router, type Express } from 'express';
 import request from 'supertest';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { createApp } from './app.ts';
+import { createApp } from './create-app.ts';
 import type { LogLine, RequestLogLine } from './request-log.ts';
 
 const webOrigin = 'https://deutschfreak.com';

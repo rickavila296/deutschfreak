@@ -3,7 +3,7 @@ import { Router } from 'express';
 import request from 'supertest';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { z } from 'zod';
-import { createApp } from './app.ts';
+import { createApp } from './create-app.ts';
 import { ApiError } from './errors.ts';
 import type { ErrorLogLine, LogLine } from './request-log.ts';
 

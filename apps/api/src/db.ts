@@ -1,4 +1,5 @@
 import { createDatabase, loadRootEnv, readPooledDatabaseUrl } from '@deutschfreak/db';
+import { attachDatabasePool } from '@vercel/functions';
 import { stdoutSink } from './request-log.ts';
 
 // The API's one database client, created once at module scope with the pooled connection string (TRD-BE-07,
@@ -16,3 +17,7 @@ export const database = createDatabase(readPooledDatabaseUrl(), {
       error: { name: error.name, message: error.message, stack: error.stack },
     }),
 });
+
+// Vercel Fluid compute: release idle pool clients before an instance is suspended, so connections do not leak
+// (Vercel docs, @vercel/functions attachDatabasePool, checked 2026-10-16).
+attachDatabasePool(database.pool);

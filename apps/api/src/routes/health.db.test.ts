@@ -3,7 +3,7 @@ import { testDatabaseUrl } from '@deutschfreak/db/testing';
 import { apiErrorResponseSchema, readyResponseSchema } from '@deutschfreak/validation';
 import request from 'supertest';
 import { afterAll, describe, expect, it } from 'vitest';
-import { createApp } from '../app.ts';
+import { createApp } from '../create-app.ts';
 
 // Task 3.7: the health routes and the /v1 router against the real client on the Neon test branch (TRD-API-01,
 // TRD-OBS-01, TRD-TEST-02). Route coverage of the Supertest suite (success, 404, invalid input):

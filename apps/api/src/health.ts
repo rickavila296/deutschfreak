@@ -3,7 +3,7 @@ import { Router } from 'express';
 import { ApiError } from './errors.ts';
 import type { LogSink } from './request-log.ts';
 
-/** Resolves when the database answers a trivial query; rejects otherwise. Wired to the real client in server.ts. */
+/** Resolves when the database answers a trivial query; rejects otherwise. Wired to the real client in src/index.ts. */
 export type DatabaseCheck = () => Promise<void>;
 
 /** How long `/health/ready` waits for the database before reporting it unavailable. */

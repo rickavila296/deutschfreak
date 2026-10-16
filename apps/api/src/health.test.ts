@@ -2,7 +2,7 @@ import { apiErrorResponseSchema, healthResponseSchema, readyResponseSchema } fro
 import express from 'express';
 import request from 'supertest';
 import { describe, expect, it } from 'vitest';
-import { createApp } from './app.ts';
+import { createApp } from './create-app.ts';
 import { errorHandler } from './error-handler.ts';
 import { healthRouter, type DatabaseCheck } from './health.ts';
 import { requestId } from './request-id.ts';
