@@ -70,3 +70,15 @@ The entry format is in `CLAUDE.md`, under "PROGRESS.md entry".
 - **Checks:** `pnpm lint` clean; `pnpm typecheck` passed; `pnpm test` 2 files, 6 tests passed. The rule test failed (2 of 3) with the rule disabled. CI on GitHub: run 38870691450 green on 80da577; run 38870806662 red at the typecheck step on 9929873 (deliberately broken type); run 38872310846 green on 6c85eb9 (revert).
 - **Status:** passed
 - **Notes:** Prettier ignores PROGRESS.md (append-only) and docs/; YAML keeps double quotes. CLAUDE.md stays local by owner choice and matches the scripts as built. `main` is not yet on GitHub and needs a branch protection rule requiring the `check` job (TRD-CI-02); both are owner steps. Owner asked to stop pushing for now; this entry is committed locally only.
+
+## 2026-10-16 · Phase 1 · packages/validation, packages/content · Structure schema for content
+
+- **Phase:** 1 Repo and tooling
+- **Module:** packages/validation, packages/content, .github/workflows
+- **Update:** Task 1.3, session 3 structure schema and `a1.yaml` validation
+- **Type:** feature
+- **What was done:** Added strict Zod schemas for `a1.yaml` (level, part, unit, lesson, objective; nine archetypes; optional `notes`) with code schemas for every tier, plus checks for unique codes and codes nested in their parent. Added `validateA1Structure` with the Spec §20 counts (4 parts, 24 units, 92 lessons). Moved `lessonCodeSchema` into `codes.ts` unchanged. Created `@deutschfreak/content` with a loader (YAML parsed with unique keys), the `validate` script, and tests on the real file. Added root `content:check` and a CI step for it. Added `allowImportingTsExtensions` to the shared tsconfig so Node 24 runs the script directly. Pinned `@types/node` to the 24 line on owner approval.
+- **Files:** packages/validation/src/codes.ts, packages/validation/src/structure.ts, packages/validation/src/structure.test.ts, packages/validation/src/index.ts, packages/config/tsconfig.base.json, packages/content/package.json, packages/content/tsconfig.json, packages/content/src/structure.ts, packages/content/src/structure.test.ts, packages/content/scripts/validate-structure.ts, package.json, pnpm-lock.yaml, .github/workflows/ci.yml, PROGRESS.md
+- **Checks:** `pnpm lint` clean; `pnpm typecheck` passed; `pnpm test` 3 files, 22 tests passed; `pnpm content:check` reports 4 parts, 24 units, 92 lessons, 92 objectives, valid. The 13 structure tests failed before the schema existed. A deliberately broken lesson code made `content:check` exit 1 with 3 problems; the file was restored unchanged.
+- **Status:** passed
+- **Notes:** Not pushed (owner asked to hold pushes), so the CI step has not run on GitHub yet. Plan marks session 3 as R; the owner directed it to be built. No `skill` field yet (PLAN-DEC-02).
