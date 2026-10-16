@@ -6,6 +6,7 @@ import type { ApiConfig } from './config.ts';
 import { errorHandler, notFound } from './error-handler.ts';
 import { healthRouter, type DatabaseCheck } from './health.ts';
 import { requestId } from './request-id.ts';
+import { lessonsRouter } from './routes/lessons.ts';
 import { levelsRouter } from './routes/levels.ts';
 import { requestLog, stdoutSink, type LogSink } from './request-log.ts';
 
@@ -45,7 +46,7 @@ export function createApp({
 
   app.use(healthRouter(checkDatabase, logSink));
   // TRD-API-22: every content route is versioned under /v1.
-  if (db) app.use('/v1', levelsRouter(db));
+  if (db) app.use('/v1', levelsRouter(db), lessonsRouter(db));
   if (extraRoutes) app.use(extraRoutes);
 
   app.use(notFound);
