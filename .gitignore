@@ -11,5 +11,11 @@ docs/content-review/
 .env
 .env.*
 !.env.example
+
 # Dependencies
 node_modules/
+
+# Build output
+.next/
+dist/
+coverage/

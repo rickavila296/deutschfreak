@@ -1,0 +1,4 @@
+pnpm-lock.yaml
+docs/
+# Append-only log: earlier entries are never rewritten, not even by a formatter.
+PROGRESS.md
