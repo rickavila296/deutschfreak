@@ -142,3 +142,15 @@ The entry format is in `CLAUDE.md`, under "PROGRESS.md entry".
 - **Checks:** none (decision only); `pnpm lint` clean
 - **Status:** passed
 - **Notes:** All three Phase 2 blocking decisions are now recorded. The Bible is git-ignored, so its edit is not in a commit. The Schema does not say whether `mode` is allowed only on exercise blocks; no check was added. 2a.1 waits on the owner's `.env` and Neon dev branch.
+
+## 2026-10-16 · Phase 2 · packages/db · Task 2a.1 db package and Neon connection
+
+- **Phase:** 2 Database v1
+- **Module:** packages/db
+- **Update:** Task 2a.1: `packages/db` created and connected to the Neon dev branch with the direct connection string
+- **Type:** feature
+- **What was done:** Created `@deutschfreak/db` with drizzle-orm, the `pg` driver and drizzle-kit. `src/env.ts` loads the repo-root `.env` and reads `DATABASE_URL` or `DATABASE_URL_DIRECT`; a missing or non-PostgreSQL value fails with the variable name and never the value. `drizzle.config.ts` uses `DATABASE_URL_DIRECT` (TRD-DB-14), output folder `migrations`, strict mode; `src/schema.ts` is an empty placeholder until 2a.2. `scripts/check-connection.ts` connects with the direct string and prints only the database name, server version and region, and fails if the direct string is a pooled host. The owner created the Neon project (Frankfurt), the dev branch and `.env`.
+- **Files:** packages/db/package.json, packages/db/tsconfig.json, packages/db/drizzle.config.ts, packages/db/src/env.ts, packages/db/src/env.test.ts, packages/db/src/index.ts, packages/db/src/schema.ts, packages/db/scripts/check-connection.ts, pnpm-lock.yaml, PROGRESS.md
+- **Checks:** The four env tests failed before `env.ts` existed (module not found) and pass now. `pnpm --filter @deutschfreak/db check-connection`: connected, database neondb, PostgreSQL 18.6, region eu-central-1. `pnpm lint` clean; `pnpm typecheck` passed; `pnpm test` 5 files, 32 tests passed (db 4, validation 18, content 3, config 7); `pnpm content:check` 4 parts, 24 units, 92 lessons, 92 objectives, valid.
+- **Status:** passed
+- **Notes:** The Bible names no PostgreSQL driver; `pg` was chosen (owner informed). `@types/node` pinned to major 24 to match the runtime. pnpm blocked esbuild's build script (used by drizzle-kit); left blocked, ask the owner before allowing it if 2a.3 needs it. The connection check cannot tell which Neon branch is used; the owner confirms the endpoint matches the dev branch. Next: 2a.2 enums and tables 1 to 6.
