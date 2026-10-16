@@ -1,6 +1,6 @@
 # A1 curriculum structure. Source: docs/sources/a1-curriculum-specification.md, sections 3 to 7 and 20.
 # Codes are permanent and written literally (Spec, Stable codes). Order sets position.
-# Learning-objective skills are not assigned yet (PLAN-DEC-02).
+# One skill per learning objective: docs/decisions/0006 (PLAN-DEC-02).
 # Spec gaps filled by owner decisions: docs/decisions/0001 (U06 subtitles, U01 split) and 0002 (A1.4.U06 objectives).
 
 level:
@@ -22,6 +22,7 @@ level:
               objectives:
                 - code: "A1.1.U01.L01.O1"
                   can_do_en: "Greet and say goodbye to suit time of day and formality"
+                  skill: "spoken_interaction"
             - code: "A1.1.U01.L02"
               title: "Wie heißt du?"
               archetypes: [conversation]
@@ -29,6 +30,7 @@ level:
               objectives:
                 - code: "A1.1.U01.L02.O1"
                   can_do_en: "Give a name and ask for one, with du and with Sie"
+                  skill: "spoken_interaction"
             - code: "A1.1.U01.L03"
               title: "Das Alphabet"
               archetypes: [pronunciation]
@@ -36,6 +38,7 @@ level:
               objectives:
                 - code: "A1.1.U01.L03.O1"
                   can_do_en: "Spell a name and write down a spelled name"
+                  skill: "pronunciation"
             - code: "A1.1.U01.L04"
               title: "Wie geht's?"
               archetypes: [conversation]
@@ -43,6 +46,7 @@ level:
               objectives:
                 - code: "A1.1.U01.L04.O1"
                   can_do_en: "Ask how someone is and answer"
+                  skill: "spoken_interaction"
             - code: "A1.1.U01.L05"
               title: "Checkpoint: Erste Begegnung"
               archetypes: [checkpoint]
@@ -50,6 +54,7 @@ level:
               objectives:
                 - code: "A1.1.U01.L05.O1"
                   can_do_en: "Hold a first-meeting exchange of 6–8 turns"
+                  skill: "spoken_interaction"
         - code: "A1.1.U02"
           title: "Woher kommst du?"
           subtitle_en: "Origin, home, languages"
@@ -61,6 +66,7 @@ level:
               objectives:
                 - code: "A1.1.U02.L01.O1"
                   can_do_en: "Say where they come from and live, and ask"
+                  skill: "spoken_interaction"
             - code: "A1.1.U02.L02"
               title: "Ich, du, er, sie"
               archetypes: [grammar]
@@ -68,6 +74,7 @@ level:
               objectives:
                 - code: "A1.1.U02.L02.O1"
                   can_do_en: "Use singular present-tense endings about self and others"
+                  skill: "grammar"
             - code: "A1.1.U02.L03"
               title: "Fragen stellen"
               archetypes: [grammar]
@@ -75,6 +82,7 @@ level:
               objectives:
                 - code: "A1.1.U02.L03.O1"
                   can_do_en: "Ask and answer W-questions and yes/no questions with the verb in the right place"
+                  skill: "grammar"
             - code: "A1.1.U02.L04"
               title: 'Sprachen und „Wie bitte?"'
               archetypes: [conversation]
@@ -82,6 +90,7 @@ level:
               objectives:
                 - code: "A1.1.U02.L04.O1"
                   can_do_en: "Say which languages they speak and manage non-understanding"
+                  skill: "spoken_interaction"
             - code: "A1.1.U02.L05"
               title: "Checkpoint: Sich vorstellen"
               archetypes: [checkpoint]
@@ -89,6 +98,7 @@ level:
               objectives:
                 - code: "A1.1.U02.L05.O1"
                   can_do_en: "Introduce themselves in speech and writing"
+                  skill: "spoken_production"
         - code: "A1.1.U03"
           title: "Zahlen und Daten"
           subtitle_en: "Numbers and personal details"
@@ -100,6 +110,7 @@ level:
               objectives:
                 - code: "A1.1.U03.L01.O1"
                   can_do_en: "Say and understand 0–20 and phone numbers"
+                  skill: "vocabulary"
             - code: "A1.1.U03.L02"
               title: "Einundzwanzig"
               archetypes: [vocabulary]
@@ -107,6 +118,7 @@ level:
               objectives:
                 - code: "A1.1.U03.L02.O1"
                   can_do_en: "Say and understand 21–100 and give an age"
+                  skill: "vocabulary"
             - code: "A1.1.U03.L03"
               title: "Ich bin, wir sind"
               archetypes: [grammar]
@@ -114,6 +126,7 @@ level:
               objectives:
                 - code: "A1.1.U03.L03.O1"
                   can_do_en: "Use all forms of sein to say who and how people are"
+                  skill: "grammar"
             - code: "A1.1.U03.L04"
               title: "Ein Formular ausfüllen"
               archetypes: [reading, writing]
@@ -121,6 +134,7 @@ level:
               objectives:
                 - code: "A1.1.U03.L04.O1"
                   can_do_en: "Read and complete a simple personal-data form"
+                  skill: "writing"
             - code: "A1.1.U03.L05"
               title: "Checkpoint: Persönliche Daten"
               archetypes: [checkpoint]
@@ -128,6 +142,7 @@ level:
               objectives:
                 - code: "A1.1.U03.L05.O1"
                   can_do_en: "Exchange personal details accurately"
+                  skill: "spoken_interaction"
         - code: "A1.1.U04"
           title: "Dinge"
           subtitle_en: "Things, gender, articles"
@@ -139,6 +154,7 @@ level:
               objectives:
                 - code: "A1.1.U04.L01.O1"
                   can_do_en: "Name everyday objects with the right article"
+                  skill: "vocabulary"
             - code: "A1.1.U04.L02"
               title: "Ein, eine, kein"
               archetypes: [grammar]
@@ -146,6 +162,7 @@ level:
               objectives:
                 - code: "A1.1.U04.L02.O1"
                   can_do_en: "Say what something is and is not; refer back with er / sie / es"
+                  skill: "grammar"
             - code: "A1.1.U04.L03"
               title: "Eins, zwei, viele"
               archetypes: [grammar, vocabulary]
@@ -153,6 +170,7 @@ level:
               objectives:
                 - code: "A1.1.U04.L03.O1"
                   can_do_en: "Understand and form common plurals; say how many"
+                  skill: "grammar"
             - code: "A1.1.U04.L04"
               title: "Checkpoint: Mein Schreibtisch"
               archetypes: [checkpoint]
@@ -160,6 +178,7 @@ level:
               objectives:
                 - code: "A1.1.U04.L04.O1"
                   can_do_en: "Describe the objects around them"
+                  skill: "spoken_production"
         - code: "A1.1.U05"
           title: "Familie"
           subtitle_en: "Family and people"
@@ -171,6 +190,7 @@ level:
               objectives:
                 - code: "A1.1.U05.L01.O1"
                   can_do_en: "Name family members and introduce them"
+                  skill: "vocabulary"
             - code: "A1.1.U05.L02"
               title: "Ich habe…"
               archetypes: [grammar]
@@ -178,6 +198,7 @@ level:
               objectives:
                 - code: "A1.1.U05.L02.O1"
                   can_do_en: "Say who and what they have and do not have"
+                  skill: "grammar"
             - code: "A1.1.U05.L03"
               title: "Wie ist er? Wie ist sie?"
               archetypes: [grammar, conversation]
@@ -185,6 +206,7 @@ level:
               objectives:
                 - code: "A1.1.U05.L03.O1"
                   can_do_en: "Describe a person and say whose relative they are"
+                  skill: "grammar"
             - code: "A1.1.U05.L04"
               title: "Checkpoint: Meine Familie"
               archetypes: [checkpoint]
@@ -192,6 +214,7 @@ level:
               objectives:
                 - code: "A1.1.U05.L04.O1"
                   can_do_en: "Understand a short family text and present their own family"
+                  skill: "spoken_production"
         - code: "A1.1.U06"
           title: "A1.1 Abschluss"
           subtitle_en: "Part review and checkpoint"
@@ -203,6 +226,7 @@ level:
               objectives:
                 - code: "A1.1.U06.L01.O1"
                   can_do_en: "Understand three short profiles as text and audio, and compare them"
+                  skill: "reading"
             - code: "A1.1.U06.L02"
               title: "A1.1 Checkpoint"
               archetypes: [checkpoint]
@@ -210,6 +234,7 @@ level:
               objectives:
                 - code: "A1.1.U06.L02.O1"
                   can_do_en: "Function across all A1.1 objectives"
+                  skill: "spoken_interaction"
     - code: "A1.2"
       title: "Everyday German"
       tagline: "I can handle familiar everyday situations."
@@ -225,6 +250,7 @@ level:
               objectives:
                 - code: "A1.2.U01.L01.O1"
                   can_do_en: "Say what they like and dislike eating and drinking"
+                  skill: "vocabulary"
             - code: "A1.2.U01.L02"
               title: "Ich möchte einen Kaffee"
               archetypes: [grammar]
@@ -232,6 +258,7 @@ level:
               objectives:
                 - code: "A1.2.U01.L02.O1"
                   can_do_en: "Order food and drink with the right article form"
+                  skill: "grammar"
             - code: "A1.2.U01.L03"
               title: "Den Salat, bitte"
               archetypes: [grammar]
@@ -239,6 +266,7 @@ level:
               objectives:
                 - code: "A1.2.U01.L03.O1"
                   can_do_en: "Refer to specific items; say what they do not eat or want"
+                  skill: "grammar"
             - code: "A1.2.U01.L04"
               title: "Im Café"
               archetypes: [conversation, listening]
@@ -246,6 +274,7 @@ level:
               objectives:
                 - code: "A1.2.U01.L04.O1"
                   can_do_en: "Order, ask for the bill and pay"
+                  skill: "spoken_interaction"
             - code: "A1.2.U01.L05"
               title: "Checkpoint: Bestellen"
               archetypes: [checkpoint]
@@ -253,6 +282,7 @@ level:
               objectives:
                 - code: "A1.2.U01.L05.O1"
                   can_do_en: "Complete a café visit from greeting to payment"
+                  skill: "spoken_interaction"
         - code: "A1.2.U02"
           title: "Einkaufen"
           subtitle_en: "Shopping, quantities and prices"
@@ -264,6 +294,7 @@ level:
               objectives:
                 - code: "A1.2.U02.L01.O1"
                   can_do_en: "Say what they need and how much"
+                  skill: "vocabulary"
             - code: "A1.2.U02.L02"
               title: "Was kostet das?"
               archetypes: [vocabulary]
@@ -271,6 +302,7 @@ level:
               objectives:
                 - code: "A1.2.U02.L02.O1"
                   can_do_en: "Understand and say prices and larger numbers"
+                  skill: "vocabulary"
             - code: "A1.2.U02.L03"
               title: "Beim Bäcker, auf dem Markt"
               archetypes: [conversation]
@@ -278,6 +310,7 @@ level:
               objectives:
                 - code: "A1.2.U02.L03.O1"
                   can_do_en: "Buy things at a counter"
+                  skill: "spoken_interaction"
             - code: "A1.2.U02.L04"
               title: "Checkpoint: Einkaufen"
               archetypes: [checkpoint]
@@ -285,6 +318,7 @@ level:
               objectives:
                 - code: "A1.2.U02.L04.O1"
                   can_do_en: "Shop for a short list in two places"
+                  skill: "spoken_interaction"
         - code: "A1.2.U03"
           title: "Zeit"
           subtitle_en: "Clock, days and word order"
@@ -296,6 +330,7 @@ level:
               objectives:
                 - code: "A1.2.U03.L01.O1"
                   can_do_en: "Tell and understand the time, official and everyday"
+                  skill: "vocabulary"
             - code: "A1.2.U03.L02"
               title: "Wann?"
               archetypes: [vocabulary, grammar]
@@ -303,6 +338,7 @@ level:
               objectives:
                 - code: "A1.2.U03.L02.O1"
                   can_do_en: "Say when things happen and read opening hours"
+                  skill: "vocabulary"
             - code: "A1.2.U03.L03"
               title: "Am Montag arbeite ich"
               archetypes: [grammar]
@@ -310,6 +346,7 @@ level:
               objectives:
                 - code: "A1.2.U03.L03.O1"
                   can_do_en: "Start a sentence with a time phrase and keep the verb second"
+                  skill: "grammar"
             - code: "A1.2.U03.L04"
               title: "Checkpoint: Mein Wochenplan"
               archetypes: [checkpoint]
@@ -317,6 +354,7 @@ level:
               objectives:
                 - code: "A1.2.U03.L04.O1"
                   can_do_en: "Understand and present a weekly schedule"
+                  skill: "spoken_production"
         - code: "A1.2.U04"
           title: "Mein Tag"
           subtitle_en: "Daily routine"
@@ -328,6 +366,7 @@ level:
               objectives:
                 - code: "A1.2.U04.L01.O1"
                   can_do_en: "Describe a daily routine using separable verbs"
+                  skill: "grammar"
             - code: "A1.2.U04.L02"
               title: "Du fährst, er liest"
               archetypes: [grammar]
@@ -335,6 +374,7 @@ level:
               objectives:
                 - code: "A1.2.U04.L02.O1"
                   can_do_en: "Use common vowel-changing verbs about other people"
+                  skill: "grammar"
             - code: "A1.2.U04.L03"
               title: "Immer, oft, manchmal, nie"
               archetypes: [conversation, listening]
@@ -342,6 +382,7 @@ level:
               objectives:
                 - code: "A1.2.U04.L03.O1"
                   can_do_en: "Say how often; understand someone describing a routine"
+                  skill: "spoken_interaction"
             - code: "A1.2.U04.L04"
               title: "Checkpoint: Mein Tag"
               archetypes: [checkpoint]
@@ -349,6 +390,7 @@ level:
               objectives:
                 - code: "A1.2.U04.L04.O1"
                   can_do_en: "Describe a full day in connected sentences"
+                  skill: "spoken_production"
         - code: "A1.2.U05"
           title: "Freizeit"
           subtitle_en: "Free time and plans"
@@ -360,6 +402,7 @@ level:
               objectives:
                 - code: "A1.2.U05.L01.O1"
                   can_do_en: "Talk about hobbies and preferences"
+                  skill: "vocabulary"
             - code: "A1.2.U05.L02"
               title: "Nicht oder kein?"
               archetypes: [grammar]
@@ -367,6 +410,7 @@ level:
               objectives:
                 - code: "A1.2.U05.L02.O1"
                   can_do_en: "Negate sentences correctly"
+                  skill: "grammar"
             - code: "A1.2.U05.L03"
               title: "Kommst du mit?"
               archetypes: [conversation]
@@ -374,6 +418,7 @@ level:
               objectives:
                 - code: "A1.2.U05.L03.O1"
                   can_do_en: "Invite, accept, decline, and fix a time and place"
+                  skill: "spoken_interaction"
             - code: "A1.2.U05.L04"
               title: "Checkpoint: Verabredung"
               archetypes: [checkpoint]
@@ -381,6 +426,7 @@ level:
               objectives:
                 - code: "A1.2.U05.L04.O1"
                   can_do_en: "Arrange a shared activity end to end"
+                  skill: "spoken_interaction"
         - code: "A1.2.U06"
           title: "A1.2 Abschluss"
           subtitle_en: "Part review and checkpoint"
@@ -392,6 +438,7 @@ level:
               objectives:
                 - code: "A1.2.U06.L01.O1"
                   can_do_en: "Understand a menu, a chat thread, a voicemail and an opening-hours sign"
+                  skill: "reading"
             - code: "A1.2.U06.L02"
               title: "A1.2 Checkpoint"
               archetypes: [checkpoint]
@@ -399,6 +446,7 @@ level:
               objectives:
                 - code: "A1.2.U06.L02.O1"
                   can_do_en: "Function across all A1.2 objectives"
+                  skill: "spoken_interaction"
     - code: "A1.3"
       title: "Practical Communication"
       tagline: "I can get things done around town."
@@ -414,6 +462,7 @@ level:
               objectives:
                 - code: "A1.3.U01.L01.O1"
                   can_do_en: "Say what they can and cannot do, and ask others"
+                  skill: "grammar"
             - code: "A1.3.U01.L02"
               title: "Ich will, ich möchte"
               archetypes: [grammar]
@@ -421,6 +470,7 @@ level:
               objectives:
                 - code: "A1.3.U01.L02.O1"
                   can_do_en: "Express plans and wishes, directly and politely"
+                  skill: "grammar"
             - code: "A1.3.U01.L03"
               title: "Ich muss, ich darf"
               archetypes: [grammar, reading]
@@ -428,6 +478,7 @@ level:
               objectives:
                 - code: "A1.3.U01.L03.O1"
                   can_do_en: "Express obligation, permission and prohibition; read common signs"
+                  skill: "grammar"
             - code: "A1.3.U01.L04"
               title: "Checkpoint: Kann ich? Darf ich? Muss ich?"
               archetypes: [checkpoint]
@@ -435,6 +486,7 @@ level:
               objectives:
                 - code: "A1.3.U01.L04.O1"
                   can_do_en: "Use modals to manage a real situation"
+                  skill: "spoken_interaction"
         - code: "A1.3.U02"
           title: "In der Stadt"
           subtitle_en: "Places and directions"
@@ -446,6 +498,7 @@ level:
               objectives:
                 - code: "A1.3.U02.L01.O1"
                   can_do_en: "Ask whether a place is nearby"
+                  skill: "vocabulary"
             - code: "A1.3.U02.L02"
               title: "Wie komme ich zum Bahnhof?"
               archetypes: [conversation, grammar]
@@ -453,6 +506,7 @@ level:
               objectives:
                 - code: "A1.3.U02.L02.O1"
                   can_do_en: "Ask for and follow simple directions"
+                  skill: "listening"
             - code: "A1.3.U02.L03"
               title: "Wo ist das?"
               archetypes: [grammar]
@@ -460,6 +514,7 @@ level:
               objectives:
                 - code: "A1.3.U02.L03.O1"
                   can_do_en: "Say where places and people are"
+                  skill: "grammar"
             - code: "A1.3.U02.L04"
               title: "Checkpoint: Orientierung"
               archetypes: [checkpoint]
@@ -467,6 +522,7 @@ level:
               objectives:
                 - code: "A1.3.U02.L04.O1"
                   can_do_en: "Find and explain the way in an unfamiliar town"
+                  skill: "spoken_interaction"
         - code: "A1.3.U03"
           title: "Unterwegs"
           subtitle_en: "Transport"
@@ -478,6 +534,7 @@ level:
               objectives:
                 - code: "A1.3.U03.L01.O1"
                   can_do_en: "Say how they get somewhere and where they are going"
+                  skill: "vocabulary"
             - code: "A1.3.U03.L02"
               title: "Am Bahnhof"
               archetypes: [listening, conversation]
@@ -485,6 +542,7 @@ level:
               objectives:
                 - code: "A1.3.U03.L02.O1"
                   can_do_en: "Buy a ticket and understand departures and simple announcements"
+                  skill: "listening"
             - code: "A1.3.U03.L03"
               title: "Checkpoint: Eine Fahrt planen"
               archetypes: [checkpoint]
@@ -492,6 +550,7 @@ level:
               objectives:
                 - code: "A1.3.U03.L03.O1"
                   can_do_en: "Plan and carry out a simple journey"
+                  skill: "spoken_interaction"
         - code: "A1.3.U04"
           title: "Wohnen"
           subtitle_en: "Home"
@@ -503,6 +562,7 @@ level:
               objectives:
                 - code: "A1.3.U04.L01.O1"
                   can_do_en: "Describe their home"
+                  skill: "vocabulary"
             - code: "A1.3.U04.L02"
               title: "Wo steht was?"
               archetypes: [grammar]
@@ -510,6 +570,7 @@ level:
               objectives:
                 - code: "A1.3.U04.L02.O1"
                   can_do_en: "Say where things are in a room"
+                  skill: "grammar"
             - code: "A1.3.U04.L03"
               title: "Wohnung gesucht"
               archetypes: [reading, writing]
@@ -517,6 +578,7 @@ level:
               objectives:
                 - code: "A1.3.U04.L03.O1"
                   can_do_en: "Understand a simple housing ad and write a short enquiry"
+                  skill: "reading"
             - code: "A1.3.U04.L04"
               title: "Checkpoint: Wohnen"
               archetypes: [checkpoint]
@@ -524,6 +586,7 @@ level:
               objectives:
                 - code: "A1.3.U04.L04.O1"
                   can_do_en: "Talk about a home and respond to an ad"
+                  skill: "spoken_production"
         - code: "A1.3.U05"
           title: "Termine und Gesundheit"
           subtitle_en: "Appointments and health"
@@ -535,6 +598,7 @@ level:
               objectives:
                 - code: "A1.3.U05.L01.O1"
                   can_do_en: "Make, confirm and move an appointment; say dates"
+                  skill: "spoken_interaction"
             - code: "A1.3.U05.L02"
               title: "Was tut weh?"
               archetypes: [vocabulary]
@@ -542,6 +606,7 @@ level:
               objectives:
                 - code: "A1.3.U05.L02.O1"
                   can_do_en: "Say what hurts and how they feel"
+                  skill: "vocabulary"
             - code: "A1.3.U05.L03"
               title: "Beim Arzt, in der Apotheke"
               archetypes: [conversation, grammar]
@@ -549,6 +614,7 @@ level:
               objectives:
                 - code: "A1.3.U05.L03.O1"
                   can_do_en: "Understand and give simple advice and instructions"
+                  skill: "listening"
             - code: "A1.3.U05.L04"
               title: "Checkpoint: Termin und Arztbesuch"
               archetypes: [checkpoint]
@@ -556,6 +622,7 @@ level:
               objectives:
                 - code: "A1.3.U05.L04.O1"
                   can_do_en: "Get from phone call to pharmacy"
+                  skill: "spoken_interaction"
         - code: "A1.3.U06"
           title: "A1.3 Abschluss"
           subtitle_en: "Part review and checkpoint"
@@ -567,6 +634,7 @@ level:
               objectives:
                 - code: "A1.3.U06.L01.O1"
                   can_do_en: "Understand a town map, a timetable, a housing ad and a practice's voicemail"
+                  skill: "reading"
             - code: "A1.3.U06.L02"
               title: "A1.3 Checkpoint"
               archetypes: [checkpoint]
@@ -574,6 +642,7 @@ level:
               objectives:
                 - code: "A1.3.U06.L02.O1"
                   can_do_en: "Function across all A1.3 objectives"
+                  skill: "spoken_interaction"
     - code: "A1.4"
       title: "Consolidation & Real-World German"
       tagline: "I can talk about what happened and combine everything I know."
@@ -589,6 +658,7 @@ level:
               objectives:
                 - code: "A1.4.U01.L01.O1"
                   can_do_en: "Say where they were and how it was"
+                  skill: "grammar"
             - code: "A1.4.U01.L02"
               title: "Was hast du gemacht?"
               archetypes: [grammar]
@@ -596,6 +666,7 @@ level:
               objectives:
                 - code: "A1.4.U01.L02.O1"
                   can_do_en: "Talk about past activities with regular verbs"
+                  skill: "grammar"
             - code: "A1.4.U01.L03"
               title: "Ich bin nach Berlin gefahren"
               archetypes: [grammar]
@@ -603,6 +674,7 @@ level:
               objectives:
                 - code: "A1.4.U01.L03.O1"
                   can_do_en: "Talk about going places and use common irregular participles"
+                  skill: "grammar"
             - code: "A1.4.U01.L04"
               title: "Mein Wochenende"
               archetypes: [conversation, listening]
@@ -610,6 +682,7 @@ level:
               objectives:
                 - code: "A1.4.U01.L04.O1"
                   can_do_en: "Tell and ask about a weekend in connected sentences"
+                  skill: "spoken_production"
             - code: "A1.4.U01.L05"
               title: "Checkpoint: Letzte Woche"
               archetypes: [checkpoint]
@@ -617,6 +690,7 @@ level:
               objectives:
                 - code: "A1.4.U01.L05.O1"
                   can_do_en: "Recount and ask about recent past events"
+                  skill: "spoken_interaction"
         - code: "A1.4.U02"
           title: "Arbeit und Beruf"
           subtitle_en: "Work"
@@ -628,6 +702,7 @@ level:
               objectives:
                 - code: "A1.4.U02.L01.O1"
                   can_do_en: "Say their job, workplace and how long they have done it"
+                  skill: "spoken_production"
             - code: "A1.4.U02.L02"
               title: "Mein Arbeitstag"
               archetypes: [integrated, grammar]
@@ -635,6 +710,7 @@ level:
               objectives:
                 - code: "A1.4.U02.L02.O1"
                   can_do_en: "Describe a working day and link ideas"
+                  skill: "writing"
             - code: "A1.4.U02.L03"
               title: "Nachrichten schreiben"
               archetypes: [writing]
@@ -642,6 +718,7 @@ level:
               objectives:
                 - code: "A1.4.U02.L03.O1"
                   can_do_en: "Write short informal and formal messages"
+                  skill: "writing"
             - code: "A1.4.U02.L04"
               title: "Checkpoint: Arbeit"
               archetypes: [checkpoint]
@@ -649,6 +726,7 @@ level:
               objectives:
                 - code: "A1.4.U02.L04.O1"
                   can_do_en: "Handle a first day at work in German"
+                  skill: "spoken_interaction"
         - code: "A1.4.U03"
           title: "Kleidung und Wetter"
           subtitle_en: "Clothes and weather"
@@ -660,6 +738,7 @@ level:
               objectives:
                 - code: "A1.4.U03.L01.O1"
                   can_do_en: "Say what they are looking for, ask for a size or colour, give an opinion"
+                  skill: "spoken_interaction"
             - code: "A1.4.U03.L02"
               title: "Wie ist das Wetter?"
               archetypes: [vocabulary]
@@ -667,6 +746,7 @@ level:
               objectives:
                 - code: "A1.4.U03.L02.O1"
                   can_do_en: "Talk about weather and seasons, now and in the past"
+                  skill: "vocabulary"
             - code: "A1.4.U03.L03"
               title: "Checkpoint: Kleidung und Wetter"
               archetypes: [checkpoint]
@@ -674,6 +754,7 @@ level:
               objectives:
                 - code: "A1.4.U03.L03.O1"
                   can_do_en: "Combine shopping and small talk"
+                  skill: "spoken_interaction"
         - code: "A1.4.U04"
           title: "Feste und Einladungen"
           subtitle_en: "Celebrations and social life"
@@ -685,6 +766,7 @@ level:
               objectives:
                 - code: "A1.4.U04.L01.O1"
                   can_do_en: "Invite someone; use me, you, him, her, us as objects"
+                  skill: "grammar"
             - code: "A1.4.U04.L02"
               title: "Zusagen und absagen"
               archetypes: [writing, conversation]
@@ -692,6 +774,7 @@ level:
               objectives:
                 - code: "A1.4.U04.L02.O1"
                   can_do_en: "Accept or decline an invitation with a reason, spoken and written"
+                  skill: "writing"
             - code: "A1.4.U04.L03"
               title: "Small Talk"
               archetypes: [conversation]
@@ -699,6 +782,7 @@ level:
               objectives:
                 - code: "A1.4.U04.L03.O1"
                   can_do_en: "Keep a simple conversation going for 2 minutes"
+                  skill: "spoken_interaction"
             - code: "A1.4.U04.L04"
               title: "Checkpoint: Feiern"
               archetypes: [checkpoint]
@@ -706,6 +790,7 @@ level:
               objectives:
                 - code: "A1.4.U04.L04.O1"
                   can_do_en: "Take part in a social occasion"
+                  skill: "spoken_interaction"
         - code: "A1.4.U05"
           title: "A1 im Einsatz"
           subtitle_en: "A1 in action"
@@ -717,6 +802,7 @@ level:
               objectives:
                 - code: "A1.4.U05.L01.O1"
                   can_do_en: "Get through a chain of service encounters"
+                  skill: "spoken_interaction"
             - code: "A1.4.U05.L02"
               title: "Schilder, Formulare, Aushänge"
               archetypes: [reading]
@@ -724,6 +810,7 @@ level:
               objectives:
                 - code: "A1.4.U05.L02.O1"
                   can_do_en: "Understand signs, notices and a simple official form"
+                  skill: "reading"
             - code: "A1.4.U05.L03"
               title: "Am Telefon und am Schalter"
               archetypes: [listening, conversation]
@@ -731,6 +818,7 @@ level:
               objectives:
                 - code: "A1.4.U05.L03.O1"
                   can_do_en: "Understand voicemail and announcements; manage a counter conversation"
+                  skill: "listening"
             - code: "A1.4.U05.L04"
               title: "Sound Check 4: So klingt dein Deutsch"
               archetypes: [pronunciation]
@@ -738,6 +826,7 @@ level:
               objectives:
                 - code: "A1.4.U05.L04.O1"
                   can_do_en: "Read an 80-word text aloud intelligibly"
+                  skill: "pronunciation"
         - code: "A1.4.U06"
           title: "A1 Abschluss"
           subtitle_en: "Final review and assessment"
@@ -749,6 +838,7 @@ level:
               objectives:
                 - code: "A1.4.U06.L01.O1"
                   can_do_en: "Close their weakest A1 gaps before the final assessment"
+                  skill: "vocabulary"
               notes: "Purpose: Close individual gaps before the assessment Content: A mixed session assembled from the learner's weakest concepts, vocabulary and objectives"
             - code: "A1.4.U06.L02"
               title: "A1 Abschlusstest"
@@ -757,6 +847,7 @@ level:
               objectives:
                 - code: "A1.4.U06.L02.O1"
                   can_do_en: "Perform at A1 in listening, reading, writing and speaking"
+                  skill: "listening"
               notes: "Purpose: Establish whether the learner performs at A1 Content: The final assessment in section 12"
             - code: "A1.4.U06.L03"
               title: "A1 → A2 Readiness"
@@ -765,4 +856,5 @@ level:
               objectives:
                 - code: "A1.4.U06.L03.O1"
                   can_do_en: "Know what to strengthen before A2"
+                  skill: "vocabulary"
               notes: "Purpose: Tell the learner what to strengthen before A2 Content: The readiness profile in section 12"

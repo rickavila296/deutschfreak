@@ -118,3 +118,15 @@ The entry format is in `CLAUDE.md`, under "PROGRESS.md entry".
 - **Checks:** none (decision only); drizzle packages inspected for a `deferrable` constraint option, none found
 - **Status:** passed
 - **Notes:** PLAN-DEC-02 (a skill for every objective) still blocks 2a.4; PLAN-DEC-03 blocks 2b. Proposed Bible edit (local, not applied): mark Schema §12 rows as confirmed by 0005 and replace "that is unverified (DB-OQ-15)" in §9 with the finding.
+
+## 2026-10-16 · Phase 2 · packages/content, packages/validation, docs/decisions · Decision 0006 (PLAN-DEC-02 objective skills)
+
+- **Phase:** 2 Database v1
+- **Module:** packages/content, packages/validation, docs/decisions
+- **Update:** PLAN-DEC-02 decided: every learning objective in a1.yaml carries one skill, and the structure schema requires it
+- **Type:** decision
+- **What was done:** The owner approved PLAN-DEC-02 as drafted. Added `skillSchema` (the eight skills of Schema enum `skill`) and made `skill` required on objectives in the strict structure schema. Assigned one skill to each of the 92 objectives in a1.yaml. Gave the test fixtures a skill and added two tests: an objective with no skill is rejected; a skill outside the eight is rejected. Logged decision 0006.
+- **Files:** packages/validation/src/structure.ts, packages/validation/src/structure.test.ts, packages/content/structure/a1.yaml, docs/decisions/0006-objective-skills.md, PROGRESS.md
+- **Checks:** Red first: with structure.ts and a1.yaml stashed, `pnpm test` failed 2 of 18 validation tests ("accepts a well-formed tree" and "reports the counts and fails a tree that is too small", both because the old strict schema rejects the fixture's `skill` key). The two new tests passed vacuously in that state for the same reason, so the implementation was also broken on purpose: `skill` made optional failed "rejects an objective with no skill" (1 of 18); `skill` as any string failed "rejects a skill outside the eight" (1 of 18). After restoring: `pnpm lint` clean (prettier applied to structure.test.ts); `pnpm typecheck` passed; `pnpm test` 4 files, 28 tests passed (validation 18, content 3, config 7); `pnpm content:check` 4 parts, 24 units, 92 lessons, 92 objectives, valid.
+- **Status:** passed
+- **Notes:** PLAN-DEC-03 still blocks 2b. Owner prerequisites before 2a.1 are still open: a local `.env` with the Neon connection strings, and a Neon dev branch.

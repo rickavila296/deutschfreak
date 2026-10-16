@@ -23,14 +23,14 @@ function tree(): StructureFile {
                   title: 'Lesson one',
                   archetypes: ['conversation'],
                   mastery_task_en: 'Task',
-                  objectives: [{ code: 'A1.1.U01.L01.O1', can_do_en: 'Can do' }],
+                  objectives: [{ code: 'A1.1.U01.L01.O1', can_do_en: 'Can do', skill: 'spoken_interaction' }],
                 },
                 {
                   code: 'A1.1.U01.L02',
                   title: 'Lesson two',
                   archetypes: ['grammar', 'vocabulary'],
                   mastery_task_en: 'Task',
-                  objectives: [{ code: 'A1.1.U01.L02.O1', can_do_en: 'Can do' }],
+                  objectives: [{ code: 'A1.1.U01.L02.O1', can_do_en: 'Can do', skill: 'grammar' }],
                   notes: 'Authoring reference only (TRD-CNT-09)',
                 },
               ],
@@ -107,6 +107,22 @@ describe('structureFileSchema (a1.yaml, TRD-CNT-01, TRD-VAL-02)', () => {
   it('rejects a lesson with no objective', () => {
     const t = tree();
     firstLesson(t).objectives = [];
+    expect(issues(t).length).toBeGreaterThan(0);
+  });
+
+  it('rejects an objective with no skill (PLAN-DEC-02, decision 0006)', () => {
+    const t = tree() as unknown as {
+      level: { parts: { units: { lessons: { objectives: Record<string, unknown>[] }[] }[] }[] };
+    };
+    delete t.level.parts[0]!.units[0]!.lessons[0]!.objectives[0]!.skill;
+    expect(issues(t).length).toBeGreaterThan(0);
+  });
+
+  it('rejects a skill outside the eight (Schema enum skill)', () => {
+    const t = tree() as unknown as {
+      level: { parts: { units: { lessons: { objectives: Record<string, unknown>[] }[] }[] }[] };
+    };
+    t.level.parts[0]!.units[0]!.lessons[0]!.objectives[0]!.skill = 'speaking';
     expect(issues(t).length).toBeGreaterThan(0);
   });
 });

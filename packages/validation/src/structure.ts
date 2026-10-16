@@ -2,7 +2,6 @@ import { z } from 'zod';
 import { levelCodeSchema, lessonCodeSchema, objectiveCodeSchema, partCodeSchema, unitCodeSchema } from './codes.ts';
 
 // Schema for packages/content/structure/a1.yaml (TRD-CNT-01). Strict: unknown fields are rejected (TRD-VAL-02).
-// Learning-objective skills are not part of the file yet (PLAN-DEC-02).
 
 /** The nine lesson archetypes (Schema enum `lesson_archetype`, Spec §3). */
 export const lessonArchetypeSchema = z.enum([
@@ -17,11 +16,24 @@ export const lessonArchetypeSchema = z.enum([
   'checkpoint',
 ]);
 
+/** The eight skills (Schema enum `skill`, PRD FR-054). One per objective (PLAN-DEC-02, decision 0006). */
+export const skillSchema = z.enum([
+  'listening',
+  'reading',
+  'spoken_interaction',
+  'spoken_production',
+  'writing',
+  'vocabulary',
+  'grammar',
+  'pronunciation',
+]);
+
 const text = z.string().trim().min(1);
 
 export const structureObjectiveSchema = z.strictObject({
   code: objectiveCodeSchema,
   can_do_en: text,
+  skill: skillSchema,
 });
 
 export const structureLessonSchema = z.strictObject({
