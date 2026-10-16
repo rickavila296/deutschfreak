@@ -30,6 +30,11 @@ export const skillSchema = z.enum([
 
 const text = z.string().trim().min(1);
 
+/** Slug form (TRD-CNT-05, DB-SLUG-02): lower-case ASCII letters and digits in hyphen-separated words, written literally. */
+export const slugSchema = z
+  .string()
+  .regex(/^[a-z0-9]+(-[a-z0-9]+)*$/, 'Expected a lower-case hyphenated slug like hallo-und-tschuess');
+
 export const structureObjectiveSchema = z.strictObject({
   code: objectiveCodeSchema,
   can_do_en: text,
@@ -39,6 +44,7 @@ export const structureObjectiveSchema = z.strictObject({
 export const structureLessonSchema = z.strictObject({
   code: lessonCodeSchema,
   title: text,
+  slug: slugSchema,
   /** Primary type first (Schema §8.4). */
   archetypes: z.array(lessonArchetypeSchema).min(1),
   mastery_task_en: text,
@@ -50,6 +56,7 @@ export const structureLessonSchema = z.strictObject({
 export const structureUnitSchema = z.strictObject({
   code: unitCodeSchema,
   title: text,
+  slug: slugSchema,
   subtitle_en: text,
   lessons: z.array(structureLessonSchema).min(1),
 });
@@ -73,6 +80,12 @@ export const structureFileSchema = z
   })
   .superRefine((file, ctx) => {
     const seen = new Set<string>();
+    // Slugs are unique within their table (DB-UQ-02), so units and lessons are checked separately.
+    const slugs = { unit: new Set<string>(), lesson: new Set<string>() };
+    const checkSlug = (kind: keyof typeof slugs, slug: string, path: (string | number)[]) => {
+      if (slugs[kind].has(slug)) ctx.addIssue({ code: 'custom', message: `Duplicate ${kind} slug ${slug}`, path });
+      slugs[kind].add(slug);
+    };
     const check = (code: string, parent: string | null, path: (string | number)[]) => {
       if (seen.has(code)) ctx.addIssue({ code: 'custom', message: `Duplicate code ${code}`, path });
       seen.add(code);
@@ -88,9 +101,11 @@ export const structureFileSchema = z
       part.units.forEach((unit, u) => {
         const up = [...pp, 'units', u];
         check(unit.code, part.code, [...up, 'code']);
+        checkSlug('unit', unit.slug, [...up, 'slug']);
         unit.lessons.forEach((lesson, l) => {
           const lp = [...up, 'lessons', l];
           check(lesson.code, unit.code, [...lp, 'code']);
+          checkSlug('lesson', lesson.slug, [...lp, 'slug']);
           lesson.objectives.forEach((objective, o) => {
             check(objective.code, lesson.code, [...lp, 'objectives', o, 'code']);
           });

@@ -12,9 +12,11 @@
     "test:db": "vitest run --config vitest.db.config.ts",
     "check-connection": "node scripts/check-connection.ts",
     "generate": "drizzle-kit generate",
-    "migrate": "drizzle-kit migrate"
+    "migrate": "drizzle-kit migrate",
+    "seed": "node scripts/seed.ts"
   },
   "dependencies": {
+    "@deutschfreak/content": "workspace:*",
     "@deutschfreak/validation": "workspace:*",
     "drizzle-orm": "^0.45.4",
     "pg": "^8.23.1"

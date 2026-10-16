@@ -13,10 +13,12 @@ level:
       units:
         - code: "A1.1.U01"
           title: "Hallo!"
+          slug: "hallo"
           subtitle_en: "First contact"
           lessons:
             - code: "A1.1.U01.L01"
               title: "Hallo und Tschüss"
+              slug: "hallo-und-tschuess"
               archetypes: [conversation]
               mastery_task_en: "Hear or see 6 situations and say the fitting greeting"
               objectives:
@@ -25,6 +27,7 @@ level:
                   skill: "spoken_interaction"
             - code: "A1.1.U01.L02"
               title: "Wie heißt du?"
+              slug: "wie-heisst-du"
               archetypes: [conversation]
               mastery_task_en: "Complete two exchanges aloud, one informal and one formal"
               objectives:
@@ -33,6 +36,7 @@ level:
                   skill: "spoken_interaction"
             - code: "A1.1.U01.L03"
               title: "Das Alphabet"
+              slug: "das-alphabet"
               archetypes: [pronunciation]
               mastery_task_en: "Write 5 names from spelling audio; spell own name"
               objectives:
@@ -41,6 +45,7 @@ level:
                   skill: "pronunciation"
             - code: "A1.1.U01.L04"
               title: "Wie geht's?"
+              slug: "wie-gehts"
               archetypes: [conversation]
               mastery_task_en: "Complete a greeting dialogue aloud in both registers"
               objectives:
@@ -49,6 +54,7 @@ level:
                   skill: "spoken_interaction"
             - code: "A1.1.U01.L05"
               title: "Checkpoint: Erste Begegnung"
+              slug: "checkpoint-erste-begegnung"
               archetypes: [checkpoint]
               mastery_task_en: "Branching roleplay with an audio partner: greet, names, spell, how are you, goodbye"
               objectives:
@@ -57,10 +63,12 @@ level:
                   skill: "spoken_interaction"
         - code: "A1.1.U02"
           title: "Woher kommst du?"
+          slug: "woher-kommst-du"
           subtitle_en: "Origin, home, languages"
           lessons:
             - code: "A1.1.U02.L01"
               title: "Ich komme aus…"
+              slug: "ich-komme-aus"
               archetypes: [conversation]
               mastery_task_en: "Answer 4 audio questions about themselves"
               objectives:
@@ -69,6 +77,7 @@ level:
                   skill: "spoken_interaction"
             - code: "A1.1.U02.L02"
               title: "Ich, du, er, sie"
+              slug: "ich-du-er-sie"
               archetypes: [grammar]
               mastery_task_en: "Build 8 sentences about three people from profile cards"
               objectives:
@@ -77,6 +86,7 @@ level:
                   skill: "grammar"
             - code: "A1.1.U02.L03"
               title: "Fragen stellen"
+              slug: "fragen-stellen"
               archetypes: [grammar]
               mastery_task_en: "Order 8 scrambled sentences; ask an audio persona 4 questions"
               objectives:
@@ -85,6 +95,7 @@ level:
                   skill: "grammar"
             - code: "A1.1.U02.L04"
               title: 'Sprachen und „Wie bitte?"'
+              slug: "sprachen-und-wie-bitte"
               archetypes: [conversation]
               mastery_task_en: "React to 5 too-fast audio lines with a fitting repair phrase"
               objectives:
@@ -93,6 +104,7 @@ level:
                   skill: "spoken_interaction"
             - code: "A1.1.U02.L05"
               title: "Checkpoint: Sich vorstellen"
+              slug: "checkpoint-sich-vorstellen"
               archetypes: [checkpoint]
               mastery_task_en: "30-second spoken introduction and a 4-sentence written one"
               objectives:
@@ -101,10 +113,12 @@ level:
                   skill: "spoken_production"
         - code: "A1.1.U03"
           title: "Zahlen und Daten"
+          slug: "zahlen-und-daten"
           subtitle_en: "Numbers and personal details"
           lessons:
             - code: "A1.1.U03.L01"
               title: "Null bis zwanzig"
+              slug: "null-bis-zwanzig"
               archetypes: [vocabulary]
               mastery_task_en: "Write down 5 phone numbers from audio; say their own"
               objectives:
@@ -113,6 +127,7 @@ level:
                   skill: "vocabulary"
             - code: "A1.1.U03.L02"
               title: "Einundzwanzig"
+              slug: "einundzwanzig"
               archetypes: [vocabulary]
               mastery_task_en: "Write 10 heard numbers; say 5 ages"
               objectives:
@@ -121,6 +136,7 @@ level:
                   skill: "vocabulary"
             - code: "A1.1.U03.L03"
               title: "Ich bin, wir sind"
+              slug: "ich-bin-wir-sind"
               archetypes: [grammar]
               mastery_task_en: "Produce 8 sentences about themselves and a group"
               objectives:
@@ -129,6 +145,7 @@ level:
                   skill: "grammar"
             - code: "A1.1.U03.L04"
               title: "Ein Formular ausfüllen"
+              slug: "ein-formular-ausfuellen"
               archetypes: [reading, writing]
               mastery_task_en: "Fill a form for themselves, and a second from dictated details"
               objectives:
@@ -137,6 +154,7 @@ level:
                   skill: "writing"
             - code: "A1.1.U03.L05"
               title: "Checkpoint: Persönliche Daten"
+              slug: "checkpoint-persoenliche-daten"
               archetypes: [checkpoint]
               mastery_task_en: "Roleplay: give name with spelling, number, address, age; note the other person's details"
               objectives:
@@ -145,10 +163,12 @@ level:
                   skill: "spoken_interaction"
         - code: "A1.1.U04"
           title: "Dinge"
+          slug: "dinge"
           subtitle_en: "Things, gender, articles"
           lessons:
             - code: "A1.1.U04.L01"
               title: "Was ist das?"
+              slug: "was-ist-das"
               archetypes: [grammar, vocabulary]
               mastery_task_en: "Choose the gender of 14 nouns; name 8 pictured objects aloud"
               objectives:
@@ -157,6 +177,7 @@ level:
                   skill: "vocabulary"
             - code: "A1.1.U04.L02"
               title: "Ein, eine, kein"
+              slug: "ein-eine-kein"
               archetypes: [grammar]
               mastery_task_en: "Correct 6 false statements aloud"
               objectives:
@@ -165,6 +186,7 @@ level:
                   skill: "grammar"
             - code: "A1.1.U04.L03"
               title: "Eins, zwei, viele"
+              slug: "eins-zwei-viele"
               archetypes: [grammar, vocabulary]
               mastery_task_en: "Recall the plural of 14 known nouns; count objects in a picture"
               objectives:
@@ -173,6 +195,7 @@ level:
                   skill: "grammar"
             - code: "A1.1.U04.L04"
               title: "Checkpoint: Mein Schreibtisch"
+              slug: "checkpoint-mein-schreibtisch"
               archetypes: [checkpoint]
               mastery_task_en: "Describe a desk photo in 5 sentences, spoken and written"
               objectives:
@@ -181,10 +204,12 @@ level:
                   skill: "spoken_production"
         - code: "A1.1.U05"
           title: "Familie"
+          slug: "familie"
           subtitle_en: "Family and people"
           lessons:
             - code: "A1.1.U05.L01"
               title: "Meine Familie"
+              slug: "meine-familie"
               archetypes: [vocabulary]
               mastery_task_en: "From audio, pick the right person in a family tree; introduce 3 relatives"
               objectives:
@@ -193,6 +218,7 @@ level:
                   skill: "vocabulary"
             - code: "A1.1.U05.L02"
               title: "Ich habe…"
+              slug: "ich-habe"
               archetypes: [grammar]
               mastery_task_en: "Question-and-answer about family with an audio persona"
               objectives:
@@ -201,6 +227,7 @@ level:
                   skill: "grammar"
             - code: "A1.1.U05.L03"
               title: "Wie ist er? Wie ist sie?"
+              slug: "wie-ist-er-wie-ist-sie"
               archetypes: [grammar, conversation]
               mastery_task_en: "Describe two people from profiles; choose the possessive in 8 items"
               objectives:
@@ -209,6 +236,7 @@ level:
                   skill: "grammar"
             - code: "A1.1.U05.L04"
               title: "Checkpoint: Meine Familie"
+              slug: "checkpoint-meine-familie"
               archetypes: [checkpoint]
               mastery_task_en: "Write 5–6 sentences; speak for 30–40 seconds"
               objectives:
@@ -217,10 +245,12 @@ level:
                   skill: "spoken_production"
         - code: "A1.1.U06"
           title: "A1.1 Abschluss"
+          slug: "a1-1-abschluss"
           subtitle_en: "Part review and checkpoint"
           lessons:
             - code: "A1.1.U06.L01"
               title: "Drei Leute, drei Geschichten (Sound Check 1)"
+              slug: "drei-leute-drei-geschichten"
               archetypes: [integrated]
               mastery_task_en: "Comprehension questions; 12 minimal-pair items at 80% or better"
               objectives:
@@ -229,6 +259,7 @@ level:
                   skill: "reading"
             - code: "A1.1.U06.L02"
               title: "A1.1 Checkpoint"
+              slug: "a1-1-checkpoint"
               archetypes: [checkpoint]
               mastery_task_en: "Meet a new neighbour (roleplay); complete the form; write 6 sentences on self and family; 25 mixed vocabulary and grammar items"
               objectives:
@@ -241,10 +272,12 @@ level:
       units:
         - code: "A1.2.U01"
           title: "Essen und Trinken"
+          slug: "essen-und-trinken"
           subtitle_en: "Food, drink and the accusative"
           lessons:
             - code: "A1.2.U01.L01"
               title: "Was isst du gern?"
+              slug: "was-isst-du-gern"
               archetypes: [vocabulary]
               mastery_task_en: "Say 8 likes and dislikes; note who likes what from audio"
               objectives:
@@ -253,6 +286,7 @@ level:
                   skill: "vocabulary"
             - code: "A1.2.U01.L02"
               title: "Ich möchte einen Kaffee"
+              slug: "ich-moechte-einen-kaffee"
               archetypes: [grammar]
               mastery_task_en: "Order 6 menu items aloud with the correct article"
               objectives:
@@ -261,6 +295,7 @@ level:
                   skill: "grammar"
             - code: "A1.2.U01.L03"
               title: "Den Salat, bitte"
+              slug: "den-salat-bitte"
               archetypes: [grammar]
               mastery_task_en: "Choose nominative or accusative in 12 items; name 4 things they do not eat"
               objectives:
@@ -269,6 +304,7 @@ level:
                   skill: "grammar"
             - code: "A1.2.U01.L04"
               title: "Im Café"
+              slug: "im-cafe"
               archetypes: [conversation, listening]
               mastery_task_en: "Branching café roleplay; note 3 orders and totals from audio"
               objectives:
@@ -277,6 +313,7 @@ level:
                   skill: "spoken_interaction"
             - code: "A1.2.U01.L05"
               title: "Checkpoint: Bestellen"
+              slug: "checkpoint-bestellen"
               archetypes: [checkpoint]
               mastery_task_en: "Read a menu, order for two people, query the bill, pay"
               objectives:
@@ -285,10 +322,12 @@ level:
                   skill: "spoken_interaction"
         - code: "A1.2.U02"
           title: "Einkaufen"
+          slug: "einkaufen"
           subtitle_en: "Shopping, quantities and prices"
           lessons:
             - code: "A1.2.U02.L01"
               title: "Im Supermarkt"
+              slug: "im-supermarkt"
               archetypes: [vocabulary]
               mastery_task_en: "Write a shopping list from audio; say what a pictured recipe needs"
               objectives:
@@ -297,6 +336,7 @@ level:
                   skill: "vocabulary"
             - code: "A1.2.U02.L02"
               title: "Was kostet das?"
+              slug: "was-kostet-das"
               archetypes: [vocabulary]
               mastery_task_en: "Write 10 dictated prices; ask the price of 5 items"
               objectives:
@@ -305,6 +345,7 @@ level:
                   skill: "vocabulary"
             - code: "A1.2.U02.L03"
               title: "Beim Bäcker, auf dem Markt"
+              slug: "beim-baecker-auf-dem-markt"
               archetypes: [conversation]
               mastery_task_en: "Counter roleplay; catch the total from audio"
               objectives:
@@ -313,6 +354,7 @@ level:
                   skill: "spoken_interaction"
             - code: "A1.2.U02.L04"
               title: "Checkpoint: Einkaufen"
+              slug: "checkpoint-einkaufen"
               archetypes: [checkpoint]
               mastery_task_en: "Buy 5 listed items across bakery and market; report what it cost"
               objectives:
@@ -321,10 +363,12 @@ level:
                   skill: "spoken_interaction"
         - code: "A1.2.U03"
           title: "Zeit"
+          slug: "zeit"
           subtitle_en: "Clock, days and word order"
           lessons:
             - code: "A1.2.U03.L01"
               title: "Wie spät ist es?"
+              slug: "wie-spaet-ist-es"
               archetypes: [vocabulary]
               mastery_task_en: "Set 10 clocks from audio; say 6 times both ways"
               objectives:
@@ -333,6 +377,7 @@ level:
                   skill: "vocabulary"
             - code: "A1.2.U03.L02"
               title: "Wann?"
+              slug: "wann"
               archetypes: [vocabulary, grammar]
               mastery_task_en: "Answer questions on an opening-hours sign; take notes on a spoken schedule"
               objectives:
@@ -341,6 +386,7 @@ level:
                   skill: "vocabulary"
             - code: "A1.2.U03.L03"
               title: "Am Montag arbeite ich"
+              slug: "am-montag-arbeite-ich"
               archetypes: [grammar]
               mastery_task_en: "Reorder 8 sentences; retell a 5-item weekly plan, each sentence starting with the time"
               objectives:
@@ -349,6 +395,7 @@ level:
                   skill: "grammar"
             - code: "A1.2.U03.L04"
               title: "Checkpoint: Mein Wochenplan"
+              slug: "checkpoint-mein-wochenplan"
               archetypes: [checkpoint]
               mastery_task_en: "Complete a calendar from audio; write and say their own week"
               objectives:
@@ -357,10 +404,12 @@ level:
                   skill: "spoken_production"
         - code: "A1.2.U04"
           title: "Mein Tag"
+          slug: "mein-tag"
           subtitle_en: "Daily routine"
           lessons:
             - code: "A1.2.U04.L01"
               title: "Ich stehe um sieben auf"
+              slug: "ich-stehe-um-sieben-auf"
               archetypes: [grammar, vocabulary]
               mastery_task_en: "Describe a 6-picture day in 6 sentences"
               objectives:
@@ -369,6 +418,7 @@ level:
                   skill: "grammar"
             - code: "A1.2.U04.L02"
               title: "Du fährst, er liest"
+              slug: "du-faehrst-er-liest"
               archetypes: [grammar]
               mastery_task_en: "Shift 10 sentences from ich to er/sie; describe a friend's day"
               objectives:
@@ -377,6 +427,7 @@ level:
                   skill: "grammar"
             - code: "A1.2.U04.L03"
               title: "Immer, oft, manchmal, nie"
+              slug: "immer-oft-manchmal-nie"
               archetypes: [conversation, listening]
               mastery_task_en: "Interview an audio persona with 5 questions; true/false on the passage"
               objectives:
@@ -385,6 +436,7 @@ level:
                   skill: "spoken_interaction"
             - code: "A1.2.U04.L04"
               title: "Checkpoint: Mein Tag"
+              slug: "checkpoint-mein-tag"
               archetypes: [checkpoint]
               mastery_task_en: "Write 8 sentences on their day; speak for 45 seconds"
               objectives:
@@ -393,10 +445,12 @@ level:
                   skill: "spoken_production"
         - code: "A1.2.U05"
           title: "Freizeit"
+          slug: "freizeit"
           subtitle_en: "Free time and plans"
           lessons:
             - code: "A1.2.U05.L01"
               title: "Was machst du gern?"
+              slug: "was-machst-du-gern"
               archetypes: [vocabulary]
               mastery_task_en: "Rank 5 activities aloud with gern, lieber, am liebsten"
               objectives:
@@ -405,6 +459,7 @@ level:
                   skill: "vocabulary"
             - code: "A1.2.U05.L02"
               title: "Nicht oder kein?"
+              slug: "nicht-oder-kein"
               archetypes: [grammar]
               mastery_task_en: "Negate 12 sentences; answer negative questions with doch or nein"
               objectives:
@@ -413,6 +468,7 @@ level:
                   skill: "grammar"
             - code: "A1.2.U05.L03"
               title: "Kommst du mit?"
+              slug: "kommst-du-mit"
               archetypes: [conversation]
               mastery_task_en: "Arrange a meeting in a chat thread and then aloud"
               objectives:
@@ -421,6 +477,7 @@ level:
                   skill: "spoken_interaction"
             - code: "A1.2.U05.L04"
               title: "Checkpoint: Verabredung"
+              slug: "checkpoint-verabredung"
               archetypes: [checkpoint]
               mastery_task_en: "Suggest, negotiate a time, confirm; write a 3-line confirmation message"
               objectives:
@@ -429,10 +486,12 @@ level:
                   skill: "spoken_interaction"
         - code: "A1.2.U06"
           title: "A1.2 Abschluss"
+          slug: "a1-2-abschluss"
           subtitle_en: "Part review and checkpoint"
           lessons:
             - code: "A1.2.U06.L01"
               title: "Alltag lesen und hören (Sound Check 2)"
+              slug: "alltag-lesen-und-hoeren"
               archetypes: [integrated]
               mastery_task_en: "Comprehension questions; 12 discrimination items at 80% or better"
               objectives:
@@ -441,6 +500,7 @@ level:
                   skill: "reading"
             - code: "A1.2.U06.L02"
               title: "A1.2 Checkpoint"
+              slug: "a1-2-checkpoint"
               archetypes: [checkpoint]
               mastery_task_en: "One Saturday: plan with a friend (chat), buy at the market, order in a café (both spoken), write 8 sentences titled Mein Samstag"
               objectives:
@@ -453,10 +513,12 @@ level:
       units:
         - code: "A1.3.U01"
           title: "Können, wollen, müssen"
+          slug: "koennen-wollen-muessen"
           subtitle_en: "Modal verbs"
           lessons:
             - code: "A1.3.U01.L01"
               title: "Ich kann…"
+              slug: "ich-kann"
               archetypes: [grammar]
               mastery_task_en: "Say 5 abilities; ask an audio persona 4 questions"
               objectives:
@@ -465,6 +527,7 @@ level:
                   skill: "grammar"
             - code: "A1.3.U01.L02"
               title: "Ich will, ich möchte"
+              slug: "ich-will-ich-moechte"
               archetypes: [grammar]
               mastery_task_en: "Choose will or möchte for 8 contexts; say 3 plans"
               objectives:
@@ -473,6 +536,7 @@ level:
                   skill: "grammar"
             - code: "A1.3.U01.L03"
               title: "Ich muss, ich darf"
+              slug: "ich-muss-ich-darf"
               archetypes: [grammar, reading]
               mastery_task_en: "Match 8 signs to meanings; state the rules for 4 places"
               objectives:
@@ -481,6 +545,7 @@ level:
                   skill: "grammar"
             - code: "A1.3.U01.L04"
               title: "Checkpoint: Kann ich? Darf ich? Muss ich?"
+              slug: "checkpoint-kann-ich-darf-ich-muss-ich"
               archetypes: [checkpoint]
               mastery_task_en: "Understand the rules; ask 3 permission questions; write 5 sentences on a week's obligations and plans"
               objectives:
@@ -489,10 +554,12 @@ level:
                   skill: "spoken_interaction"
         - code: "A1.3.U02"
           title: "In der Stadt"
+          slug: "in-der-stadt"
           subtitle_en: "Places and directions"
           lessons:
             - code: "A1.3.U02.L01"
               title: "Gibt es hier…?"
+              slug: "gibt-es-hier"
               archetypes: [vocabulary, grammar]
               mastery_task_en: "Ask about 6 places on a map; mark what exists from audio"
               objectives:
@@ -501,6 +568,7 @@ level:
                   skill: "vocabulary"
             - code: "A1.3.U02.L02"
               title: "Wie komme ich zum Bahnhof?"
+              slug: "wie-komme-ich-zum-bahnhof"
               archetypes: [conversation, grammar]
               mastery_task_en: "Trace 3 routes on a map from audio; give one route"
               objectives:
@@ -509,6 +577,7 @@ level:
                   skill: "listening"
             - code: "A1.3.U02.L03"
               title: "Wo ist das?"
+              slug: "wo-ist-das"
               archetypes: [grammar]
               mastery_task_en: "Describe 6 locations on a map; fill 10 preposition gaps"
               objectives:
@@ -517,6 +586,7 @@ level:
                   skill: "grammar"
             - code: "A1.3.U02.L04"
               title: "Checkpoint: Orientierung"
+              slug: "checkpoint-orientierung"
               archetypes: [checkpoint]
               mastery_task_en: "Ask the way to 2 places, follow both, then direct someone else"
               objectives:
@@ -525,10 +595,12 @@ level:
                   skill: "spoken_interaction"
         - code: "A1.3.U03"
           title: "Unterwegs"
+          slug: "unterwegs"
           subtitle_en: "Transport"
           lessons:
             - code: "A1.3.U03.L01"
               title: "Mit dem Bus oder mit der Bahn?"
+              slug: "mit-dem-bus-oder-mit-der-bahn"
               archetypes: [vocabulary, grammar]
               mastery_task_en: "Describe their commute; match 4 speakers to transport"
               objectives:
@@ -537,6 +609,7 @@ level:
                   skill: "vocabulary"
             - code: "A1.3.U03.L02"
               title: "Am Bahnhof"
+              slug: "am-bahnhof"
               archetypes: [listening, conversation]
               mastery_task_en: "Extract time, platform and delay from 5 announcements; ticket roleplay"
               objectives:
@@ -545,6 +618,7 @@ level:
                   skill: "listening"
             - code: "A1.3.U03.L03"
               title: "Checkpoint: Eine Fahrt planen"
+              slug: "checkpoint-eine-fahrt-planen"
               archetypes: [checkpoint]
               mastery_task_en: "Read a timetable, choose a connection, buy the ticket, tell a friend when they arrive"
               objectives:
@@ -553,10 +627,12 @@ level:
                   skill: "spoken_interaction"
         - code: "A1.3.U04"
           title: "Wohnen"
+          slug: "wohnen"
           subtitle_en: "Home"
           lessons:
             - code: "A1.3.U04.L01"
               title: "Meine Wohnung"
+              slug: "meine-wohnung"
               archetypes: [vocabulary]
               mastery_task_en: "Describe a floor plan in 6 sentences; match a description to a plan"
               objectives:
@@ -565,6 +641,7 @@ level:
                   skill: "vocabulary"
             - code: "A1.3.U04.L02"
               title: "Wo steht was?"
+              slug: "wo-steht-was"
               archetypes: [grammar]
               mastery_task_en: "Describe a room picture; spot 5 differences from audio"
               objectives:
@@ -573,6 +650,7 @@ level:
                   skill: "grammar"
             - code: "A1.3.U04.L03"
               title: "Wohnung gesucht"
+              slug: "wohnung-gesucht"
               archetypes: [reading, writing]
               mastery_task_en: "Answer questions on 3 ads; write a 4-sentence enquiry"
               objectives:
@@ -581,6 +659,7 @@ level:
                   skill: "reading"
             - code: "A1.3.U04.L04"
               title: "Checkpoint: Wohnen"
+              slug: "checkpoint-wohnen"
               archetypes: [checkpoint]
               mastery_task_en: "Describe their flat; choose the best of 3 ads for a brief; confirm the viewing in writing"
               objectives:
@@ -589,10 +668,12 @@ level:
                   skill: "spoken_production"
         - code: "A1.3.U05"
           title: "Termine und Gesundheit"
+          slug: "termine-und-gesundheit"
           subtitle_en: "Appointments and health"
           lessons:
             - code: "A1.3.U05.L01"
               title: "Einen Termin machen"
+              slug: "einen-termin-machen"
               archetypes: [conversation, vocabulary]
               mastery_task_en: "Phone roleplay to book an appointment; write 8 dictated dates"
               objectives:
@@ -601,6 +682,7 @@ level:
                   skill: "spoken_interaction"
             - code: "A1.3.U05.L02"
               title: "Was tut weh?"
+              slug: "was-tut-weh"
               archetypes: [vocabulary]
               mastery_task_en: "Name symptoms for 6 pictures; note who has what from audio"
               objectives:
@@ -609,6 +691,7 @@ level:
                   skill: "vocabulary"
             - code: "A1.3.U05.L03"
               title: "Beim Arzt, in der Apotheke"
+              slug: "beim-arzt-in-der-apotheke"
               archetypes: [conversation, grammar]
               mastery_task_en: "Understand 4 recorded instructions; advise a sick friend in 4 sentences"
               objectives:
@@ -617,6 +700,7 @@ level:
                   skill: "listening"
             - code: "A1.3.U05.L04"
               title: "Checkpoint: Termin und Arztbesuch"
+              slug: "checkpoint-termin-und-arztbesuch"
               archetypes: [checkpoint]
               mastery_task_en: "Book by phone, describe symptoms, understand the instructions, write a 3-line message saying they are ill"
               objectives:
@@ -625,10 +709,12 @@ level:
                   skill: "spoken_interaction"
         - code: "A1.3.U06"
           title: "A1.3 Abschluss"
+          slug: "a1-3-abschluss"
           subtitle_en: "Part review and checkpoint"
           lessons:
             - code: "A1.3.U06.L01"
               title: "Neu in der Stadt (Sound Check 3)"
+              slug: "neu-in-der-stadt"
               archetypes: [integrated]
               mastery_task_en: "Comprehension questions; 12 discrimination and repetition items"
               objectives:
@@ -637,6 +723,7 @@ level:
                   skill: "reading"
             - code: "A1.3.U06.L02"
               title: "A1.3 Checkpoint"
+              slug: "a1-3-checkpoint"
               archetypes: [checkpoint]
               mastery_task_en: "New in town: ask the way, buy a ticket, write an enquiry about a flat, phone for a doctor's appointment"
               objectives:
@@ -649,10 +736,12 @@ level:
       units:
         - code: "A1.4.U01"
           title: "Gestern"
+          slug: "gestern"
           subtitle_en: "Talking about the past"
           lessons:
             - code: "A1.4.U01.L01"
               title: "Wie war's?"
+              slug: "wie-wars"
               archetypes: [grammar]
               mastery_task_en: "Answer 5 questions about last week"
               objectives:
@@ -661,6 +750,7 @@ level:
                   skill: "grammar"
             - code: "A1.4.U01.L02"
               title: "Was hast du gemacht?"
+              slug: "was-hast-du-gemacht"
               archetypes: [grammar]
               mastery_task_en: "Convert 8 present sentences to the past; say 4 things they did yesterday"
               objectives:
@@ -669,6 +759,7 @@ level:
                   skill: "grammar"
             - code: "A1.4.U01.L03"
               title: "Ich bin nach Berlin gefahren"
+              slug: "ich-bin-nach-berlin-gefahren"
               archetypes: [grammar]
               mastery_task_en: "Choose haben or sein in 12 items; recall 12 participles"
               objectives:
@@ -677,6 +768,7 @@ level:
                   skill: "grammar"
             - code: "A1.4.U01.L04"
               title: "Mein Wochenende"
+              slug: "mein-wochenende"
               archetypes: [conversation, listening]
               mastery_task_en: "45-second spoken account; order events in 2 recorded stories"
               objectives:
@@ -685,6 +777,7 @@ level:
                   skill: "spoken_production"
             - code: "A1.4.U01.L05"
               title: "Checkpoint: Letzte Woche"
+              slug: "checkpoint-letzte-woche"
               archetypes: [checkpoint]
               mastery_task_en: "Comprehension; interview an audio persona; write 8 sentences on last weekend"
               objectives:
@@ -693,10 +786,12 @@ level:
                   skill: "spoken_interaction"
         - code: "A1.4.U02"
           title: "Arbeit und Beruf"
+          slug: "arbeit-und-beruf"
           subtitle_en: "Work"
           lessons:
             - code: "A1.4.U02.L01"
               title: "Was machst du beruflich?"
+              slug: "was-machst-du-beruflich"
               archetypes: [vocabulary, conversation]
               mastery_task_en: "Present themselves professionally in 5 sentences; match 5 speakers to jobs"
               objectives:
@@ -705,6 +800,7 @@ level:
                   skill: "spoken_production"
             - code: "A1.4.U02.L02"
               title: "Mein Arbeitstag"
+              slug: "mein-arbeitstag"
               archetypes: [integrated, grammar]
               mastery_task_en: "Join 8 sentence pairs; write 6 sentences with 3 connectors"
               objectives:
@@ -713,6 +809,7 @@ level:
                   skill: "writing"
             - code: "A1.4.U02.L03"
               title: "Nachrichten schreiben"
+              slug: "nachrichten-schreiben"
               archetypes: [writing]
               mastery_task_en: "Write to a friend (running late) and to a manager or teacher (ill)"
               objectives:
@@ -721,6 +818,7 @@ level:
                   skill: "writing"
             - code: "A1.4.U02.L04"
               title: "Checkpoint: Arbeit"
+              slug: "checkpoint-arbeit"
               archetypes: [checkpoint]
               mastery_task_en: "Introduce themselves to a colleague; note the schedule; send a formal message moving a meeting"
               objectives:
@@ -729,10 +827,12 @@ level:
                   skill: "spoken_interaction"
         - code: "A1.4.U03"
           title: "Kleidung und Wetter"
+          slug: "kleidung-und-wetter"
           subtitle_en: "Clothes and weather"
           lessons:
             - code: "A1.4.U03.L01"
               title: "Kleidung und Farben"
+              slug: "kleidung-und-farben"
               archetypes: [vocabulary, conversation]
               mastery_task_en: "Clothes-shop roleplay; identify 4 people from descriptions of what they wear"
               objectives:
@@ -741,6 +841,7 @@ level:
                   skill: "spoken_interaction"
             - code: "A1.4.U03.L02"
               title: "Wie ist das Wetter?"
+              slug: "wie-ist-das-wetter"
               archetypes: [vocabulary]
               mastery_task_en: "Understand a short report for 3 cities; hold a 4-turn weather exchange"
               objectives:
@@ -749,6 +850,7 @@ level:
                   skill: "vocabulary"
             - code: "A1.4.U03.L03"
               title: "Checkpoint: Kleidung und Wetter"
+              slug: "checkpoint-kleidung-und-wetter"
               archetypes: [checkpoint]
               mastery_task_en: "Buy a jacket for the forecast weather; write 5 sentences on yesterday's weather and what they wore"
               objectives:
@@ -757,10 +859,12 @@ level:
                   skill: "spoken_interaction"
         - code: "A1.4.U04"
           title: "Feste und Einladungen"
+          slug: "feste-und-einladungen"
           subtitle_en: "Celebrations and social life"
           lessons:
             - code: "A1.4.U04.L01"
               title: "Ich lade dich ein"
+              slug: "ich-lade-dich-ein"
               archetypes: [grammar, conversation]
               mastery_task_en: "Replace nouns with pronouns in 10 items; invite someone aloud"
               objectives:
@@ -769,6 +873,7 @@ level:
                   skill: "grammar"
             - code: "A1.4.U04.L02"
               title: "Zusagen und absagen"
+              slug: "zusagen-und-absagen"
               archetypes: [writing, conversation]
               mastery_task_en: "Write one acceptance and one refusal to the same invitation"
               objectives:
@@ -777,6 +882,7 @@ level:
                   skill: "writing"
             - code: "A1.4.U04.L03"
               title: "Small Talk"
+              slug: "small-talk"
               archetypes: [conversation]
               mastery_task_en: "2-minute guided conversation with an audio partner across 4 topics"
               objectives:
@@ -785,6 +891,7 @@ level:
                   skill: "spoken_interaction"
             - code: "A1.4.U04.L04"
               title: "Checkpoint: Feiern"
+              slug: "checkpoint-feiern"
               archetypes: [checkpoint]
               mastery_task_en: "Reply to a written invitation; congratulate; small talk with 2 guests; recount it afterwards in 6 sentences"
               objectives:
@@ -793,10 +900,12 @@ level:
                   skill: "spoken_interaction"
         - code: "A1.4.U05"
           title: "A1 im Einsatz"
+          slug: "a1-im-einsatz"
           subtitle_en: "A1 in action"
           lessons:
             - code: "A1.4.U05.L01"
               title: "Ein Tag in der Stadt"
+              slug: "ein-tag-in-der-stadt"
               archetypes: [integrated]
               mastery_task_en: "One continuous scenario with 4 branching roleplays"
               objectives:
@@ -805,6 +914,7 @@ level:
                   skill: "spoken_interaction"
             - code: "A1.4.U05.L02"
               title: "Schilder, Formulare, Aushänge"
+              slug: "schilder-formulare-aushaenge"
               archetypes: [reading]
               mastery_task_en: "Answer questions on 8 real-style texts; complete a registration-style form"
               objectives:
@@ -813,6 +923,7 @@ level:
                   skill: "reading"
             - code: "A1.4.U05.L03"
               title: "Am Telefon und am Schalter"
+              slug: "am-telefon-und-am-schalter"
               archetypes: [listening, conversation]
               mastery_task_en: "Note details from 4 recordings; move an appointment by phone"
               objectives:
@@ -821,6 +932,7 @@ level:
                   skill: "listening"
             - code: "A1.4.U05.L04"
               title: "Sound Check 4: So klingt dein Deutsch"
+              slug: "sound-check-4-so-klingt-dein-deutsch"
               archetypes: [pronunciation]
               mastery_task_en: "Record the text; self-rate against a 6-point checklist"
               objectives:
@@ -829,10 +941,12 @@ level:
                   skill: "pronunciation"
         - code: "A1.4.U06"
           title: "A1 Abschluss"
+          slug: "a1-abschluss"
           subtitle_en: "Final review and assessment"
           lessons:
             - code: "A1.4.U06.L01"
               title: "A1 Review Map"
+              slug: "a1-review-map"
               archetypes: [checkpoint]
               mastery_task_en: "Complete a mixed session built from their weakest concepts, words and objectives"
               objectives:
@@ -842,6 +956,7 @@ level:
               notes: "Purpose: Close individual gaps before the assessment Content: A mixed session assembled from the learner's weakest concepts, vocabulary and objectives"
             - code: "A1.4.U06.L02"
               title: "A1 Abschlusstest"
+              slug: "a1-abschlusstest"
               archetypes: [checkpoint]
               mastery_task_en: "Pass the A1 final assessment: 70% overall and at least 60% in each of listening, reading, writing and speaking"
               objectives:
@@ -851,6 +966,7 @@ level:
               notes: "Purpose: Establish whether the learner performs at A1 Content: The final assessment in section 12"
             - code: "A1.4.U06.L03"
               title: "A1 → A2 Readiness"
+              slug: "a1-a2-readiness"
               archetypes: [checkpoint]
               mastery_task_en: "Complete the 15-minute top-up task set and receive a readiness result"
               objectives:

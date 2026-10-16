@@ -16,11 +16,13 @@ function tree(): StructureFile {
             {
               code: 'A1.1.U01',
               title: 'Unit',
+              slug: 'unit',
               subtitle_en: 'Subtitle',
               lessons: [
                 {
                   code: 'A1.1.U01.L01',
                   title: 'Lesson one',
+                  slug: 'lesson-one',
                   archetypes: ['conversation'],
                   mastery_task_en: 'Task',
                   objectives: [{ code: 'A1.1.U01.L01.O1', can_do_en: 'Can do', skill: 'spoken_interaction' }],
@@ -28,6 +30,7 @@ function tree(): StructureFile {
                 {
                   code: 'A1.1.U01.L02',
                   title: 'Lesson two',
+                  slug: 'lesson-two',
                   archetypes: ['grammar', 'vocabulary'],
                   mastery_task_en: 'Task',
                   objectives: [{ code: 'A1.1.U01.L02.O1', can_do_en: 'Can do', skill: 'grammar' }],
@@ -124,6 +127,35 @@ describe('structureFileSchema (a1.yaml, TRD-CNT-01, TRD-VAL-02)', () => {
     };
     t.level.parts[0]!.units[0]!.lessons[0]!.objectives[0]!.skill = 'speaking';
     expect(issues(t).length).toBeGreaterThan(0);
+  });
+  it('rejects a unit or lesson without a slug (DB-SLUG-02, decision 0008)', () => {
+    const t = tree() as unknown as { level: { parts: { units: Record<string, unknown>[] }[] } };
+    delete t.level.parts[0]!.units[0]!.slug;
+    expect(issues(t).length).toBeGreaterThan(0);
+    const u = tree();
+    delete (firstLesson(u) as { slug?: string }).slug;
+    expect(issues(u).length).toBeGreaterThan(0);
+  });
+
+  it.each(['Lesson-one', 'lesson one', 'lesson_one', 'hallo-und-tschüss', '-lesson', 'lesson--one', 'lesson-'])(
+    'rejects the slug %s, which is not lower-case hyphenated ASCII (TRD-CNT-05)',
+    (slug) => {
+      const t = tree();
+      firstLesson(t).slug = slug;
+      expect(issues(t).length).toBeGreaterThan(0);
+    },
+  );
+
+  it('accepts digits in a slug, as in a1-1-abschluss (decision 0008)', () => {
+    const t = tree();
+    firstLesson(t).slug = 'a1-1-abschluss';
+    expect(issues(t)).toEqual([]);
+  });
+
+  it('rejects two lessons with the same slug (DB-UQ-02)', () => {
+    const t = tree();
+    firstUnit(t).lessons[1]!.slug = 'lesson-one';
+    expect(issues(t)).toContain('Duplicate lesson slug lesson-one');
   });
 });
 

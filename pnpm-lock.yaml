@@ -209,6 +209,9 @@ importers:
 
   packages/db:
     dependencies:
+      '@deutschfreak/content':
+        specifier: workspace:*
+        version: link:../content
       '@deutschfreak/validation':
         specifier: workspace:*
         version: link:../validation
