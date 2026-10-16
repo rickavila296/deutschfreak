@@ -130,3 +130,15 @@ The entry format is in `CLAUDE.md`, under "PROGRESS.md entry".
 - **Checks:** Red first: with structure.ts and a1.yaml stashed, `pnpm test` failed 2 of 18 validation tests ("accepts a well-formed tree" and "reports the counts and fails a tree that is too small", both because the old strict schema rejects the fixture's `skill` key). The two new tests passed vacuously in that state for the same reason, so the implementation was also broken on purpose: `skill` made optional failed "rejects an objective with no skill" (1 of 18); `skill` as any string failed "rejects a skill outside the eight" (1 of 18). After restoring: `pnpm lint` clean (prettier applied to structure.test.ts); `pnpm typecheck` passed; `pnpm test` 4 files, 28 tests passed (validation 18, content 3, config 7); `pnpm content:check` 4 parts, 24 units, 92 lessons, 92 objectives, valid.
 - **Status:** passed
 - **Notes:** PLAN-DEC-03 still blocks 2b. Owner prerequisites before 2a.1 are still open: a local `.env` with the Neon connection strings, and a Neon dev branch.
+
+## 2026-10-16 · Phase 2 · docs/decisions · Decision 0007 (PLAN-DEC-03 knowledge pool rules)
+
+- **Phase:** 2 Database v1
+- **Module:** docs/decisions, docs/bible (local)
+- **Update:** PLAN-DEC-03 decided: DB-OQ-06, 07, 12 and 13 answered; `lesson_blocks.mode` added to the Schema
+- **Type:** decision
+- **What was done:** The owner accepted all four rules and asked for the mode column. Irregular verb forms are separate vocabulary entries until A1.2.U04, with no columns for separability or concept links. All 50 A1 concepts are seeded in Phase 2b. Stage 7 recall mode is a nullable `mode` column of enum `review_mode` on `lesson_blocks` that reuses the authored exercises. Pronouns, numerals and similar classes stay under `function_word`. Local Bible edit to Schema v0.3 (no version change): §8.8 gains the `mode` row and a note; §15 marks DB-OQ-06, 07, 12, 13 resolved by 0007; from decision 0005, §12 notes DB-REC-01 to 12 confirmed and §9 states the DB-OQ-15 finding; change summary updated; `node docs/bible/build.mjs` rebuilt INDEX.md.
+- **Files:** docs/decisions/0007-knowledge-pool-rules.md, PROGRESS.md; local and git-ignored: docs/bible/05-schema.md, docs/bible/INDEX.md, docs/bible/dist/DeutschFreak_Bible.md
+- **Checks:** none (decision only); `pnpm lint` clean
+- **Status:** passed
+- **Notes:** All three Phase 2 blocking decisions are now recorded. The Bible is git-ignored, so its edit is not in a commit. The Schema does not say whether `mode` is allowed only on exercise blocks; no check was added. 2a.1 waits on the owner's `.env` and Neon dev branch.
