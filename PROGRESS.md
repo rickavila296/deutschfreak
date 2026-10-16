@@ -58,3 +58,15 @@ The entry format is in `CLAUDE.md`, under "PROGRESS.md entry".
 - **Checks:** `pnpm typecheck` passed; `pnpm test` 1 file, 3 tests passed; `a1.yaml` has 92 lessons and 92 objectives
 - **Status:** passed
 - **Notes:** PLAN-DEC-02 (a skill for every learning objective) is still open and blocks task 2a.4 (the Phase 2a seed).
+
+## 2026-10-16 · Phase 1 · repo, packages/config, CI · Quality tooling
+
+- **Phase:** 1 Repo and tooling
+- **Module:** repo root, packages/config, .github/workflows
+- **Update:** Task 1.2, session 2 quality tooling
+- **Type:** feature
+- **What was done:** Added ESLint (typescript-eslint recommended, `no-explicit-any` as error) and Prettier, with the shared configs in `packages/config` and root re-exports. Added the architecture rule 1 lint rule (`no-restricted-imports` for `@deutschfreak/db` and `packages/db` paths in `apps/web/**`) and a test proving it. Added the GitHub Actions workflow (install with frozen lockfile, lint, typecheck, test; Node from `.nvmrc`), `.gitattributes` (`* text=auto eol=lf`), `.env.example` (TRD §25 names, commented out as proposed), a README opening, `.gitignore` entries for build output, `packageManager: pnpm@12.9.1`, and root `lint` and `format` scripts. Versions resolved by pnpm: eslint 10, typescript-eslint 8, prettier 3; actions checkout v7, setup-node v7, pnpm/action-setup v6.
+- **Files:** .gitattributes, .gitignore, .env.example, .prettierignore, README.md, eslint.config.js, prettier.config.js, package.json, pnpm-lock.yaml, packages/config/package.json, packages/config/eslint.config.js, packages/config/prettier.config.js, packages/config/eslint-boundaries.test.js, .github/workflows/ci.yml, PROGRESS.md
+- **Checks:** `pnpm lint` clean; `pnpm typecheck` passed; `pnpm test` 2 files, 6 tests passed. The rule test failed (2 of 3) with the rule disabled. CI on GitHub: run 38870691450 green on 80da577; run 38870806662 red at the typecheck step on 9929873 (deliberately broken type); run 38872310846 green on 6c85eb9 (revert).
+- **Status:** passed
+- **Notes:** Prettier ignores PROGRESS.md (append-only) and docs/; YAML keeps double quotes. CLAUDE.md stays local by owner choice and matches the scripts as built. `main` is not yet on GitHub and needs a branch protection rule requiring the `check` job (TRD-CI-02); both are owner steps. Owner asked to stop pushing for now; this entry is committed locally only.
