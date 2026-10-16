@@ -5,9 +5,16 @@ README-VIBECODING.md
 docs/bible/
 docs/prompts/
 docs/sources/
-docs/content-review/
 
 # Secrets
 .env
 .env.*
 !.env.example
+
+# Dependencies
+node_modules/
+
+# Build output
+.next/
+dist/
+coverage/

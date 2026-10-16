@@ -34,3 +34,75 @@ The entry format is in `CLAUDE.md`, under "PROGRESS.md entry".
 - **Checks:** `node docs/bible/build.mjs` reports six parts (PRD, Flow, Design and Schema at v0.3; TRD and Plan at v0.4)
 - **Status:** pending confirmation
 - **Notes:** `docs/bible/` is now the master copy of the Bible. Open tension to decide at Phase 2: Plan Phases 2 and 6 publish A1.1.U01 before the Phase 10 teacher review, but PRD-NFR-005 forbids publishing unreviewed German.
+
+## 2026-10-16 · Phase 1 · repo, packages/validation, packages/content · Workspace skeleton
+
+- **Phase:** 1 Repo and tooling
+- **Module:** repo root, packages/config, packages/validation, packages/content/structure
+- **Update:** Task 1.1, session 1 workspace skeleton
+- **Type:** feature
+- **What was done:** Created the pnpm workspace (apps/*, packages/*) with root `typecheck` and `test` scripts, the shared strict tsconfig base, and `@deutschfreak/validation` with `lessonCodeSchema`, the `LessonCode` type and three tests. Created `a1.yaml` with the full A1 tree (1 level, 4 parts, 24 units, 92 lessons, one objective per lesson) by script-parsing Curriculum Specification §3 to §7 and §20, not from memory. Titles follow §20. Objectives carry no skill (PLAN-DEC-02 open). Package versions resolved by `pnpm add`: zod 4.6.7, typescript 7.0.2, vitest 5.0.4. Added `node_modules/` to `.gitignore`.
+- **Files:** .nvmrc, pnpm-workspace.yaml, package.json, pnpm-lock.yaml, .gitignore, packages/config/package.json, packages/config/tsconfig.base.json, packages/validation/package.json, packages/validation/tsconfig.json, packages/validation/src/index.ts, packages/validation/src/index.test.ts, packages/content/structure/a1.yaml, PROGRESS.md
+- **Checks:** `pnpm install` ok; `pnpm typecheck` passed; `pnpm test` 1 file, 3 tests passed. The 3 tests failed before the schema existed; a deliberately broken type failed `pnpm typecheck`.
+- **Status:** passed
+- **Notes:** Three U06 lesson titles carry "(Sound Check N)" in §20 but not in the §4 to §6 tables; §20 was used. Slugs and `context_en` are not in `a1.yaml` yet and are needed before the Phase 2a seed. `lessonCodeSchema` accepts CEFR levels A–C 1–2, not only A1.
+
+## 2026-10-16 · Phase 1 · packages/content · Decisions 0001 and 0002 (a1.yaml spec gaps)
+
+- **Phase:** 1 Repo and tooling
+- **Module:** packages/content/structure, docs/decisions
+- **Update:** Owner decisions filling two gaps in the Curriculum Specification
+- **Type:** decision
+- **What was done:** The owner approved 0001: A1.1.U01 is title "Hallo!" with subtitle_en "First contact"; A1.1.U06, A1.2.U06 and A1.3.U06 get "Part review and checkpoint"; A1.4.U06 gets "Final review and assessment". The owner approved 0002: A1.4.U06 L01 to L03 each get one objective (`.O1`) and a mastery task, derived from Spec §7 Purpose and Content and §12. `a1.yaml` was edited to match.
+- **Files:** docs/decisions/0001-unit-subtitles.md, docs/decisions/0002-a1-4-u06-objectives.md, packages/content/structure/a1.yaml
+- **Checks:** `pnpm typecheck` passed; `pnpm test` 1 file, 3 tests passed; `a1.yaml` has 92 lessons and 92 objectives
+- **Status:** passed
+- **Notes:** PLAN-DEC-02 (a skill for every learning objective) is still open and blocks task 2a.4 (the Phase 2a seed).
+
+## 2026-10-16 · Phase 1 · repo, packages/config, CI · Quality tooling
+
+- **Phase:** 1 Repo and tooling
+- **Module:** repo root, packages/config, .github/workflows
+- **Update:** Task 1.2, session 2 quality tooling
+- **Type:** feature
+- **What was done:** Added ESLint (typescript-eslint recommended, `no-explicit-any` as error) and Prettier, with the shared configs in `packages/config` and root re-exports. Added the architecture rule 1 lint rule (`no-restricted-imports` for `@deutschfreak/db` and `packages/db` paths in `apps/web/**`) and a test proving it. Added the GitHub Actions workflow (install with frozen lockfile, lint, typecheck, test; Node from `.nvmrc`), `.gitattributes` (`* text=auto eol=lf`), `.env.example` (TRD §25 names, commented out as proposed), a README opening, `.gitignore` entries for build output, `packageManager: pnpm@12.9.1`, and root `lint` and `format` scripts. Versions resolved by pnpm: eslint 10, typescript-eslint 8, prettier 3; actions checkout v7, setup-node v7, pnpm/action-setup v6.
+- **Files:** .gitattributes, .gitignore, .env.example, .prettierignore, README.md, eslint.config.js, prettier.config.js, package.json, pnpm-lock.yaml, packages/config/package.json, packages/config/eslint.config.js, packages/config/prettier.config.js, packages/config/eslint-boundaries.test.js, .github/workflows/ci.yml, PROGRESS.md
+- **Checks:** `pnpm lint` clean; `pnpm typecheck` passed; `pnpm test` 2 files, 6 tests passed. The rule test failed (2 of 3) with the rule disabled. CI on GitHub: run 38870691450 green on 80da577; run 38870806662 red at the typecheck step on 9929873 (deliberately broken type); run 38872310846 green on 6c85eb9 (revert).
+- **Status:** passed
+- **Notes:** Prettier ignores PROGRESS.md (append-only) and docs/; YAML keeps double quotes. CLAUDE.md stays local by owner choice and matches the scripts as built. `main` is not yet on GitHub and needs a branch protection rule requiring the `check` job (TRD-CI-02); both are owner steps. Owner asked to stop pushing for now; this entry is committed locally only.
+
+## 2026-10-16 · Phase 1 · packages/validation, packages/content · Structure schema for content
+
+- **Phase:** 1 Repo and tooling
+- **Module:** packages/validation, packages/content, .github/workflows
+- **Update:** Task 1.3, session 3 structure schema and `a1.yaml` validation
+- **Type:** feature
+- **What was done:** Added strict Zod schemas for `a1.yaml` (level, part, unit, lesson, objective; nine archetypes; optional `notes`) with code schemas for every tier, plus checks for unique codes and codes nested in their parent. Added `validateA1Structure` with the Spec §20 counts (4 parts, 24 units, 92 lessons). Moved `lessonCodeSchema` into `codes.ts` unchanged. Created `@deutschfreak/content` with a loader (YAML parsed with unique keys), the `validate` script, and tests on the real file. Added root `content:check` and a CI step for it. Added `allowImportingTsExtensions` to the shared tsconfig so Node 24 runs the script directly. Pinned `@types/node` to the 24 line on owner approval.
+- **Files:** packages/validation/src/codes.ts, packages/validation/src/structure.ts, packages/validation/src/structure.test.ts, packages/validation/src/index.ts, packages/config/tsconfig.base.json, packages/content/package.json, packages/content/tsconfig.json, packages/content/src/structure.ts, packages/content/src/structure.test.ts, packages/content/scripts/validate-structure.ts, package.json, pnpm-lock.yaml, .github/workflows/ci.yml, PROGRESS.md
+- **Checks:** `pnpm lint` clean; `pnpm typecheck` passed; `pnpm test` 3 files, 22 tests passed; `pnpm content:check` reports 4 parts, 24 units, 92 lessons, 92 objectives, valid. The 13 structure tests failed before the schema existed. A deliberately broken lesson code made `content:check` exit 1 with 3 problems; the file was restored unchanged.
+- **Status:** passed
+- **Notes:** Not pushed (owner asked to hold pushes), so the CI step has not run on GitHub yet. Plan marks session 3 as R; the owner directed it to be built. No `skill` field yet (PLAN-DEC-02).
+
+## 2026-10-16 · Phase 1 · packages/config, packages/content, docs/decisions · Phase 1 review fixes
+
+- **Phase:** 1 Repo and tooling
+- **Module:** packages/config, packages/content, docs/decisions, repo root
+- **Update:** Fixes for the five notes of the independent Phase 1 review, all approved by the owner
+- **Type:** fix
+- **What was done:** (1) The architecture rule 1 lint check now also catches dynamic `import()` and `require()` of `@deutschfreak/db` or `packages/db` in `apps/web` (`no-restricted-syntax`), with four new tests. (2) `docs/content-review/` is now tracked in git; the kit stays local. (3) Logged decisions 0003 (build Phase 1 session 3 despite its R mark) and 0004 (kit local, content review tracked). (4) Reworded the A1.4.U06 L01 and L02 objective and mastery text from the first person into the specification's style; decision 0002 amended with the previous wording. (5) The duplicate-code test now removes its temp folder, and the objective count is asserted as exactly 92.
+- **Files:** packages/config/eslint.config.js, packages/config/eslint-boundaries.test.js, packages/content/src/structure.test.ts, packages/content/structure/a1.yaml, .gitignore, docs/content-review/README.md, docs/decisions/0002-a1-4-u06-objectives.md, docs/decisions/0003-build-phase-1-session-3.md, docs/decisions/0004-kit-local-content-review-tracked.md, PROGRESS.md
+- **Checks:** `pnpm lint` clean; `pnpm typecheck` passed; `pnpm test` 3 files, 26 tests passed; `pnpm content:check` 4 parts, 24 units, 92 lessons, 92 objectives, valid. The three new dynamic-import and require tests failed before the rule change. Local half of gate M1: a fresh clone of b13246d passed install (frozen lockfile), lint, typecheck, test and content:check.
+- **Status:** passed
+- **Notes:** Review verdict was Pass with notes, nothing blocking. Rule 1 still covers only files under `apps/web/**`; a shared package that re-exports db would not be caught (review note, for Phase 4). Gate M1 stays open until a CI run on GitHub includes `content:check`; nothing is pushed by owner request. A fresh clone under a deep folder path fails on Windows path length (pnpm run-state file); use a short path.
+
+## 2026-10-16 · Phase 1 · repo · Gate M1 reached
+
+- **Phase:** 1 Repo and tooling
+- **Module:** repo
+- **Update:** Gate M1: a fresh clone passes install, lint, typecheck and test locally and in CI
+- **Type:** test
+- **What was done:** Checked M1. Locally: a fresh clone of phase-01/1.3-structure-schema (b13246d) passed `pnpm install --frozen-lockfile`, lint, typecheck, test and content:check. In CI: run 38878790744 on f9625ea passed install, lint, typecheck, test and content:check. Earlier, run 38870806662 failed at typecheck on a deliberately broken type. The independent Phase 1 review gave Pass with notes; all five notes were fixed in f9625ea. The owner confirmed the gate.
+- **Files:** PROGRESS.md
+- **Checks:** GitHub Actions run 38878790744 green; local fresh-clone checks passed
+- **Status:** passed
+- **Notes:** Next: the owner merges phase-01/1.3-structure-schema (all of Phase 1) into main once CI is green on this commit. main must exist on GitHub, be the default branch and require the `check` job (TRD-CI-02). Phase 2 starts in a new thread; PLAN-DEC-01 blocks it, and PLAN-DEC-02 blocks task 2a.4.

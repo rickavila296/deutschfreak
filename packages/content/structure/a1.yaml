@@ -1,0 +1,768 @@
+# A1 curriculum structure. Source: docs/sources/a1-curriculum-specification.md, sections 3 to 7 and 20.
+# Codes are permanent and written literally (Spec, Stable codes). Order sets position.
+# Learning-objective skills are not assigned yet (PLAN-DEC-02).
+# Spec gaps filled by owner decisions: docs/decisions/0001 (U06 subtitles, U01 split) and 0002 (A1.4.U06 objectives).
+
+level:
+  code: "A1"
+  title: "German A1"
+  parts:
+    - code: "A1.1"
+      title: "Foundations"
+      tagline: "I can begin communicating."
+      units:
+        - code: "A1.1.U01"
+          title: "Hallo!"
+          subtitle_en: "First contact"
+          lessons:
+            - code: "A1.1.U01.L01"
+              title: "Hallo und Tschüss"
+              archetypes: [conversation]
+              mastery_task_en: "Hear or see 6 situations and say the fitting greeting"
+              objectives:
+                - code: "A1.1.U01.L01.O1"
+                  can_do_en: "Greet and say goodbye to suit time of day and formality"
+            - code: "A1.1.U01.L02"
+              title: "Wie heißt du?"
+              archetypes: [conversation]
+              mastery_task_en: "Complete two exchanges aloud, one informal and one formal"
+              objectives:
+                - code: "A1.1.U01.L02.O1"
+                  can_do_en: "Give a name and ask for one, with du and with Sie"
+            - code: "A1.1.U01.L03"
+              title: "Das Alphabet"
+              archetypes: [pronunciation]
+              mastery_task_en: "Write 5 names from spelling audio; spell own name"
+              objectives:
+                - code: "A1.1.U01.L03.O1"
+                  can_do_en: "Spell a name and write down a spelled name"
+            - code: "A1.1.U01.L04"
+              title: "Wie geht's?"
+              archetypes: [conversation]
+              mastery_task_en: "Complete a greeting dialogue aloud in both registers"
+              objectives:
+                - code: "A1.1.U01.L04.O1"
+                  can_do_en: "Ask how someone is and answer"
+            - code: "A1.1.U01.L05"
+              title: "Checkpoint: Erste Begegnung"
+              archetypes: [checkpoint]
+              mastery_task_en: "Branching roleplay with an audio partner: greet, names, spell, how are you, goodbye"
+              objectives:
+                - code: "A1.1.U01.L05.O1"
+                  can_do_en: "Hold a first-meeting exchange of 6–8 turns"
+        - code: "A1.1.U02"
+          title: "Woher kommst du?"
+          subtitle_en: "Origin, home, languages"
+          lessons:
+            - code: "A1.1.U02.L01"
+              title: "Ich komme aus…"
+              archetypes: [conversation]
+              mastery_task_en: "Answer 4 audio questions about themselves"
+              objectives:
+                - code: "A1.1.U02.L01.O1"
+                  can_do_en: "Say where they come from and live, and ask"
+            - code: "A1.1.U02.L02"
+              title: "Ich, du, er, sie"
+              archetypes: [grammar]
+              mastery_task_en: "Build 8 sentences about three people from profile cards"
+              objectives:
+                - code: "A1.1.U02.L02.O1"
+                  can_do_en: "Use singular present-tense endings about self and others"
+            - code: "A1.1.U02.L03"
+              title: "Fragen stellen"
+              archetypes: [grammar]
+              mastery_task_en: "Order 8 scrambled sentences; ask an audio persona 4 questions"
+              objectives:
+                - code: "A1.1.U02.L03.O1"
+                  can_do_en: "Ask and answer W-questions and yes/no questions with the verb in the right place"
+            - code: "A1.1.U02.L04"
+              title: 'Sprachen und „Wie bitte?"'
+              archetypes: [conversation]
+              mastery_task_en: "React to 5 too-fast audio lines with a fitting repair phrase"
+              objectives:
+                - code: "A1.1.U02.L04.O1"
+                  can_do_en: "Say which languages they speak and manage non-understanding"
+            - code: "A1.1.U02.L05"
+              title: "Checkpoint: Sich vorstellen"
+              archetypes: [checkpoint]
+              mastery_task_en: "30-second spoken introduction and a 4-sentence written one"
+              objectives:
+                - code: "A1.1.U02.L05.O1"
+                  can_do_en: "Introduce themselves in speech and writing"
+        - code: "A1.1.U03"
+          title: "Zahlen und Daten"
+          subtitle_en: "Numbers and personal details"
+          lessons:
+            - code: "A1.1.U03.L01"
+              title: "Null bis zwanzig"
+              archetypes: [vocabulary]
+              mastery_task_en: "Write down 5 phone numbers from audio; say their own"
+              objectives:
+                - code: "A1.1.U03.L01.O1"
+                  can_do_en: "Say and understand 0–20 and phone numbers"
+            - code: "A1.1.U03.L02"
+              title: "Einundzwanzig"
+              archetypes: [vocabulary]
+              mastery_task_en: "Write 10 heard numbers; say 5 ages"
+              objectives:
+                - code: "A1.1.U03.L02.O1"
+                  can_do_en: "Say and understand 21–100 and give an age"
+            - code: "A1.1.U03.L03"
+              title: "Ich bin, wir sind"
+              archetypes: [grammar]
+              mastery_task_en: "Produce 8 sentences about themselves and a group"
+              objectives:
+                - code: "A1.1.U03.L03.O1"
+                  can_do_en: "Use all forms of sein to say who and how people are"
+            - code: "A1.1.U03.L04"
+              title: "Ein Formular ausfüllen"
+              archetypes: [reading, writing]
+              mastery_task_en: "Fill a form for themselves, and a second from dictated details"
+              objectives:
+                - code: "A1.1.U03.L04.O1"
+                  can_do_en: "Read and complete a simple personal-data form"
+            - code: "A1.1.U03.L05"
+              title: "Checkpoint: Persönliche Daten"
+              archetypes: [checkpoint]
+              mastery_task_en: "Roleplay: give name with spelling, number, address, age; note the other person's details"
+              objectives:
+                - code: "A1.1.U03.L05.O1"
+                  can_do_en: "Exchange personal details accurately"
+        - code: "A1.1.U04"
+          title: "Dinge"
+          subtitle_en: "Things, gender, articles"
+          lessons:
+            - code: "A1.1.U04.L01"
+              title: "Was ist das?"
+              archetypes: [grammar, vocabulary]
+              mastery_task_en: "Choose the gender of 14 nouns; name 8 pictured objects aloud"
+              objectives:
+                - code: "A1.1.U04.L01.O1"
+                  can_do_en: "Name everyday objects with the right article"
+            - code: "A1.1.U04.L02"
+              title: "Ein, eine, kein"
+              archetypes: [grammar]
+              mastery_task_en: "Correct 6 false statements aloud"
+              objectives:
+                - code: "A1.1.U04.L02.O1"
+                  can_do_en: "Say what something is and is not; refer back with er / sie / es"
+            - code: "A1.1.U04.L03"
+              title: "Eins, zwei, viele"
+              archetypes: [grammar, vocabulary]
+              mastery_task_en: "Recall the plural of 14 known nouns; count objects in a picture"
+              objectives:
+                - code: "A1.1.U04.L03.O1"
+                  can_do_en: "Understand and form common plurals; say how many"
+            - code: "A1.1.U04.L04"
+              title: "Checkpoint: Mein Schreibtisch"
+              archetypes: [checkpoint]
+              mastery_task_en: "Describe a desk photo in 5 sentences, spoken and written"
+              objectives:
+                - code: "A1.1.U04.L04.O1"
+                  can_do_en: "Describe the objects around them"
+        - code: "A1.1.U05"
+          title: "Familie"
+          subtitle_en: "Family and people"
+          lessons:
+            - code: "A1.1.U05.L01"
+              title: "Meine Familie"
+              archetypes: [vocabulary]
+              mastery_task_en: "From audio, pick the right person in a family tree; introduce 3 relatives"
+              objectives:
+                - code: "A1.1.U05.L01.O1"
+                  can_do_en: "Name family members and introduce them"
+            - code: "A1.1.U05.L02"
+              title: "Ich habe…"
+              archetypes: [grammar]
+              mastery_task_en: "Question-and-answer about family with an audio persona"
+              objectives:
+                - code: "A1.1.U05.L02.O1"
+                  can_do_en: "Say who and what they have and do not have"
+            - code: "A1.1.U05.L03"
+              title: "Wie ist er? Wie ist sie?"
+              archetypes: [grammar, conversation]
+              mastery_task_en: "Describe two people from profiles; choose the possessive in 8 items"
+              objectives:
+                - code: "A1.1.U05.L03.O1"
+                  can_do_en: "Describe a person and say whose relative they are"
+            - code: "A1.1.U05.L04"
+              title: "Checkpoint: Meine Familie"
+              archetypes: [checkpoint]
+              mastery_task_en: "Write 5–6 sentences; speak for 30–40 seconds"
+              objectives:
+                - code: "A1.1.U05.L04.O1"
+                  can_do_en: "Understand a short family text and present their own family"
+        - code: "A1.1.U06"
+          title: "A1.1 Abschluss"
+          subtitle_en: "Part review and checkpoint"
+          lessons:
+            - code: "A1.1.U06.L01"
+              title: "Drei Leute, drei Geschichten (Sound Check 1)"
+              archetypes: [integrated]
+              mastery_task_en: "Comprehension questions; 12 minimal-pair items at 80% or better"
+              objectives:
+                - code: "A1.1.U06.L01.O1"
+                  can_do_en: "Understand three short profiles as text and audio, and compare them"
+            - code: "A1.1.U06.L02"
+              title: "A1.1 Checkpoint"
+              archetypes: [checkpoint]
+              mastery_task_en: "Meet a new neighbour (roleplay); complete the form; write 6 sentences on self and family; 25 mixed vocabulary and grammar items"
+              objectives:
+                - code: "A1.1.U06.L02.O1"
+                  can_do_en: "Function across all A1.1 objectives"
+    - code: "A1.2"
+      title: "Everyday German"
+      tagline: "I can handle familiar everyday situations."
+      units:
+        - code: "A1.2.U01"
+          title: "Essen und Trinken"
+          subtitle_en: "Food, drink and the accusative"
+          lessons:
+            - code: "A1.2.U01.L01"
+              title: "Was isst du gern?"
+              archetypes: [vocabulary]
+              mastery_task_en: "Say 8 likes and dislikes; note who likes what from audio"
+              objectives:
+                - code: "A1.2.U01.L01.O1"
+                  can_do_en: "Say what they like and dislike eating and drinking"
+            - code: "A1.2.U01.L02"
+              title: "Ich möchte einen Kaffee"
+              archetypes: [grammar]
+              mastery_task_en: "Order 6 menu items aloud with the correct article"
+              objectives:
+                - code: "A1.2.U01.L02.O1"
+                  can_do_en: "Order food and drink with the right article form"
+            - code: "A1.2.U01.L03"
+              title: "Den Salat, bitte"
+              archetypes: [grammar]
+              mastery_task_en: "Choose nominative or accusative in 12 items; name 4 things they do not eat"
+              objectives:
+                - code: "A1.2.U01.L03.O1"
+                  can_do_en: "Refer to specific items; say what they do not eat or want"
+            - code: "A1.2.U01.L04"
+              title: "Im Café"
+              archetypes: [conversation, listening]
+              mastery_task_en: "Branching café roleplay; note 3 orders and totals from audio"
+              objectives:
+                - code: "A1.2.U01.L04.O1"
+                  can_do_en: "Order, ask for the bill and pay"
+            - code: "A1.2.U01.L05"
+              title: "Checkpoint: Bestellen"
+              archetypes: [checkpoint]
+              mastery_task_en: "Read a menu, order for two people, query the bill, pay"
+              objectives:
+                - code: "A1.2.U01.L05.O1"
+                  can_do_en: "Complete a café visit from greeting to payment"
+        - code: "A1.2.U02"
+          title: "Einkaufen"
+          subtitle_en: "Shopping, quantities and prices"
+          lessons:
+            - code: "A1.2.U02.L01"
+              title: "Im Supermarkt"
+              archetypes: [vocabulary]
+              mastery_task_en: "Write a shopping list from audio; say what a pictured recipe needs"
+              objectives:
+                - code: "A1.2.U02.L01.O1"
+                  can_do_en: "Say what they need and how much"
+            - code: "A1.2.U02.L02"
+              title: "Was kostet das?"
+              archetypes: [vocabulary]
+              mastery_task_en: "Write 10 dictated prices; ask the price of 5 items"
+              objectives:
+                - code: "A1.2.U02.L02.O1"
+                  can_do_en: "Understand and say prices and larger numbers"
+            - code: "A1.2.U02.L03"
+              title: "Beim Bäcker, auf dem Markt"
+              archetypes: [conversation]
+              mastery_task_en: "Counter roleplay; catch the total from audio"
+              objectives:
+                - code: "A1.2.U02.L03.O1"
+                  can_do_en: "Buy things at a counter"
+            - code: "A1.2.U02.L04"
+              title: "Checkpoint: Einkaufen"
+              archetypes: [checkpoint]
+              mastery_task_en: "Buy 5 listed items across bakery and market; report what it cost"
+              objectives:
+                - code: "A1.2.U02.L04.O1"
+                  can_do_en: "Shop for a short list in two places"
+        - code: "A1.2.U03"
+          title: "Zeit"
+          subtitle_en: "Clock, days and word order"
+          lessons:
+            - code: "A1.2.U03.L01"
+              title: "Wie spät ist es?"
+              archetypes: [vocabulary]
+              mastery_task_en: "Set 10 clocks from audio; say 6 times both ways"
+              objectives:
+                - code: "A1.2.U03.L01.O1"
+                  can_do_en: "Tell and understand the time, official and everyday"
+            - code: "A1.2.U03.L02"
+              title: "Wann?"
+              archetypes: [vocabulary, grammar]
+              mastery_task_en: "Answer questions on an opening-hours sign; take notes on a spoken schedule"
+              objectives:
+                - code: "A1.2.U03.L02.O1"
+                  can_do_en: "Say when things happen and read opening hours"
+            - code: "A1.2.U03.L03"
+              title: "Am Montag arbeite ich"
+              archetypes: [grammar]
+              mastery_task_en: "Reorder 8 sentences; retell a 5-item weekly plan, each sentence starting with the time"
+              objectives:
+                - code: "A1.2.U03.L03.O1"
+                  can_do_en: "Start a sentence with a time phrase and keep the verb second"
+            - code: "A1.2.U03.L04"
+              title: "Checkpoint: Mein Wochenplan"
+              archetypes: [checkpoint]
+              mastery_task_en: "Complete a calendar from audio; write and say their own week"
+              objectives:
+                - code: "A1.2.U03.L04.O1"
+                  can_do_en: "Understand and present a weekly schedule"
+        - code: "A1.2.U04"
+          title: "Mein Tag"
+          subtitle_en: "Daily routine"
+          lessons:
+            - code: "A1.2.U04.L01"
+              title: "Ich stehe um sieben auf"
+              archetypes: [grammar, vocabulary]
+              mastery_task_en: "Describe a 6-picture day in 6 sentences"
+              objectives:
+                - code: "A1.2.U04.L01.O1"
+                  can_do_en: "Describe a daily routine using separable verbs"
+            - code: "A1.2.U04.L02"
+              title: "Du fährst, er liest"
+              archetypes: [grammar]
+              mastery_task_en: "Shift 10 sentences from ich to er/sie; describe a friend's day"
+              objectives:
+                - code: "A1.2.U04.L02.O1"
+                  can_do_en: "Use common vowel-changing verbs about other people"
+            - code: "A1.2.U04.L03"
+              title: "Immer, oft, manchmal, nie"
+              archetypes: [conversation, listening]
+              mastery_task_en: "Interview an audio persona with 5 questions; true/false on the passage"
+              objectives:
+                - code: "A1.2.U04.L03.O1"
+                  can_do_en: "Say how often; understand someone describing a routine"
+            - code: "A1.2.U04.L04"
+              title: "Checkpoint: Mein Tag"
+              archetypes: [checkpoint]
+              mastery_task_en: "Write 8 sentences on their day; speak for 45 seconds"
+              objectives:
+                - code: "A1.2.U04.L04.O1"
+                  can_do_en: "Describe a full day in connected sentences"
+        - code: "A1.2.U05"
+          title: "Freizeit"
+          subtitle_en: "Free time and plans"
+          lessons:
+            - code: "A1.2.U05.L01"
+              title: "Was machst du gern?"
+              archetypes: [vocabulary]
+              mastery_task_en: "Rank 5 activities aloud with gern, lieber, am liebsten"
+              objectives:
+                - code: "A1.2.U05.L01.O1"
+                  can_do_en: "Talk about hobbies and preferences"
+            - code: "A1.2.U05.L02"
+              title: "Nicht oder kein?"
+              archetypes: [grammar]
+              mastery_task_en: "Negate 12 sentences; answer negative questions with doch or nein"
+              objectives:
+                - code: "A1.2.U05.L02.O1"
+                  can_do_en: "Negate sentences correctly"
+            - code: "A1.2.U05.L03"
+              title: "Kommst du mit?"
+              archetypes: [conversation]
+              mastery_task_en: "Arrange a meeting in a chat thread and then aloud"
+              objectives:
+                - code: "A1.2.U05.L03.O1"
+                  can_do_en: "Invite, accept, decline, and fix a time and place"
+            - code: "A1.2.U05.L04"
+              title: "Checkpoint: Verabredung"
+              archetypes: [checkpoint]
+              mastery_task_en: "Suggest, negotiate a time, confirm; write a 3-line confirmation message"
+              objectives:
+                - code: "A1.2.U05.L04.O1"
+                  can_do_en: "Arrange a shared activity end to end"
+        - code: "A1.2.U06"
+          title: "A1.2 Abschluss"
+          subtitle_en: "Part review and checkpoint"
+          lessons:
+            - code: "A1.2.U06.L01"
+              title: "Alltag lesen und hören (Sound Check 2)"
+              archetypes: [integrated]
+              mastery_task_en: "Comprehension questions; 12 discrimination items at 80% or better"
+              objectives:
+                - code: "A1.2.U06.L01.O1"
+                  can_do_en: "Understand a menu, a chat thread, a voicemail and an opening-hours sign"
+            - code: "A1.2.U06.L02"
+              title: "A1.2 Checkpoint"
+              archetypes: [checkpoint]
+              mastery_task_en: "One Saturday: plan with a friend (chat), buy at the market, order in a café (both spoken), write 8 sentences titled Mein Samstag"
+              objectives:
+                - code: "A1.2.U06.L02.O1"
+                  can_do_en: "Function across all A1.2 objectives"
+    - code: "A1.3"
+      title: "Practical Communication"
+      tagline: "I can get things done around town."
+      units:
+        - code: "A1.3.U01"
+          title: "Können, wollen, müssen"
+          subtitle_en: "Modal verbs"
+          lessons:
+            - code: "A1.3.U01.L01"
+              title: "Ich kann…"
+              archetypes: [grammar]
+              mastery_task_en: "Say 5 abilities; ask an audio persona 4 questions"
+              objectives:
+                - code: "A1.3.U01.L01.O1"
+                  can_do_en: "Say what they can and cannot do, and ask others"
+            - code: "A1.3.U01.L02"
+              title: "Ich will, ich möchte"
+              archetypes: [grammar]
+              mastery_task_en: "Choose will or möchte for 8 contexts; say 3 plans"
+              objectives:
+                - code: "A1.3.U01.L02.O1"
+                  can_do_en: "Express plans and wishes, directly and politely"
+            - code: "A1.3.U01.L03"
+              title: "Ich muss, ich darf"
+              archetypes: [grammar, reading]
+              mastery_task_en: "Match 8 signs to meanings; state the rules for 4 places"
+              objectives:
+                - code: "A1.3.U01.L03.O1"
+                  can_do_en: "Express obligation, permission and prohibition; read common signs"
+            - code: "A1.3.U01.L04"
+              title: "Checkpoint: Kann ich? Darf ich? Muss ich?"
+              archetypes: [checkpoint]
+              mastery_task_en: "Understand the rules; ask 3 permission questions; write 5 sentences on a week's obligations and plans"
+              objectives:
+                - code: "A1.3.U01.L04.O1"
+                  can_do_en: "Use modals to manage a real situation"
+        - code: "A1.3.U02"
+          title: "In der Stadt"
+          subtitle_en: "Places and directions"
+          lessons:
+            - code: "A1.3.U02.L01"
+              title: "Gibt es hier…?"
+              archetypes: [vocabulary, grammar]
+              mastery_task_en: "Ask about 6 places on a map; mark what exists from audio"
+              objectives:
+                - code: "A1.3.U02.L01.O1"
+                  can_do_en: "Ask whether a place is nearby"
+            - code: "A1.3.U02.L02"
+              title: "Wie komme ich zum Bahnhof?"
+              archetypes: [conversation, grammar]
+              mastery_task_en: "Trace 3 routes on a map from audio; give one route"
+              objectives:
+                - code: "A1.3.U02.L02.O1"
+                  can_do_en: "Ask for and follow simple directions"
+            - code: "A1.3.U02.L03"
+              title: "Wo ist das?"
+              archetypes: [grammar]
+              mastery_task_en: "Describe 6 locations on a map; fill 10 preposition gaps"
+              objectives:
+                - code: "A1.3.U02.L03.O1"
+                  can_do_en: "Say where places and people are"
+            - code: "A1.3.U02.L04"
+              title: "Checkpoint: Orientierung"
+              archetypes: [checkpoint]
+              mastery_task_en: "Ask the way to 2 places, follow both, then direct someone else"
+              objectives:
+                - code: "A1.3.U02.L04.O1"
+                  can_do_en: "Find and explain the way in an unfamiliar town"
+        - code: "A1.3.U03"
+          title: "Unterwegs"
+          subtitle_en: "Transport"
+          lessons:
+            - code: "A1.3.U03.L01"
+              title: "Mit dem Bus oder mit der Bahn?"
+              archetypes: [vocabulary, grammar]
+              mastery_task_en: "Describe their commute; match 4 speakers to transport"
+              objectives:
+                - code: "A1.3.U03.L01.O1"
+                  can_do_en: "Say how they get somewhere and where they are going"
+            - code: "A1.3.U03.L02"
+              title: "Am Bahnhof"
+              archetypes: [listening, conversation]
+              mastery_task_en: "Extract time, platform and delay from 5 announcements; ticket roleplay"
+              objectives:
+                - code: "A1.3.U03.L02.O1"
+                  can_do_en: "Buy a ticket and understand departures and simple announcements"
+            - code: "A1.3.U03.L03"
+              title: "Checkpoint: Eine Fahrt planen"
+              archetypes: [checkpoint]
+              mastery_task_en: "Read a timetable, choose a connection, buy the ticket, tell a friend when they arrive"
+              objectives:
+                - code: "A1.3.U03.L03.O1"
+                  can_do_en: "Plan and carry out a simple journey"
+        - code: "A1.3.U04"
+          title: "Wohnen"
+          subtitle_en: "Home"
+          lessons:
+            - code: "A1.3.U04.L01"
+              title: "Meine Wohnung"
+              archetypes: [vocabulary]
+              mastery_task_en: "Describe a floor plan in 6 sentences; match a description to a plan"
+              objectives:
+                - code: "A1.3.U04.L01.O1"
+                  can_do_en: "Describe their home"
+            - code: "A1.3.U04.L02"
+              title: "Wo steht was?"
+              archetypes: [grammar]
+              mastery_task_en: "Describe a room picture; spot 5 differences from audio"
+              objectives:
+                - code: "A1.3.U04.L02.O1"
+                  can_do_en: "Say where things are in a room"
+            - code: "A1.3.U04.L03"
+              title: "Wohnung gesucht"
+              archetypes: [reading, writing]
+              mastery_task_en: "Answer questions on 3 ads; write a 4-sentence enquiry"
+              objectives:
+                - code: "A1.3.U04.L03.O1"
+                  can_do_en: "Understand a simple housing ad and write a short enquiry"
+            - code: "A1.3.U04.L04"
+              title: "Checkpoint: Wohnen"
+              archetypes: [checkpoint]
+              mastery_task_en: "Describe their flat; choose the best of 3 ads for a brief; confirm the viewing in writing"
+              objectives:
+                - code: "A1.3.U04.L04.O1"
+                  can_do_en: "Talk about a home and respond to an ad"
+        - code: "A1.3.U05"
+          title: "Termine und Gesundheit"
+          subtitle_en: "Appointments and health"
+          lessons:
+            - code: "A1.3.U05.L01"
+              title: "Einen Termin machen"
+              archetypes: [conversation, vocabulary]
+              mastery_task_en: "Phone roleplay to book an appointment; write 8 dictated dates"
+              objectives:
+                - code: "A1.3.U05.L01.O1"
+                  can_do_en: "Make, confirm and move an appointment; say dates"
+            - code: "A1.3.U05.L02"
+              title: "Was tut weh?"
+              archetypes: [vocabulary]
+              mastery_task_en: "Name symptoms for 6 pictures; note who has what from audio"
+              objectives:
+                - code: "A1.3.U05.L02.O1"
+                  can_do_en: "Say what hurts and how they feel"
+            - code: "A1.3.U05.L03"
+              title: "Beim Arzt, in der Apotheke"
+              archetypes: [conversation, grammar]
+              mastery_task_en: "Understand 4 recorded instructions; advise a sick friend in 4 sentences"
+              objectives:
+                - code: "A1.3.U05.L03.O1"
+                  can_do_en: "Understand and give simple advice and instructions"
+            - code: "A1.3.U05.L04"
+              title: "Checkpoint: Termin und Arztbesuch"
+              archetypes: [checkpoint]
+              mastery_task_en: "Book by phone, describe symptoms, understand the instructions, write a 3-line message saying they are ill"
+              objectives:
+                - code: "A1.3.U05.L04.O1"
+                  can_do_en: "Get from phone call to pharmacy"
+        - code: "A1.3.U06"
+          title: "A1.3 Abschluss"
+          subtitle_en: "Part review and checkpoint"
+          lessons:
+            - code: "A1.3.U06.L01"
+              title: "Neu in der Stadt (Sound Check 3)"
+              archetypes: [integrated]
+              mastery_task_en: "Comprehension questions; 12 discrimination and repetition items"
+              objectives:
+                - code: "A1.3.U06.L01.O1"
+                  can_do_en: "Understand a town map, a timetable, a housing ad and a practice's voicemail"
+            - code: "A1.3.U06.L02"
+              title: "A1.3 Checkpoint"
+              archetypes: [checkpoint]
+              mastery_task_en: "New in town: ask the way, buy a ticket, write an enquiry about a flat, phone for a doctor's appointment"
+              objectives:
+                - code: "A1.3.U06.L02.O1"
+                  can_do_en: "Function across all A1.3 objectives"
+    - code: "A1.4"
+      title: "Consolidation & Real-World German"
+      tagline: "I can talk about what happened and combine everything I know."
+      units:
+        - code: "A1.4.U01"
+          title: "Gestern"
+          subtitle_en: "Talking about the past"
+          lessons:
+            - code: "A1.4.U01.L01"
+              title: "Wie war's?"
+              archetypes: [grammar]
+              mastery_task_en: "Answer 5 questions about last week"
+              objectives:
+                - code: "A1.4.U01.L01.O1"
+                  can_do_en: "Say where they were and how it was"
+            - code: "A1.4.U01.L02"
+              title: "Was hast du gemacht?"
+              archetypes: [grammar]
+              mastery_task_en: "Convert 8 present sentences to the past; say 4 things they did yesterday"
+              objectives:
+                - code: "A1.4.U01.L02.O1"
+                  can_do_en: "Talk about past activities with regular verbs"
+            - code: "A1.4.U01.L03"
+              title: "Ich bin nach Berlin gefahren"
+              archetypes: [grammar]
+              mastery_task_en: "Choose haben or sein in 12 items; recall 12 participles"
+              objectives:
+                - code: "A1.4.U01.L03.O1"
+                  can_do_en: "Talk about going places and use common irregular participles"
+            - code: "A1.4.U01.L04"
+              title: "Mein Wochenende"
+              archetypes: [conversation, listening]
+              mastery_task_en: "45-second spoken account; order events in 2 recorded stories"
+              objectives:
+                - code: "A1.4.U01.L04.O1"
+                  can_do_en: "Tell and ask about a weekend in connected sentences"
+            - code: "A1.4.U01.L05"
+              title: "Checkpoint: Letzte Woche"
+              archetypes: [checkpoint]
+              mastery_task_en: "Comprehension; interview an audio persona; write 8 sentences on last weekend"
+              objectives:
+                - code: "A1.4.U01.L05.O1"
+                  can_do_en: "Recount and ask about recent past events"
+        - code: "A1.4.U02"
+          title: "Arbeit und Beruf"
+          subtitle_en: "Work"
+          lessons:
+            - code: "A1.4.U02.L01"
+              title: "Was machst du beruflich?"
+              archetypes: [vocabulary, conversation]
+              mastery_task_en: "Present themselves professionally in 5 sentences; match 5 speakers to jobs"
+              objectives:
+                - code: "A1.4.U02.L01.O1"
+                  can_do_en: "Say their job, workplace and how long they have done it"
+            - code: "A1.4.U02.L02"
+              title: "Mein Arbeitstag"
+              archetypes: [integrated, grammar]
+              mastery_task_en: "Join 8 sentence pairs; write 6 sentences with 3 connectors"
+              objectives:
+                - code: "A1.4.U02.L02.O1"
+                  can_do_en: "Describe a working day and link ideas"
+            - code: "A1.4.U02.L03"
+              title: "Nachrichten schreiben"
+              archetypes: [writing]
+              mastery_task_en: "Write to a friend (running late) and to a manager or teacher (ill)"
+              objectives:
+                - code: "A1.4.U02.L03.O1"
+                  can_do_en: "Write short informal and formal messages"
+            - code: "A1.4.U02.L04"
+              title: "Checkpoint: Arbeit"
+              archetypes: [checkpoint]
+              mastery_task_en: "Introduce themselves to a colleague; note the schedule; send a formal message moving a meeting"
+              objectives:
+                - code: "A1.4.U02.L04.O1"
+                  can_do_en: "Handle a first day at work in German"
+        - code: "A1.4.U03"
+          title: "Kleidung und Wetter"
+          subtitle_en: "Clothes and weather"
+          lessons:
+            - code: "A1.4.U03.L01"
+              title: "Kleidung und Farben"
+              archetypes: [vocabulary, conversation]
+              mastery_task_en: "Clothes-shop roleplay; identify 4 people from descriptions of what they wear"
+              objectives:
+                - code: "A1.4.U03.L01.O1"
+                  can_do_en: "Say what they are looking for, ask for a size or colour, give an opinion"
+            - code: "A1.4.U03.L02"
+              title: "Wie ist das Wetter?"
+              archetypes: [vocabulary]
+              mastery_task_en: "Understand a short report for 3 cities; hold a 4-turn weather exchange"
+              objectives:
+                - code: "A1.4.U03.L02.O1"
+                  can_do_en: "Talk about weather and seasons, now and in the past"
+            - code: "A1.4.U03.L03"
+              title: "Checkpoint: Kleidung und Wetter"
+              archetypes: [checkpoint]
+              mastery_task_en: "Buy a jacket for the forecast weather; write 5 sentences on yesterday's weather and what they wore"
+              objectives:
+                - code: "A1.4.U03.L03.O1"
+                  can_do_en: "Combine shopping and small talk"
+        - code: "A1.4.U04"
+          title: "Feste und Einladungen"
+          subtitle_en: "Celebrations and social life"
+          lessons:
+            - code: "A1.4.U04.L01"
+              title: "Ich lade dich ein"
+              archetypes: [grammar, conversation]
+              mastery_task_en: "Replace nouns with pronouns in 10 items; invite someone aloud"
+              objectives:
+                - code: "A1.4.U04.L01.O1"
+                  can_do_en: "Invite someone; use me, you, him, her, us as objects"
+            - code: "A1.4.U04.L02"
+              title: "Zusagen und absagen"
+              archetypes: [writing, conversation]
+              mastery_task_en: "Write one acceptance and one refusal to the same invitation"
+              objectives:
+                - code: "A1.4.U04.L02.O1"
+                  can_do_en: "Accept or decline an invitation with a reason, spoken and written"
+            - code: "A1.4.U04.L03"
+              title: "Small Talk"
+              archetypes: [conversation]
+              mastery_task_en: "2-minute guided conversation with an audio partner across 4 topics"
+              objectives:
+                - code: "A1.4.U04.L03.O1"
+                  can_do_en: "Keep a simple conversation going for 2 minutes"
+            - code: "A1.4.U04.L04"
+              title: "Checkpoint: Feiern"
+              archetypes: [checkpoint]
+              mastery_task_en: "Reply to a written invitation; congratulate; small talk with 2 guests; recount it afterwards in 6 sentences"
+              objectives:
+                - code: "A1.4.U04.L04.O1"
+                  can_do_en: "Take part in a social occasion"
+        - code: "A1.4.U05"
+          title: "A1 im Einsatz"
+          subtitle_en: "A1 in action"
+          lessons:
+            - code: "A1.4.U05.L01"
+              title: "Ein Tag in der Stadt"
+              archetypes: [integrated]
+              mastery_task_en: "One continuous scenario with 4 branching roleplays"
+              objectives:
+                - code: "A1.4.U05.L01.O1"
+                  can_do_en: "Get through a chain of service encounters"
+            - code: "A1.4.U05.L02"
+              title: "Schilder, Formulare, Aushänge"
+              archetypes: [reading]
+              mastery_task_en: "Answer questions on 8 real-style texts; complete a registration-style form"
+              objectives:
+                - code: "A1.4.U05.L02.O1"
+                  can_do_en: "Understand signs, notices and a simple official form"
+            - code: "A1.4.U05.L03"
+              title: "Am Telefon und am Schalter"
+              archetypes: [listening, conversation]
+              mastery_task_en: "Note details from 4 recordings; move an appointment by phone"
+              objectives:
+                - code: "A1.4.U05.L03.O1"
+                  can_do_en: "Understand voicemail and announcements; manage a counter conversation"
+            - code: "A1.4.U05.L04"
+              title: "Sound Check 4: So klingt dein Deutsch"
+              archetypes: [pronunciation]
+              mastery_task_en: "Record the text; self-rate against a 6-point checklist"
+              objectives:
+                - code: "A1.4.U05.L04.O1"
+                  can_do_en: "Read an 80-word text aloud intelligibly"
+        - code: "A1.4.U06"
+          title: "A1 Abschluss"
+          subtitle_en: "Final review and assessment"
+          lessons:
+            - code: "A1.4.U06.L01"
+              title: "A1 Review Map"
+              archetypes: [checkpoint]
+              mastery_task_en: "Complete a mixed session built from their weakest concepts, words and objectives"
+              objectives:
+                - code: "A1.4.U06.L01.O1"
+                  can_do_en: "Close their weakest A1 gaps before the final assessment"
+              notes: "Purpose: Close individual gaps before the assessment Content: A mixed session assembled from the learner's weakest concepts, vocabulary and objectives"
+            - code: "A1.4.U06.L02"
+              title: "A1 Abschlusstest"
+              archetypes: [checkpoint]
+              mastery_task_en: "Pass the A1 final assessment: 70% overall and at least 60% in each of listening, reading, writing and speaking"
+              objectives:
+                - code: "A1.4.U06.L02.O1"
+                  can_do_en: "Perform at A1 in listening, reading, writing and speaking"
+              notes: "Purpose: Establish whether the learner performs at A1 Content: The final assessment in section 12"
+            - code: "A1.4.U06.L03"
+              title: "A1 → A2 Readiness"
+              archetypes: [checkpoint]
+              mastery_task_en: "Complete the 15-minute top-up task set and receive a readiness result"
+              objectives:
+                - code: "A1.4.U06.L03.O1"
+                  can_do_en: "Know what to strengthen before A2"
+              notes: "Purpose: Tell the learner what to strengthen before A2 Content: The readiness profile in section 12"
