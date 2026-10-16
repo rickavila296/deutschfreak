@@ -9,7 +9,10 @@
   "scripts": {
     "typecheck": "tsc",
     "test": "vitest run",
-    "check-connection": "node scripts/check-connection.ts"
+    "test:db": "vitest run --config vitest.db.config.ts",
+    "check-connection": "node scripts/check-connection.ts",
+    "generate": "drizzle-kit generate",
+    "migrate": "drizzle-kit migrate"
   },
   "dependencies": {
     "@deutschfreak/validation": "workspace:*",

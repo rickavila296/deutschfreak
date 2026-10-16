@@ -166,3 +166,15 @@ The entry format is in `CLAUDE.md`, under "PROGRESS.md entry".
 - **Checks:** 23 of the 27 db tests failed before `schema.ts` held the definitions; all 27 pass now. `pnpm lint` clean; `pnpm typecheck` passed; `pnpm test` 55 passed (db 27, validation 18, content 3, config 7); `pnpm content:check` valid.
 - **Status:** passed
 - **Notes:** Only the enums tables 1 to 6 use are defined; the others come with their tables in 2b. DB-IX-01 (lessons unit_id, position) is not added: it is R, not in decision 0005, and duplicates the index of `lessons_unit_id_position_key`. Tests that insert violating rows into the database, and making the position constraints deferrable, belong to 2a.3. Next: 2a.3 generate and apply the first migration.
+
+## 2026-10-16 · Phase 2 · packages/db · Task 2a.3 first migration applied
+
+- **Phase:** 2 Database v1
+- **Module:** packages/db
+- **Update:** Task 2a.3: first migration generated and applied to the Neon dev branch
+- **Type:** feature
+- **What was done:** `drizzle-kit generate` produced `0000_structure_tables.sql` (4 enums, tables 1 to 6, 5 foreign keys, 1 index). A hand-written `0001_deferrable_positions.sql` (`drizzle-kit generate --custom`) drops and re-adds the three position unique constraints as `DEFERRABLE INITIALLY DEFERRED` under the same names (decision 0005); PostgreSQL cannot change a unique constraint's deferrability in place. Code uniqueness stays non-deferrable. Applied with `drizzle-kit migrate` to the dev branch via `DATABASE_URL_DIRECT`, with owner approval. Added 13 database tests (`src/structure.db.test.ts`, run with `test:db`, each in a rolled-back transaction) and scripts `generate`, `migrate`, `test:db`; unit tests exclude `*.db.test.ts`.
+- **Files:** packages/db/migrations/0000_structure_tables.sql, packages/db/migrations/0001_deferrable_positions.sql, packages/db/migrations/meta/_journal.json, packages/db/migrations/meta/0000_snapshot.json, packages/db/migrations/meta/0001_snapshot.json, packages/db/src/structure.db.test.ts, packages/db/vitest.config.ts, packages/db/vitest.db.config.ts, packages/db/package.json, packages/db/tsconfig.json, PROGRESS.md
+- **Checks:** `drizzle-kit generate` after the custom migration: no schema changes; `drizzle-kit check`: fine. Before the migration, `test:db` failed 13 of 13 (relation "levels" does not exist); after it, 13 passed. Database inspected: 6 public tables, 2 migrations recorded, the three position constraints deferrable and initially deferred. `pnpm lint` clean; `pnpm typecheck` passed; `pnpm test` 55 passed (db 27, validation 18, content 3, config 7); `pnpm content:check` valid.
+- **Status:** passed
+- **Notes:** The first `test:db` run after migrating failed 2 tests because they expected error 23503; PostgreSQL reports ON DELETE RESTRICT as 23001 (restrict_violation). The new tests were corrected; the database was right. `test:db` is not in CI (no database there). pg warns that `sslmode=require` will weaken in pg v9; the owner may switch `.env` to `sslmode=verify-full`. Next: 2a.4 seed runner.
