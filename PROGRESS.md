@@ -94,3 +94,15 @@ The entry format is in `CLAUDE.md`, under "PROGRESS.md entry".
 - **Checks:** `pnpm lint` clean; `pnpm typecheck` passed; `pnpm test` 3 files, 26 tests passed; `pnpm content:check` 4 parts, 24 units, 92 lessons, 92 objectives, valid. The three new dynamic-import and require tests failed before the rule change. Local half of gate M1: a fresh clone of b13246d passed install (frozen lockfile), lint, typecheck, test and content:check.
 - **Status:** passed
 - **Notes:** Review verdict was Pass with notes, nothing blocking. Rule 1 still covers only files under `apps/web/**`; a shared package that re-exports db would not be caught (review note, for Phase 4). Gate M1 stays open until a CI run on GitHub includes `content:check`; nothing is pushed by owner request. A fresh clone under a deep folder path fails on Windows path length (pnpm run-state file); use a short path.
+
+## 2026-10-16 · Phase 1 · repo · Gate M1 reached
+
+- **Phase:** 1 Repo and tooling
+- **Module:** repo
+- **Update:** Gate M1: a fresh clone passes install, lint, typecheck and test locally and in CI
+- **Type:** test
+- **What was done:** Checked M1. Locally: a fresh clone of phase-01/1.3-structure-schema (b13246d) passed `pnpm install --frozen-lockfile`, lint, typecheck, test and content:check. In CI: run 38878790744 on f9625ea passed install, lint, typecheck, test and content:check. Earlier, run 38870806662 failed at typecheck on a deliberately broken type. The independent Phase 1 review gave Pass with notes; all five notes were fixed in f9625ea. The owner confirmed the gate.
+- **Files:** PROGRESS.md
+- **Checks:** GitHub Actions run 38878790744 green; local fresh-clone checks passed
+- **Status:** passed
+- **Notes:** Next: the owner merges phase-01/1.3-structure-schema (all of Phase 1) into main once CI is green on this commit. main must exist on GitHub, be the default branch and require the `check` job (TRD-CI-02). Phase 2 starts in a new thread; PLAN-DEC-01 blocks it, and PLAN-DEC-02 blocks task 2a.4.
