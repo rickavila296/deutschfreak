@@ -298,3 +298,15 @@ The entry format is in `CLAUDE.md`, under "PROGRESS.md entry".
 - **Checks:** `CI=true pnpm install --frozen-lockfile` passed locally (failed before the change); `drizzle-kit check` fine and `drizzle-kit generate` reports no schema changes; `pnpm lint` clean; `pnpm typecheck` passed; `pnpm test` 189 passed; `pnpm content:check` valid. CI result on GitHub follows the push.
 - **Status:** passed
 - **Notes:** Any new dependency with an install script must be listed under `allowBuilds` (true or false) or CI install fails.
+
+## 2026-10-16 · Phase 3 · docs/decisions · Decision 0014: TRD-LOG-03 approved
+
+- **Phase:** 3 API foundation
+- **Module:** docs/decisions
+- **Update:** The owner approved TRD-LOG-03 (option A) before task 3.1
+- **Type:** decision
+- **What was done:** Decision 0014: logs never contain passwords, session tokens, connection strings or given answers tied to an identity beyond what the attempts table stores. For Phase 3, request log lines carry no body, no headers and no query string.
+- **Files:** docs/decisions/0014-log-content-rule.md, PROGRESS.md
+- **Checks:** none (decision only)
+- **Status:** passed
+- **Notes:** The local TRD §20 row still shows "R" and the approval note in the TRD stays until a Bible edit is approved.
