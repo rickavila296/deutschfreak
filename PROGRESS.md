@@ -310,3 +310,15 @@ The entry format is in `CLAUDE.md`, under "PROGRESS.md entry".
 - **Checks:** none (decision only)
 - **Status:** passed
 - **Notes:** The local TRD §20 row still shows "R" and the approval note in the TRD stays until a Bible edit is approved.
+
+## 2026-10-16 · Phase 3 · apps/api · Task 3.1 Express app skeleton
+
+- **Phase:** 3 API foundation
+- **Module:** apps/api
+- **Update:** Task 3.1: `apps/api` created: Express 5, middleware order, helmet, CORS for `WEB_ORIGIN`, JSON request log with a request id
+- **Type:** feature
+- **What was done:** New package `@deutschfreak/api`. `createApp` registers, in order (TRD-BE-08): request id (a fresh uuid per request, client ids ignored, sent back as `X-Request-Id`), request log, `helmet`, CORS allowing only `WEB_ORIGIN` (TRD-SEC-15), JSON body parser; `x-powered-by` off. The log writes one JSON line per request to stdout (level, time, requestId, method, path, status, durationMs; warn for 4xx, error for 5xx) and never the body, headers or query string (TRD-LOG-01, decision 0014). `readApiConfig` requires `WEB_ORIGIN` to be a bare http(s) origin and never echoes the value. `src/server.ts` is the local dev server (`PORT`, default 4000, owner kept it local-only); the Vercel entry comes with 3.8. `@types/node` aligned to 24 like `packages/db` (owner approved).
+- **Files:** apps/api/package.json, apps/api/tsconfig.json, apps/api/vitest.config.ts, apps/api/src/app.ts, apps/api/src/app.test.ts, apps/api/src/config.ts, apps/api/src/config.test.ts, apps/api/src/request-id.ts, apps/api/src/request-log.ts, apps/api/src/server.ts, pnpm-lock.yaml, PROGRESS.md
+- **Checks:** Opening CORS to every origin and logging the full URL on purpose made 4 tests fail; restored. Dev server smoke run: 404 with `X-Request-Id`, CSP header, one log line without the query. `pnpm lint` clean; `pnpm typecheck` passed; `pnpm test` 201 passed (api 12, validation 97, db 75, content 10, config 7); `pnpm content:check` valid.
+- **Status:** passed
+- **Notes:** Express type augmentation goes through the global `Express` namespace; `express-serve-static-core` is not a direct dependency under pnpm. No routes yet; 404s are Express's default until 3.2.
