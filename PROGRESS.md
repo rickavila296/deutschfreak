@@ -574,3 +574,15 @@ The entry format is in `CLAUDE.md`, under "PROGRESS.md entry".
 - **Checks:** `pnpm lint` clean; `pnpm typecheck` passed (5 packages with a typecheck script); `pnpm test` 267 passed (web 18, validation 101, config 7, content 10, db 84, api 47); `pnpm content:check` valid; web build succeeded. The tests failed once with aria-current removed and with the Escape focus return removed. Checked in the browser at 800 px (navigation row, skip link visible on Tab) and 375 px (Menu button opens the list).
 - **Status:** passed
 - **Notes:** Earlier entries say "6 packages" for typecheck; the count is 5 (packages/config has no typecheck script). Navigation and footer show only what exists, which is the owner-approved reading of FLOW-NAV-001/005 for Phase 4.
+
+## 2026-10-17 · Phase 4 · apps/web · Task 4.5 German Map page
+
+- **Phase:** 4 Web shell
+- **Module:** apps/web
+- **Update:** Task 4.5: the German Map at /learn (and at / until a home page exists) as a server component from the API
+- **Type:** feature
+- **What was done:** `src/lib/api.ts` fetches `GET /v1/levels/A1/map` on the server from NEXT_PUBLIC_API_URL and checks it with `levelMapResponseSchema` from packages/validation (TRD-FE-01, FE-05); a 404 becomes the not-found page, any other failure an ApiRequestError; responses cached 5 minutes; pages render per request so the build never needs the API. `GermanMap` shows the whole tree as an outline (DESIGN-UI-080): four parts as native `<details>` (A1.1 open, DESIGN-UI-084) with anchors `#a1-1` to `#a1-4`, a small client component opens the part named in the address; 24 units linked to `/learn/units/<slug>`; 92 lesson rows with ID, title, can-do objective and primary archetype (DESIGN-UI-081). Only `published` lessons link to `/learn/lessons/<slug>`; planned and retired rows are muted, say "Planned" and contain no link or focusable element (DESIGN-UI-082, FLOW-LEARN-001). A part with a live lesson carries "Available now". Checkpoint lessons and each part's sixth unit (close-out, PRD unit pattern) carry "Checkpoint" (DESIGN-UI-085). German titles have lang="de". packages/validation is transpiled by Next.js.
+- **Files:** apps/web/package.json (@deutschfreak/validation), next.config.ts, src/app/page.tsx, src/app/learn/page.tsx, src/lib/api.ts, src/lib/api.test.ts, src/components/map/german-map.tsx, lesson-row.tsx, tag.tsx, map-rules.ts, open-part-from-hash.tsx, german-map.test.tsx; pnpm-lock.yaml
+- **Checks:** `pnpm lint` clean; `pnpm typecheck` passed (5 packages); `pnpm test` 279 passed (web 30, validation 101, config 7, content 10, db 84, api 47); `pnpm content:check` valid; web build against the production API succeeded. The planned-lesson test failed once with retired lessons treated as live. In the browser against production data: 4 parts, 24 units, 92 lessons, 1 link (A1.1.U01.L01), 91 rows marked Planned; no horizontal scroll at 375 px; `/learn#a1-3` opens A1.3.
+- **Status:** passed
+- **Notes:** Signed-in status tags (DESIGN-UI-083) come with accounts. Unit links lead to 404 until task 4.6. The Playwright test that opens the map and a lesson (Plan Phase 4 tests) is planned with task 4.7.
