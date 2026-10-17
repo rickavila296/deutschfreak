@@ -1,0 +1,13 @@
+{
+  "extends": "../../packages/config/tsconfig.base.json",
+  "compilerOptions": {
+    "lib": ["dom", "dom.iterable", "ES2022"],
+    "jsx": "react-jsx",
+    "types": ["node"],
+    "typeRoots": ["./node_modules/@types"],
+    "isolatedModules": true,
+    "plugins": [{ "name": "next" }]
+  },
+  "include": ["next-env.d.ts", "next.config.ts", "vitest.config.ts", "src", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
+}
