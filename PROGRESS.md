@@ -538,3 +538,15 @@ The entry format is in `CLAUDE.md`, under "PROGRESS.md entry".
 - **Checks:** every Bible edit matched its anchor exactly once; build.mjs reports design v0.4. No code change: theme.css already follows decision 0027.
 - **Status:** passed
 - **Notes:** The Lucide React package is added when the first icon is used (task 4.4 or later).
+
+## 2026-10-17 · Phase 4 · docs/decisions · Task 4.3 page route paths (decision 0028)
+
+- **Phase:** 4 Web shell
+- **Module:** docs/decisions, docs/bible (local)
+- **Update:** Task 4.3: page route paths decided and recorded before any page is built
+- **Type:** decision
+- **What was done:** The owner approved the proposed paths ("approve routes"), logged as decision 0028: `/` home (shows the German Map until a home page exists), `/learn` German Map with part anchors `#a1-1` to `#a1-4`, `/learn/units/<unit-slug>`, `/learn/lessons/<lesson-slug>` with the stages on one page; a planned lesson's address and any unknown slug show the not-found page with HTTP 404 and a link back to `/learn`, which settles FLOW-OQ-05. Local Bible: TRD-FE-12 and the TRD change summary; Flow v0.4 version line, change summary, §5 planned-lesson sentence and FLOW-OQ-05 marked resolved; `node docs/bible/build.mjs` rebuilt INDEX.md and dist.
+- **Files:** docs/decisions/0028-page-route-paths.md, PROGRESS.md; local and git-ignored: docs/bible/02-trd.md, 03-flow.md, INDEX.md, dist/
+- **Checks:** every Bible edit matched its anchor exactly once; build.mjs reports trd v0.5 and flow v0.4. No code change.
+- **Status:** passed
+- **Notes:** Paths for knowledge, Germany, dashboard and account pages are decided in their own phases. Slugs are the literal ones in a1.yaml (decision 0008).
