@@ -442,3 +442,39 @@ The entry format is in `CLAUDE.md`, under "PROGRESS.md entry".
 - **Checks:** `pnpm lint` clean; `pnpm typecheck` passed; `pnpm test` 249 passed; `pnpm content:check` valid; `pnpm test:db` 76 + 16 passed; CI on pull request #3 (phase-03/review-fixes → main) running at the time of this entry.
 - **Status:** passed
 - **Notes:** The owner merges pull request #3 into main once its check and database jobs are green; Vercel then builds Production from main. Carried forward: teacher review of 22 German strings (docs/content-review/A1.1.U01.md); Phase 6 follow-ups of decision 0013 (seed batching would also shorten CI); Piper voice licences before audio; Phase 4: how the web app reaches the protected API, listening items without playable audio until Phase 7, and a production database before real learners; Bible documentation update for decisions 0014, 0015, 0019, 0020, 0021 and TRD §24/§25. Phase 4 starts in a new session.
+
+## 2026-10-17 · Phase 3 · docs · Bible aligned with decisions 0001 to 0022
+
+- **Phase:** 3 API foundation (documentation, after gate M2)
+- **Module:** docs/bible (local), docs/prompts (local), CLAUDE.md (local), docs/decisions
+- **Update:** Bible documentation update for the decisions made in Phases 1 to 3
+- **Type:** decision
+- **What was done:** The owner approved all edits of the Bible alignment change set of 2026-10-17 ("all yes") and decided P4 (decision 0022: A1.1.U01 may be shown publicly before the teacher review). Applied to the local Bible: PRD v0.4 (OQ-03 resolved; NFR-005 exceptions 0009 and 0022), TRD v0.5 (error code list in §19; TRD-LOG-03 approved and the approval note removed; BE-05, BE-07, API-01, API-03, ERR-01, ERR-03, LOG-01, SEC-11; TRD-TEST-10; CI-01 triggers, CI-06, CI-07; DEP-05 proven with bundled entry and fra1; preview database; §25 final names with DATABASE_DEV_HOST and PORT; CNT-01, CNT-05, VAL-03; TRD-OQ-08 and 18 resolved), Flow v0.4 (FLOW-OQ-05 API side), Schema v0.4 (0001 subtitles, 0006 skills, 0008 slug rules, 0009 note, DB-OQ-07; the 0005, 0007 and 0013 edits were already present), Plan v0.5 (PLAN-DEC-01 to 03 decided, Phase 3 task notes, carry-overs into Phases 2b and 4 to 8, production database on the release checklist). Kit: CLAUDE.md fidelity rule 4 (decisions 0004, 0009, 0022); phase-03 brief updated; carry-overs added to the watch-outs of the phase-04 to phase-08 briefs. `node docs/bible/build.mjs` rebuilt INDEX.md and dist.
+- **Files:** docs/decisions/0022-u01-public-before-teacher-review.md, PROGRESS.md; local and git-ignored: docs/bible/01-prd.md, 02-trd.md, 03-flow.md, 05-schema.md, 06-plan.md, INDEX.md, dist/, docs/prompts/phase-03.md to phase-08.md, CLAUDE.md
+- **Checks:** every edit matched its anchor exactly once; build.mjs reports the six parts at their new versions
+- **Status:** passed
+- **Notes:** PLAN-OQ-05 (repository public from the first commit) left open pending the owner's answer. The docx copy of the Bible was not regenerated. This entry and decision 0022 are uncommitted; commit them on the next branch.
+
+## 2026-10-17 · Phase 3 · repo · Decision 0023: repository private until launch
+
+- **Phase:** 3 API foundation (documentation, after gate M2)
+- **Module:** repo, docs/decisions, docs/bible (local)
+- **Update:** PLAN-OQ-05 decided: the repository is private until launch
+- **Type:** decision
+- **What was done:** The owner decided to switch `rickavila296/deutschfreak` to private until launch; Plan task 18.4 makes it public. Local Bible: Plan §14 PLAN-OQ-05 marked resolved and the v0.5 change summary updated; `node docs/bible/build.mjs` rebuilt INDEX.md and dist.
+- **Files:** docs/decisions/0023-repository-private-until-launch.md, PROGRESS.md; local and git-ignored: docs/bible/06-plan.md, INDEX.md, dist/
+- **Checks:** none (decision only)
+- **Status:** passed
+- **Notes:** The owner changes the visibility in GitHub settings. On GitHub Free a private repository does not enforce branch protection, so "a red build blocks merging" (TRD-CI-02) is followed by hand, and Actions has 2,000 minutes a month. Uncommitted, with decision 0022 and the Bible alignment entry; commit on the next branch.
+
+## 2026-10-17 · Phase 3 · repo · Decision 0024: repository stays public
+
+- **Phase:** 3 API foundation (documentation, after gate M2)
+- **Module:** repo, docs/decisions, docs/bible (local)
+- **Update:** PLAN-OQ-05 re-decided: the repository stays public; decision 0023 superseded
+- **Type:** decision
+- **What was done:** After comparing both options, the owner withdrew decision 0023 (private until launch) before the visibility was changed and chose to keep the repository public (decision 0024). Decision 0023 marked superseded. Local Bible: Plan §14 PLAN-OQ-05 and the v0.5 change summary now cite 0024; `node docs/bible/build.mjs` rebuilt INDEX.md and dist.
+- **Files:** docs/decisions/0023-repository-private-until-launch.md, docs/decisions/0024-repository-public.md, PROGRESS.md; local and git-ignored: docs/bible/06-plan.md, INDEX.md, dist/
+- **Checks:** none (decision only)
+- **Status:** passed
+- **Notes:** No GitHub setting changes. Branch protection and unlimited Actions minutes stay as they are. Uncommitted with decisions 0022 and 0023 and the Bible alignment entry; commit on the next branch.
