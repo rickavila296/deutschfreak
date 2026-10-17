@@ -78,6 +78,9 @@
   --radius-sm: 0.25rem;
   --radius-md: 0.5rem;
   --radius-lg: 0.75rem;
+
+  /* Page content width, at most 1200 px (DESIGN-LAYOUT-02): max-w-page */
+  --container-page: 75rem;
 }
 
 /* Desktop type sizes (section 9) from Tailwind's lg breakpoint, 1024 px, where section 15's desktop starts. */
