@@ -598,3 +598,15 @@ The entry format is in `CLAUDE.md`, under "PROGRESS.md entry".
 - **Checks:** `pnpm lint` clean; `pnpm typecheck` passed; `pnpm test` 286 passed (web 35, validation 101, config 7, content 11, db 84, api 48); `pnpm content:check` valid; `pnpm test:db` 77 + 17 passed on the Neon test branch (migration 0005 applied there by the test setup). The API service test failed once with the context mapping removed.
 - **Status:** passed
 - **Notes:** Migration 0005 and the re-seed are not yet applied to the dev branch; until they are and the API is redeployed, a web build with the new schema cannot read the production map (it now requires `descriptionEn`/`contextEn`). Order: migrate and seed dev, merge, API deploys, then web.
+
+## 2026-10-17 · Phase 4 · apps/web · Task 4.6 unit page and part section
+
+- **Phase:** 4 Web shell
+- **Module:** apps/web
+- **Update:** Task 4.6: unit page at /learn/units/<slug>; the part section is the map's part (task 4.5)
+- **Type:** feature
+- **What was done:** The API has no unit endpoint, so the unit page reads the A1 map (`GET /v1/levels/A1/map`, cached) and finds the unit by slug (`findUnit`); an unknown slug calls notFound() and answers 404 (decision 0028). The page shows a link back to its part section (`/learn#a1-N`), the unit code, the German title (lang="de") as the page heading, the English subtitle, and its lessons in order through the same lesson row as the map: only published lessons link, planned ones say "Planned" and are not interactive, the checkpoint lesson is marked; a close-out unit carries "Checkpoint" (FLOW-LEARN-003, DESIGN-UI-081, 082, 085). The page title is "<unit title> · DeutschFreak". The part section (FLOW-LEARN-002) is the collapsible part on the German Map with its title, learner statement and units.
+- **Files:** apps/web/src/app/learn/units/[slug]/page.tsx, src/components/map/unit-page.tsx, unit-page.test.tsx, map-rules.ts
+- **Checks:** `pnpm lint` clean; `pnpm typecheck` passed (5 packages); `pnpm test` 283 passed (web 34, validation 101, config 7, content 10, db 84, api 47); `pnpm content:check` valid; web build against the production API succeeded. In the browser against production data: /learn/units/hallo shows "Hallo!" with its 5 lessons (L01 linked, L02 to L05 Planned, L05 Checkpoint) and the link back to /learn#a1-1; /learn/units/no-such-unit answers 404; /learn/units/a1-1-abschluss answers 200.
+- **Status:** passed
+- **Notes:** Not in the content yet, so not shown: the unit's context text (`units.context_en` is empty) and a part's course-page copy (FLOW-LEARN-002). Signed-in lesson statuses and missed checkpoint objectives come with accounts and progress.
