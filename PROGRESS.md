@@ -502,3 +502,15 @@ The entry format is in `CLAUDE.md`, under "PROGRESS.md entry".
 - **Checks:** none (decision only)
 - **Status:** passed
 - **Notes:** The local Bible still lists PLAN-DEC-04 and DESIGN-OQ-01 as open; the edits marking them decided await the owner's approval. DESIGN-OQ-05 (icon set) is still open and is needed before icons are used.
+
+## 2026-10-17 · Phase 4 · docs/bible · PLAN-DEC-04 marked decided in the Bible
+
+- **Phase:** 4 Web shell
+- **Module:** docs/bible (local)
+- **Update:** Bible bookkeeping for decision 0025
+- **Type:** docs
+- **What was done:** With the owner's approval ("yes bible"): Plan §5 PLAN-DEC-04 marked "Decided 17 Oct 2026 (decision 0025)" and the v0.5 change summary updated; Design Brief raised to v0.4 (version, date, change summary) with DESIGN-OQ-01 marked resolved. `node docs/bible/build.mjs` rebuilt INDEX.md and dist.
+- **Files:** PROGRESS.md; local and git-ignored: docs/bible/06-plan.md, 04-design.md, INDEX.md, dist/
+- **Checks:** every edit matched its anchor exactly once; build.mjs reports design v0.4 and plan v0.5
+- **Status:** passed
+- **Notes:** The Rec labels in Design §9 to §15 were left as they are; decision 0025 and the change summary record that they are now approved.
