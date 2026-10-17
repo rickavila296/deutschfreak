@@ -13,9 +13,9 @@ import { requestLog, stdoutSink, type LogSink } from './request-log.ts';
 export interface AppOptions extends ApiConfig {
   /** Where log lines go; tests pass their own. */
   logSink?: LogSink;
-  /** Used by `/health/ready`; src/index.ts passes the module-scope client's check. Without one, the database counts as unavailable. */
+  /** Used by `/health/ready`; src/main.ts passes the module-scope client's check. Without one, the database counts as unavailable. */
   checkDatabase?: DatabaseCheck;
-  /** The database for the `/v1` routes; src/index.ts passes the module-scope client (task 3.4). Without it, `/v1` is not mounted. */
+  /** The database for the `/v1` routes; src/main.ts passes the module-scope client (task 3.4). Without it, `/v1` is not mounted. */
   db?: Db;
   /** Extra routes, mounted after the API's own; tests use this to probe the middleware. */
   extraRoutes?: Router;

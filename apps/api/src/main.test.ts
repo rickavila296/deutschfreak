@@ -1,13 +1,13 @@
 import request from 'supertest';
 import { describe, expect, it } from 'vitest';
 
-// The Vercel entry contract (Vercel docs, Express on Vercel, checked 2026-10-16): src/index.ts default-exports the
-// app. A placeholder pooled URL is enough: the pool connects lazily and /health never touches the database.
-describe('src/index.ts, the deployed entry (TRD-DEP-01)', () => {
+// src/main.ts default-exports the configured app, which the Vercel entry (index.js, via dist/app.js) serves. The
+// A placeholder pooled URL is enough: the pool connects lazily and /health never touches the database.
+describe('src/main.ts, the configured app (TRD-DEP-01)', () => {
   it('default-exports the configured Express app', async () => {
     process.env.DATABASE_URL = 'postgresql://user:pw@ep-placeholder-pooler.eu-central-1.aws.neon.tech/neondb';
     process.env.WEB_ORIGIN = 'https://deutschfreak.com';
-    const { default: app } = await import('./index.ts');
+    const { default: app } = await import('./main.ts');
     expect(typeof app).toBe('function');
     const res = await request(app).get('/health').set('Origin', 'https://deutschfreak.com');
     expect(res.status).toBe(200);

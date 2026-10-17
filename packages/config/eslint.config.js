@@ -31,7 +31,17 @@ export const noDbInWeb = {
 };
 
 export default tseslint.config(
-  { ignores: ['docs/**', '.claude/**', '**/node_modules/**', '**/dist/**', '**/.next/**', '**/coverage/**'] },
+  {
+    ignores: [
+      'docs/**',
+      '.claude/**',
+      '.vercel/**',
+      '**/node_modules/**',
+      '**/dist/**',
+      '**/.next/**',
+      '**/coverage/**',
+    ],
+  },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {
