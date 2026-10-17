@@ -33,6 +33,16 @@ describe('GET /v1/levels/:code/map (TRD-API-02)', () => {
     expect(lessons.filter((l) => l.status === 'published').map((l) => l.code)).toEqual(['A1.1.U01.L01']);
   });
 
+  it('carries each part description and unit context, null for units without one (decision 0030)', async () => {
+    const map = levelMapResponseSchema.parse((await request(app).get('/v1/levels/A1/map')).body);
+    expect(map.parts.every((p) => p.descriptionEn !== null)).toBe(true);
+    const units = map.parts.flatMap((p) => p.units);
+    expect(units.filter((u) => u.contextEn !== null)).toHaveLength(19);
+    expect(units.find((u) => u.code === 'A1.1.U01')?.contextEn).toBe(
+      'Meeting someone for the first time, formally and informally.',
+    );
+  });
+
   it('never exposes a uuid (TRD-API-21)', async () => {
     const res = await request(app).get('/v1/levels/A1/map');
     expect(res.text).not.toMatch(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i);

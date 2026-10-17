@@ -76,6 +76,7 @@ describe('8.2 course_parts', () => {
       level_id: { type: 'uuid', notNull: true },
       title: { type: 'text', notNull: true },
       tagline: { type: 'text', notNull: true },
+      description_en: { type: 'text', notNull: false },
       position: { type: 'integer', notNull: true },
     });
   });

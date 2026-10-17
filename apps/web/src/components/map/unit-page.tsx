@@ -6,7 +6,7 @@ import { Tag } from './tag.tsx';
 
 // The unit page (FLOW-LEARN-003): title and subtitle, then the unit's lessons in order with objective and archetype,
 // the checkpoint lesson marked. Planned lessons are shown but not openable, as on the map (DESIGN-UI-082).
-// The unit's context text is not in the content yet, so none is shown.
+// The context says which situation the unit is set in (decision 0030); close-out units have none.
 export function UnitPage({ part, unit }: { part: MapPart; unit: MapUnit }) {
   return (
     <div className="flex flex-col gap-8">
@@ -25,6 +25,7 @@ export function UnitPage({ part, unit }: { part: MapPart; unit: MapUnit }) {
           {unit.title}
         </h1>
         <p className="text-reading text-muted-text">{unit.subtitleEn}</p>
+        {unit.contextEn && <p className="max-w-prose text-reading text-ink">{unit.contextEn}</p>}
       </div>
       <section aria-labelledby="unit-lessons" className="flex flex-col gap-2">
         <h2 id="unit-lessons" className="text-h2 text-ink">

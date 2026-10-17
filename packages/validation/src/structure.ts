@@ -60,6 +60,8 @@ export const structureUnitSchema = z.strictObject({
   title: text,
   slug: slugSchema,
   subtitle_en: text,
+  /** The situation the unit is set in: the "Context:" clause of its Spec section (decision 0030). Close-out units have none. */
+  context_en: text.optional(),
   lessons: z.array(structureLessonSchema).min(1),
 });
 
@@ -67,6 +69,8 @@ export const structurePartSchema = z.strictObject({
   code: partCodeSchema,
   title: text,
   tagline: text,
+  /** The part's course-page copy, Spec §13 (decision 0030). */
+  description_en: text.optional(),
   units: z.array(structureUnitSchema).min(1),
 });
 

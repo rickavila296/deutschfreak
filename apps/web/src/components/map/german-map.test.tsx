@@ -31,12 +31,14 @@ const map: LevelMapResponse = {
       code: 'A1.1',
       title: 'Part one',
       tagline: 'Tagline one.',
+      descriptionEn: 'Part one copy.',
       units: [
         {
           code: 'A1.1.U01',
           slug: 'unit-one',
           title: 'Unit one',
           subtitleEn: 'Subtitle one',
+          contextEn: null,
           lessons: [
             lesson('A1.1.U01.L01', 'live-lesson', 'published', ['conversation']),
             lesson('A1.1.U01.L02', 'planned-lesson', 'planned', ['grammar']),
@@ -48,6 +50,7 @@ const map: LevelMapResponse = {
           slug: 'close-out',
           title: 'Close-out',
           subtitleEn: 'Part review',
+          contextEn: null,
           lessons: [lesson('A1.1.U06.L01', 'retired-lesson', 'retired', ['integrated'])],
         },
       ],
@@ -56,12 +59,14 @@ const map: LevelMapResponse = {
       code: 'A1.2',
       title: 'Part two',
       tagline: 'Tagline two.',
+      descriptionEn: null,
       units: [
         {
           code: 'A1.2.U01',
           slug: 'unit-two',
           title: 'Unit two',
           subtitleEn: 'Subtitle two',
+          contextEn: null,
           lessons: [lesson('A1.2.U01.L01', 'later-lesson', 'planned', ['vocabulary'])],
         },
       ],
@@ -125,6 +130,11 @@ describe('German Map (FLOW-LEARN-001, DESIGN-UI-080 to 085)', () => {
     expect(second?.id).toBe('a1-2');
     expect(second?.open).toBe(false);
     expect(within(second!.querySelector('summary')!).getByText('Planned')).toBeTruthy();
+  });
+
+  it('shows the course-page copy of a part when it has one (FLOW-LEARN-002, decision 0030)', () => {
+    render(<GermanMap map={map} />);
+    expect(screen.getByText('Part one copy.')).toBeTruthy();
   });
 
   it('links units to their pages and marks German titles with lang="de"', () => {

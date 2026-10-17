@@ -1,0 +1,1 @@
+ALTER TABLE "course_parts" ADD COLUMN "description_en" text;

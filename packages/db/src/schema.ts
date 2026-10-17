@@ -90,6 +90,8 @@ export const courseParts = pgTable(
       .references(() => levels.id, { onDelete: 'restrict' }),
     title: text('title').notNull(),
     tagline: text('tagline').notNull(),
+    /** Course-page copy (Spec §13; decision 0030). */
+    descriptionEn: text('description_en'),
     position: integer('position').notNull(),
   },
   (t) => [

@@ -36,6 +36,13 @@
       "when": 1792147698272,
       "tag": "0004_lesson_blocks_mode_check",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1792259186022,
+      "tag": "0005_part_description",
+      "breakpoints": true
     }
   ]
 }

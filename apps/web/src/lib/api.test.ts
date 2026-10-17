@@ -4,7 +4,7 @@ import { ApiRequestError, getLevelMap } from './api.ts';
 // The network is replaced; the client's own handling of status codes and schema checks is what is tested.
 const validMap = {
   level: { code: 'A1', title: 'German A1' },
-  parts: [{ code: 'A1.1', title: 'Part', tagline: 'Tagline.', units: [] }],
+  parts: [{ code: 'A1.1', title: 'Part', tagline: 'Tagline.', descriptionEn: null, units: [] }],
 };
 
 function fakeFetch(status: number, body: unknown) {

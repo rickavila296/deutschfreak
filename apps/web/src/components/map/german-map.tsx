@@ -46,6 +46,7 @@ function PartSection({ part }: { part: MapPart }) {
         </span>
       </summary>
       <div className="flex flex-col gap-8 px-4 pb-6 md:px-6">
+        {part.descriptionEn && <p className="max-w-prose text-reading text-ink">{part.descriptionEn}</p>}
         {part.units.map((unit) => (
           <UnitSection key={unit.code} unit={unit} />
         ))}

@@ -30,12 +30,14 @@ const map: LevelMapResponse = {
       code: 'A1.1',
       title: 'Part one',
       tagline: 'Tagline one.',
+      descriptionEn: null,
       units: [
         {
           code: 'A1.1.U01',
           slug: 'unit-one',
           title: 'Unit one',
           subtitleEn: 'Subtitle one',
+          contextEn: 'A situation.',
           lessons: [
             lesson('A1.1.U01.L01', 'live-lesson', 'published', ['conversation']),
             lesson('A1.1.U01.L02', 'unit-checkpoint', 'planned', ['checkpoint']),
@@ -47,7 +49,10 @@ const map: LevelMapResponse = {
       code: 'A1.2',
       title: 'Part two',
       tagline: 'Tagline two.',
-      units: [{ code: 'A1.2.U06', slug: 'close-out', title: 'Close-out', subtitleEn: 'Review', lessons: [] }],
+      descriptionEn: null,
+      units: [
+        { code: 'A1.2.U06', slug: 'close-out', title: 'Close-out', subtitleEn: 'Review', contextEn: null, lessons: [] },
+      ],
     },
   ],
 };
@@ -67,6 +72,7 @@ describe('unit page (FLOW-LEARN-003)', () => {
     const title = screen.getByRole('heading', { level: 1, name: 'Unit one' });
     expect(title.getAttribute('lang')).toBe('de');
     expect(screen.getByText('Subtitle one')).toBeTruthy();
+    expect(screen.getByText('A situation.')).toBeTruthy();
     expect(screen.getByRole('link', { name: 'A1.1 Part one' }).getAttribute('href')).toBe('/learn#a1-1');
   });
 
