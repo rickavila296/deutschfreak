@@ -478,3 +478,15 @@ The entry format is in `CLAUDE.md`, under "PROGRESS.md entry".
 - **Checks:** none (decision only)
 - **Status:** passed
 - **Notes:** No GitHub setting changes. Branch protection and unlimited Actions minutes stay as they are. Uncommitted with decisions 0022 and 0023 and the Bible alignment entry; commit on the next branch.
+
+## 2026-10-17 · Phase 4 · apps/web · Task 4.1 web app with NEXT_PUBLIC_API_URL
+
+- **Phase:** 4 Web shell
+- **Module:** apps/web
+- **Update:** Task 4.1: Next.js App Router app created; NEXT_PUBLIC_API_URL set up
+- **Type:** feature
+- **What was done:** New workspace package `@deutschfreak/web` (Next.js 16 App Router, React 19, TypeScript strict via packages/config/tsconfig.base.json, Vitest). `src/lib/config.ts` `readApiUrl()` reads NEXT_PUBLIC_API_URL and refuses a missing value, a non-http(s) URL, credentials, a query or a fragment, naming the variable and never echoing the value; a trailing slash is dropped. `next.config.ts` loads the repo-root `.env` (shared with apps/api) when it exists; checked once that the value is inlined into the build. Placeholder root layout and start page only (theme 4.2, shell 4.4, map 4.5). `.env.example` lists NEXT_PUBLIC_API_URL; `.gitignore` ignores the generated `next-env.d.ts`. No dependency on packages/db; the existing lint rule refuses such an import (shown once).
+- **Files:** apps/web/package.json, tsconfig.json, next.config.ts, vitest.config.ts, src/app/layout.tsx, src/app/page.tsx, src/lib/config.ts, src/lib/config.test.ts; .env.example; .gitignore; pnpm-lock.yaml
+- **Checks:** `pnpm lint` clean; `pnpm typecheck` passed (6 packages); `pnpm test` 254 passed (web 5, validation 101, config 7, content 10, db 84, api 47); `pnpm content:check` valid; `pnpm --filter @deutschfreak/web build` succeeded; eslint refused a test import of `@deutschfreak/db` in apps/web
+- **Status:** passed
+- **Notes:** `@types/node` resolved to ^26 for apps/web (apps/api has ^24; runtime is Node 24). Vercel Production of the API has no environment variables (only Preview has them): Production answers /health but /health/ready and /v1 return internal_error, which blocks gate M3 until a production database and WEB_ORIGIN are set. PLAN-DEC-04 (DESIGN-OQ-01) must be decided before task 4.2.
