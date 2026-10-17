@@ -514,3 +514,15 @@ The entry format is in `CLAUDE.md`, under "PROGRESS.md entry".
 - **Checks:** every edit matched its anchor exactly once; build.mjs reports design v0.4 and plan v0.5
 - **Status:** passed
 - **Notes:** The Rec labels in Design §9 to §15 were left as they are; decision 0025 and the change summary record that they are now approved.
+
+## 2026-10-17 · Phase 4 · apps/web · Task 4.2 Tailwind theme and Inter
+
+- **Phase:** 4 Web shell
+- **Module:** apps/web
+- **Update:** Task 4.2: Tailwind theme built from the Design Brief tokens; Inter served from the app's own files
+- **Type:** feature
+- **What was done:** Tailwind CSS 4 via @tailwindcss/postcss. `src/app/theme.css` holds the Design Brief section 11 tokens and only those (DESIGN-HAND-01, decision 0025): Tailwind's default colours, fonts, weights, type sizes, radii and shadows are cleared; colours ink, blue, teal, gold, red, paper, surface, muted, the five text variants, white and border (ink at 12%); the nine type-scale steps with mobile values, switched to the desktop values from Tailwind's lg breakpoint (1024 px), sizes in rem; weights 400 to 700; radius sm 4, md 8, lg 12 px. Spacing and breakpoints stay Tailwind's defaults (sections 12, 15). Inter: the variable latin woff2 from @fontsource-variable/inter (SIL OFL 1.1) through next/font/local, so the build serves and preloads it from the app's own origin with no font service (DESIGN-HAND-02), with a system sans-serif fallback (DESIGN-TYPE-05). The root layout applies font-sans, text-body and text-ink.
+- **Files:** apps/web/package.json, postcss.config.mjs, src/app/theme.css, src/app/globals.css, src/app/fonts.ts, src/app/layout.tsx, src/theme.test.ts; pnpm-lock.yaml
+- **Checks:** `pnpm lint` clean; `pnpm typecheck` passed (6 packages); `pnpm test` 260 passed (web 11, validation 101, config 7, content 10, db 84, api 47); `pnpm content:check` valid; web build succeeded, built CSS has the local @font-face and a woff2 preload, no Google font URL. The theme tests were shown to fail once with a wrong gold-text hex, a wrong h3 size and a hex in a source file.
+- **Status:** passed
+- **Notes:** Not specified by the Brief, so open: the value of the one shadow level (section 11; no shadow token is defined until a floating component needs it) and whether tablet widths use the mobile or desktop type sizes (section 9 gives two columns; desktop sizes start at 1024 px here). The focus outline (section 11) is applied in task 4.4.
