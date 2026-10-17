@@ -418,3 +418,15 @@ The entry format is in `CLAUDE.md`, under "PROGRESS.md entry".
 - **Checks:** Red first for (1): the new audio unit test failed before the fix; re-adding `audio` to the allow-list and schema made the database no-answers test fail. Breaking fixes 2, 3, 4, 7, 9 and 10 one at a time made their new tests fail (2, 1, 1, 1, 1, 1); all restored. `pnpm lint` clean; `pnpm typecheck` passed; `pnpm test` 249 passed (api 47, db 84, validation 101, content 10, config 7); `pnpm content:check` valid; `pnpm test:db` 76 + 16 passed. `npx vercel build` succeeded; the bundle run locally against dev: `/health/ready` 200, lesson without answers/audio/model/checklist keys, `/v1/lessons/%E0` 400 validation_failed.
 - **Status:** passed
 - **Notes:** Approved test changes: the audio case now expects audio dropped; the request-log case expects `aborted: false`; the Zod probe route uses `parseRequest`. Listening items are not usable until Phase 7 provides an opaque audio reference. A branch without a pull request is no longer checked by CI automatically ("Run workflow" or open the pull request). Next: pull request phase-03/review-fixes → main, CI green, then the M2 gate re-run.
+
+## 2026-10-17 · Phase 3 · apps/api · Phase 3 review notes N1 to N5
+
+- **Phase:** 3 API foundation
+- **Module:** apps/api, docs/reviews
+- **Update:** The second review's notes on the review fixes (docs/reviews/phase-03-review-fixes.md), approved by the owner with the fixes
+- **Type:** fix
+- **What was done:** N1: decision 0021 written (previous entry). N2: CI runs on branches only through a pull request or "Run workflow" (in decision 0021). N3: the no-answers Supertest no longer lists code prefixes by hand; it collects every `code` and `voice` value in the response and fails if any string in an exercise item (other than its own code) equals one. N4: an aborted request is logged at `warn`, with status 499 when no response had been sent, instead of info/200. N5: listening items carry nothing playable until Phase 7 gives them an opaque audio reference; to carry into Phase 4 planning.
+- **Files:** apps/api/src/routes/lessons.db.test.ts, apps/api/src/request-log.ts, apps/api/src/request-log.test.ts, docs/reviews/phase-03-review-fixes.md, PROGRESS.md
+- **Checks:** Reverting N4 made the aborted-request test fail; leaking the stored audio code into an item's options with the equality check switched off made the new guard fail ("…:i01 names phrase:hallo"); both restored. `pnpm lint` clean; `pnpm typecheck` passed; `pnpm test` 249 passed; `pnpm content:check` valid; `apps/api test:db` 16 passed.
+- **Status:** passed
+- **Notes:** docs/reviews/phase-03-review-fixes.md is the review record written by the owner's review session; committed as is. Next: pull request phase-03/review-fixes → main, CI green, M2 gate re-run.

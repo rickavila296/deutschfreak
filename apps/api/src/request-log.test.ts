@@ -15,7 +15,7 @@ afterEach(() => {
 });
 
 describe('request log for an aborted request (TRD-LOG-01)', () => {
-  it('writes one line, marked aborted, when the client disconnects first', async () => {
+  it('writes one warn line, marked aborted with status 499, when the client disconnects first (review notes N4)', async () => {
     const lines: LogLine[] = [];
     const logged = new Promise<void>((resolve) => {
       const routes = Router();
@@ -40,6 +40,12 @@ describe('request log for an aborted request (TRD-LOG-01)', () => {
     req.destroy();
     await logged;
     expect(lines).toHaveLength(1);
-    expect(lines[0]).toMatchObject({ path: '/slow', method: 'GET', aborted: true } satisfies Partial<RequestLogLine>);
+    expect(lines[0]).toMatchObject({
+      path: '/slow',
+      method: 'GET',
+      aborted: true,
+      level: 'warn',
+      status: 499,
+    } satisfies Partial<RequestLogLine>);
   });
 });

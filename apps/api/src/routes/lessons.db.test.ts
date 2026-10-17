@@ -22,6 +22,26 @@ function allKeys(value: unknown, keys = new Set<string>()): Set<string> {
   return keys;
 }
 
+/** Every string anywhere in a JSON value. */
+function allStrings(value: unknown, out: string[] = []): string[] {
+  if (typeof value === 'string') out.push(value);
+  else if (Array.isArray(value)) for (const v of value) allStrings(v, out);
+  else if (value !== null && typeof value === 'object') for (const v of Object.values(value)) allStrings(v, out);
+  return out;
+}
+
+/** Every value of a `code` or `voice` key anywhere in a JSON value: the codes the response exposes. */
+function allCodes(value: unknown, out: string[] = []): string[] {
+  if (Array.isArray(value)) for (const v of value) allCodes(v, out);
+  else if (value !== null && typeof value === 'object') {
+    for (const [k, v] of Object.entries(value)) {
+      if ((k === 'code' || k === 'voice') && typeof v === 'string') out.push(v);
+      else allCodes(v, out);
+    }
+  }
+  return out;
+}
+
 /** The stored payloads of the lesson's exercise items, read straight from the database. */
 let stored: { code: string; payload: Record<string, unknown>; feedbackEn: string | null }[] = [];
 
@@ -93,10 +113,15 @@ describe('GET /v1/lessons/:slug (TRD-API-03)', () => {
       expect(item).toEqual({ code: item.code, ...promptSide });
     }
     expect(stored.some((row) => 'answers' in row.payload || 'model' in row.payload)).toBe(true);
-    // No item names a knowledge object: a phrase or word code would point to the block that holds its meaning,
-    // which is the answer of a listening item (review 3 finding 1).
+    // No item names anything else in the response: a phrase or word code would point to the block that holds its
+    // meaning, which is the answer of a listening item (review 3 finding 1). Every code found anywhere in the
+    // response is collected, so no list of code prefixes can go stale (review notes N3).
     expect(stored.some((row) => 'audio' in row.payload)).toBe(true);
-    expect(JSON.stringify(items)).not.toMatch(/(phrase|vocab|eg|dlg|sound|pattern):/);
+    const responseCodes = new Set(allCodes(res.body));
+    for (const item of items) {
+      const { code, ...rest } = item;
+      for (const value of allStrings(rest)) expect(responseCodes.has(value), `${code} names ${value}`).toBe(false);
+    }
   });
 
   it('loads the lesson with one query, not one per block (TRD-BE-04)', async () => {

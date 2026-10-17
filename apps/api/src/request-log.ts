@@ -3,7 +3,10 @@ import type { RequestHandler } from 'express';
 // Structured JSON log lines (TRD-LOG-01). What a line must never hold (decision 0014, TRD-LOG-03): the body, the
 // headers (cookies and session tokens travel there) and the query string. Only the path is logged.
 
-/** One line per request. `aborted` is true when the client went away before the response was complete. */
+/**
+ * One line per request. `aborted` is true when the client went away before the response was complete; such a line is
+ * a warning, with status 499 when no response had been sent.
+ */
 export interface RequestLogLine {
   level: 'info' | 'warn' | 'error';
   time: string;
@@ -54,16 +57,19 @@ export function requestLog(sink: LogSink): RequestHandler {
     // 'close' fires once for every response, finished or not; 'finish' alone misses requests whose client went away
     // first, which are often the slow or failing ones (review 3 finding 7).
     res.on('close', () => {
-      const status = res.statusCode;
+      const aborted = !res.writableFinished;
+      // An aborted request is a warning, and without a sent response its status is not the default 200 but 499,
+      // the usual 'client closed request' (review notes N4).
+      const status = aborted && !res.headersSent ? 499 : res.statusCode;
       sink({
-        level: status >= 500 ? 'error' : status >= 400 ? 'warn' : 'info',
+        level: status >= 500 ? 'error' : status >= 400 || aborted ? 'warn' : 'info',
         time: new Date().toISOString(),
         requestId: req.id,
         method: req.method,
         path,
         status,
         durationMs: Number((process.hrtime.bigint() - start) / 1000n) / 1000,
-        aborted: !res.writableFinished,
+        aborted,
       });
     });
     next();
