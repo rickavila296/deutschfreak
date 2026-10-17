@@ -11,6 +11,8 @@ if (existsSync(rootEnvFile)) process.loadEnvFile(rootEnvFile);
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  // packages/validation ships TypeScript source (TRD-FE-05: the web app reuses the API's Zod schemas).
+  transpilePackages: ['@deutschfreak/validation'],
 };
 
 export default nextConfig;
