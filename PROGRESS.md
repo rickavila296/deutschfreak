@@ -490,3 +490,15 @@ The entry format is in `CLAUDE.md`, under "PROGRESS.md entry".
 - **Checks:** `pnpm lint` clean; `pnpm typecheck` passed (6 packages); `pnpm test` 254 passed (web 5, validation 101, config 7, content 10, db 84, api 47); `pnpm content:check` valid; `pnpm --filter @deutschfreak/web build` succeeded; eslint refused a test import of `@deutschfreak/db` in apps/web
 - **Status:** passed
 - **Notes:** `@types/node` resolved to ^26 for apps/web (apps/api has ^24; runtime is Node 24). Vercel Production of the API has no environment variables (only Preview has them): Production answers /health but /health/ready and /v1 return internal_error, which blocks gate M3 until a production database and WEB_ORIGIN are set. PLAN-DEC-04 (DESIGN-OQ-01) must be decided before task 4.2.
+
+## 2026-10-17 · Phase 4 · docs/decisions · Decision 0025: design recommendations approved
+
+- **Phase:** 4 Web shell
+- **Module:** docs/decisions
+- **Update:** PLAN-DEC-04 decided: the Design Brief's recommendations are approved as written (DESIGN-OQ-01 closed)
+- **Type:** decision
+- **What was done:** The owner approved the Design Brief values as written: type scale, text-variant hex values, neutrals, radius, spacing, grid, breakpoints, touch-target size, token names, rail layout and word-order tap model. Logged as decision 0025.
+- **Files:** docs/decisions/0025-design-recommendations-approved.md, PROGRESS.md
+- **Checks:** none (decision only)
+- **Status:** passed
+- **Notes:** The local Bible still lists PLAN-DEC-04 and DESIGN-OQ-01 as open; the edits marking them decided await the owner's approval. DESIGN-OQ-05 (icon set) is still open and is needed before icons are used.
