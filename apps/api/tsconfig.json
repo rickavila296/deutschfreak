@@ -1,7 +1,11 @@
 {
   "extends": "../../packages/config/tsconfig.base.json",
   "compilerOptions": {
-    "types": ["node"]
+    "types": ["node"],
+    // Vercel's build compiles through a temporary tsconfig outside the repo that extends this one; with TypeScript 7
+    // the "node" types are then looked up from there and not found (TS2688, first preview build of task 3.8).
+    // A typeRoots path is resolved relative to this file, so the lookup works wherever the build runs.
+    "typeRoots": ["./node_modules/@types"]
   },
   "include": ["src", "vitest.config.ts", "vitest.db.config.ts"]
 }
