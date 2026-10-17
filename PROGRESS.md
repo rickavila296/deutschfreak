@@ -550,3 +550,15 @@ The entry format is in `CLAUDE.md`, under "PROGRESS.md entry".
 - **Checks:** every Bible edit matched its anchor exactly once; build.mjs reports trd v0.5 and flow v0.4. No code change.
 - **Status:** passed
 - **Notes:** Paths for knowledge, Germany, dashboard and account pages are decided in their own phases. Slugs are the literal ones in a1.yaml (decision 0008).
+
+## 2026-10-17 · Phase 4 · docs/decisions · Decision 0029: production uses the dev database
+
+- **Phase:** 4 Web shell
+- **Module:** docs/decisions, docs/bible (local)
+- **Update:** Production database for gate M3 decided: Production uses the dev branch for now
+- **Type:** decision
+- **What was done:** The owner decided "prod uses dev" (decision 0029): the Vercel API project's Production environment gets the dev branch's DATABASE_URL and DATABASE_URL_DIRECT, like Preview (decision 0019), and WEB_ORIGIN set to the web app's production origin. A separate production database stays required before real learners. Local Bible: TRD §25 DATABASE_URL row and the v0.5 change summary; `node docs/bible/build.mjs` rebuilt INDEX.md and dist.
+- **Files:** docs/decisions/0029-production-uses-dev-database.md, PROGRESS.md; local and git-ignored: docs/bible/02-trd.md, INDEX.md, dist/
+- **Checks:** the Bible edit matched its anchor exactly once
+- **Status:** passed
+- **Notes:** Found during the Phase 4 prerequisite check: Production had no environment variables, so /health answered but /health/ready and /v1 returned internal_error. The owner sets the variables in Vercel and redeploys Production; Claude Code does not handle the connection strings.
