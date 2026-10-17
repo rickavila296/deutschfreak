@@ -526,3 +526,15 @@ The entry format is in `CLAUDE.md`, under "PROGRESS.md entry".
 - **Checks:** `pnpm lint` clean; `pnpm typecheck` passed (6 packages); `pnpm test` 260 passed (web 11, validation 101, config 7, content 10, db 84, api 47); `pnpm content:check` valid; web build succeeded, built CSS has the local @font-face and a woff2 preload, no Google font URL. The theme tests were shown to fail once with a wrong gold-text hex, a wrong h3 size and a hex in a source file.
 - **Status:** passed
 - **Notes:** Not specified by the Brief, so open: the value of the one shadow level (section 11; no shadow token is defined until a floating component needs it) and whether tablet widths use the mobile or desktop type sizes (section 9 gives two columns; desktop sizes start at 1024 px here). The focus outline (section 11) is applied in task 4.4.
+
+## 2026-10-17 · Phase 4 · docs/decisions · Decisions 0026 and 0027: Lucide icons, tablet type sizes, shadow level
+
+- **Phase:** 4 Web shell
+- **Module:** docs/decisions, docs/bible (local)
+- **Update:** DESIGN-OQ-05 icon set decided (Lucide); the two theme points the Design Brief leaves open decided
+- **Type:** decision
+- **What was done:** The owner chose Lucide as the icon set (decision 0026; the mock-up half of DESIGN-OQ-05 stays open) and approved applying the two choices from the task 4.2 report (decision 0027): the §9 Mobile type sizes apply below 1024 px, tablets included, and the Desktop sizes from 1024 px; the §11 shadow level gets no token until the first floating component, when its value is decided. Local Bible: Design Brief v0.4 §9 note, §11 Shadow row, §40 handoff note, DESIGN-OQ-05 and the change summary updated; `node docs/bible/build.mjs` rebuilt INDEX.md and dist.
+- **Files:** docs/decisions/0026-icon-set-lucide.md, docs/decisions/0027-theme-points-the-brief-leaves-open.md, PROGRESS.md; local and git-ignored: docs/bible/04-design.md, INDEX.md, dist/
+- **Checks:** every Bible edit matched its anchor exactly once; build.mjs reports design v0.4. No code change: theme.css already follows decision 0027.
+- **Status:** passed
+- **Notes:** The Lucide React package is added when the first icon is used (task 4.4 or later).
