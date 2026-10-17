@@ -7,7 +7,9 @@ export default defineConfig({
     include: ['src/**/*.db.test.ts'],
     globalSetup: ['src/testing/migrate-test-database.ts'],
     fileParallelism: false,
-    testTimeout: 30_000,
+    // CI runs in the US against Neon in Frankfurt; the seed's row-by-row writes (decision 0013 finding 7, Phase 6)
+    // need far longer there than locally (decision 0020).
+    testTimeout: 180_000,
     hookTimeout: 60_000,
   },
 });

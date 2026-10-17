@@ -8,7 +8,8 @@
     "format": "prettier --write .",
     "typecheck": "pnpm -r typecheck",
     "test": "pnpm -r test",
-    "content:check": "pnpm --filter @deutschfreak/content validate"
+    "content:check": "pnpm --filter @deutschfreak/content validate",
+    "test:db": "pnpm --filter @deutschfreak/db test:db && pnpm --filter @deutschfreak/api test:db"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

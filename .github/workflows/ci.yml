@@ -1,8 +1,13 @@
 name: CI
 
+# Pushes to main, every pull request, and on demand (Actions → CI → Run workflow). A push to a branch with an open
+# pull request is covered by the pull_request run alone, so the database job no longer runs twice per commit
+# (review 3 finding 6). A branch without a pull request can be checked with "Run workflow".
 on:
   push:
+    branches: [main]
   pull_request:
+  workflow_dispatch:
 
 jobs:
   check:
@@ -19,3 +24,35 @@ jobs:
       - run: pnpm typecheck
       - run: pnpm test
       - run: pnpm content:check
+
+  # Database tests and the API's Supertest suite against the Neon test branch (decisions 0012, 0016; M2 gate).
+  # Secrets, added by the owner in GitHub: DATABASE_URL_TEST (direct connection string of the test branch) and
+  # DATABASE_DEV_HOST (the dev branch's endpoint host only, no credentials). CI never gets a dev connection string:
+  # DATABASE_URL below is a placeholder built from the host alone, so the test-branch guard can still refuse a
+  # DATABASE_URL_TEST that points at dev. Nothing connects with it.
+  database:
+    runs-on: ubuntu-latest
+    needs: check
+    # One run at a time: every run migrates and seeds the same test branch.
+    concurrency:
+      group: neon-test-branch
+      cancel-in-progress: false
+    env:
+      DATABASE_URL_TEST: ${{ secrets.DATABASE_URL_TEST }}
+      DATABASE_URL: postgresql://ci-placeholder@${{ secrets.DATABASE_DEV_HOST }}/neondb
+      DATABASE_DEV_HOST: ${{ secrets.DATABASE_DEV_HOST }}
+    steps:
+      # Without both secrets the guard would have nothing real to compare against, so the job stops here instead.
+      - name: Check the test database secrets are set
+        run: |
+          test -n "$DATABASE_URL_TEST" || { echo 'Secret DATABASE_URL_TEST is missing'; exit 1; }
+          test -n "$DATABASE_DEV_HOST" || { echo 'Secret DATABASE_DEV_HOST is missing'; exit 1; }
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @deutschfreak/db test:db
+      - run: pnpm --filter @deutschfreak/api test:db

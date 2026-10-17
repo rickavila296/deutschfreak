@@ -1,0 +1,33 @@
+{
+  "name": "@deutschfreak/api",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch src/dev-server.ts",
+    "start": "node src/dev-server.ts",
+    "typecheck": "tsc",
+    "test": "vitest run",
+    "test:db": "vitest run --config vitest.db.config.ts",
+    "build": "node scripts/bundle.ts"
+  },
+  "dependencies": {
+    "@deutschfreak/db": "workspace:*",
+    "@deutschfreak/validation": "workspace:*",
+    "@vercel/functions": "^3.10.1",
+    "cors": "^2.8.6",
+    "express": "^5.3.0",
+    "helmet": "^8.3.0",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/node": "^24.19.2",
+    "@types/supertest": "^7.2.1",
+    "esbuild": "^0.28.2",
+    "supertest": "^7.3.1",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.5"
+  }
+}

@@ -298,3 +298,147 @@ The entry format is in `CLAUDE.md`, under "PROGRESS.md entry".
 - **Checks:** `CI=true pnpm install --frozen-lockfile` passed locally (failed before the change); `drizzle-kit check` fine and `drizzle-kit generate` reports no schema changes; `pnpm lint` clean; `pnpm typecheck` passed; `pnpm test` 189 passed; `pnpm content:check` valid. CI result on GitHub follows the push.
 - **Status:** passed
 - **Notes:** Any new dependency with an install script must be listed under `allowBuilds` (true or false) or CI install fails.
+
+## 2026-10-16 · Phase 3 · docs/decisions · Decision 0014: TRD-LOG-03 approved
+
+- **Phase:** 3 API foundation
+- **Module:** docs/decisions
+- **Update:** The owner approved TRD-LOG-03 (option A) before task 3.1
+- **Type:** decision
+- **What was done:** Decision 0014: logs never contain passwords, session tokens, connection strings or given answers tied to an identity beyond what the attempts table stores. For Phase 3, request log lines carry no body, no headers and no query string.
+- **Files:** docs/decisions/0014-log-content-rule.md, PROGRESS.md
+- **Checks:** none (decision only)
+- **Status:** passed
+- **Notes:** The local TRD §20 row still shows "R" and the approval note in the TRD stays until a Bible edit is approved.
+
+## 2026-10-16 · Phase 3 · apps/api · Task 3.1 Express app skeleton
+
+- **Phase:** 3 API foundation
+- **Module:** apps/api
+- **Update:** Task 3.1: `apps/api` created: Express 5, middleware order, helmet, CORS for `WEB_ORIGIN`, JSON request log with a request id
+- **Type:** feature
+- **What was done:** New package `@deutschfreak/api`. `createApp` registers, in order (TRD-BE-08): request id (a fresh uuid per request, client ids ignored, sent back as `X-Request-Id`), request log, `helmet`, CORS allowing only `WEB_ORIGIN` (TRD-SEC-15), JSON body parser; `x-powered-by` off. The log writes one JSON line per request to stdout (level, time, requestId, method, path, status, durationMs; warn for 4xx, error for 5xx) and never the body, headers or query string (TRD-LOG-01, decision 0014). `readApiConfig` requires `WEB_ORIGIN` to be a bare http(s) origin and never echoes the value. `src/server.ts` is the local dev server (`PORT`, default 4000, owner kept it local-only); the Vercel entry comes with 3.8. `@types/node` aligned to 24 like `packages/db` (owner approved).
+- **Files:** apps/api/package.json, apps/api/tsconfig.json, apps/api/vitest.config.ts, apps/api/src/app.ts, apps/api/src/app.test.ts, apps/api/src/config.ts, apps/api/src/config.test.ts, apps/api/src/request-id.ts, apps/api/src/request-log.ts, apps/api/src/server.ts, pnpm-lock.yaml, PROGRESS.md
+- **Checks:** Opening CORS to every origin and logging the full URL on purpose made 4 tests fail; restored. Dev server smoke run: 404 with `X-Request-Id`, CSP header, one log line without the query. `pnpm lint` clean; `pnpm typecheck` passed; `pnpm test` 201 passed (api 12, validation 97, db 75, content 10, config 7); `pnpm content:check` valid.
+- **Status:** passed
+- **Notes:** Express type augmentation goes through the global `Express` namespace; `express-serve-static-core` is not a direct dependency under pnpm. No routes yet; 404s are Express's default until 3.2.
+
+## 2026-10-16 · Phase 3 · apps/api, packages/validation · Task 3.2 error handler and error codes
+
+- **Phase:** 3 API foundation
+- **Module:** apps/api, packages/validation, docs/decisions
+- **Update:** Task 3.2: the single error-handling middleware, the one error shape and the fixed list of error codes (decision 0015)
+- **Type:** feature
+- **What was done:** Decision 0015 (owner approved): ten error codes, each with one status: validation_failed 400, invalid_json 400, unauthorized 401, not_found 404, level_not_found 404, lesson_not_found 404, payload_too_large 413, rate_limited 429, internal_error 500, database_unavailable 503. `packages/validation/src/api-errors.ts` holds the code-to-status map and the strict `apiErrorResponseSchema` (TRD-API-20). In `apps/api`: `ApiError(code, message)` takes its status from the map; `notFound` answers unmatched routes; `errorHandler`, registered last (TRD-ERR-01, TRD-BE-08), maps ApiError, ZodError (validation_failed, field paths only, TRD-ERR-03) and body-parser errors (invalid_json, payload_too_large); anything else becomes internal_error with a generic message, and one error log line (name, message, stack, request id) is written. `createApp` takes `extraRoutes`, mounted before the not-found handler.
+- **Files:** docs/decisions/0015-api-error-codes.md, packages/validation/src/api-errors.ts, packages/validation/src/api-errors.test.ts, packages/validation/src/index.ts, apps/api/package.json, apps/api/src/app.ts, apps/api/src/app.test.ts, apps/api/src/errors.ts, apps/api/src/error-handler.ts, apps/api/src/error-handler.test.ts, apps/api/src/request-log.ts, pnpm-lock.yaml, PROGRESS.md
+- **Checks:** Removing the error handler on purpose made 7 tests fail; disabling the Zod mapping made 1 fail; both restored. `pnpm lint` clean; `pnpm typecheck` passed; `pnpm test` 213 passed (api 20, validation 101, db 75, content 10, config 7); `pnpm content:check` valid.
+- **Status:** passed
+- **Notes:** Approved test change: `app.test.ts` now mounts its probe routes through `extraRoutes` (before the not-found handler); no assertion changed. Bible follow-up (owner): write the decision 0015 code list into TRD §19 / TRD-API-20 at the next Bible documentation update; also pending, the TRD-LOG-03 row (decision 0014). Open for 3.6: the code for a planned lesson.
+
+## 2026-10-16 · Phase 3 · apps/api, packages/validation · Task 3.3 health routes
+
+- **Phase:** 3 API foundation
+- **Module:** apps/api, packages/validation
+- **Update:** Task 3.3: `GET /health` and `GET /health/ready`
+- **Type:** feature
+- **What was done:** `healthRouter` (outside `/v1`, no auth, `Cache-Control: no-store` on these two routes only). `/health` answers `{ status: 'ok' }` without touching the database. `/health/ready` runs an injected `DatabaseCheck` with a 3 s timeout and answers `{ status: 'ready', database: 'reachable' }`, or `database_unavailable` (503, decision 0015) with no cause in the response; the cause is logged with the request id (decision 0014). `createApp` takes `checkDatabase`; without one, readiness reports the database unavailable (the real check is wired in 3.4). Response schemas `healthResponseSchema` and `readyResponseSchema` in `packages/validation`.
+- **Files:** apps/api/src/app.ts, apps/api/src/health.ts, apps/api/src/health.test.ts, packages/validation/src/health.ts, packages/validation/src/index.ts, PROGRESS.md
+- **Checks:** Making ready skip the database check on purpose made 4 tests fail; restored. Dev server smoke run: `/health` 200, `/health/ready` 503 database_unavailable with one error log line. `pnpm lint` clean; `pnpm typecheck` passed; `pnpm test` 220 passed (api 27, validation 101, db 75, content 10, config 7); `pnpm content:check` valid.
+- **Status:** passed
+- **Notes:** The 3 s timeout and the two response bodies are not in the Bible (owner approved them with 3.3). No database touched in this task.
+
+## 2026-10-16 · Phase 3 · apps/api, packages/db · Task 3.4 database client
+
+- **Phase:** 3 API foundation
+- **Module:** apps/api, packages/db
+- **Update:** Task 3.4: the API's database client, created once at module scope with the pooled connection string
+- **Type:** feature
+- **What was done:** `packages/db/src/client.ts`: `createDatabase(url)` makes one `pg.Pool` (pg defaults, max 10) with Drizzle and the schema on top, `check()` (`select 1`) for readiness, `close()`, and a pool `error` listener so a lost idle connection is reported instead of crashing the process. `readPooledDatabaseUrl` reads `DATABASE_URL` and refuses a string whose host lacks `-pooler`, never echoing it (TRD-BE-07, TRD-DB-14). `apps/api/src/db.ts` creates the client at module scope (TRD-PERF-03); `server.ts` passes `database.check` to `/health/ready`. `apps/api` now depends on `@deutschfreak/db` (allowed: only apps/api talks to the database, TRD-BE-01).
+- **Files:** packages/db/src/client.ts, packages/db/src/client.test.ts, packages/db/src/client.db.test.ts, packages/db/src/env.ts, packages/db/src/env.test.ts, packages/db/src/index.ts, apps/api/src/db.ts, apps/api/src/server.ts, apps/api/src/app.ts, apps/api/package.json, pnpm-lock.yaml, PROGRESS.md
+- **Checks:** Switching off the pooled-string guard on purpose made 1 test fail; restored. `test:db` on the test branch: first run 2 failed (an existing seed test timed out at 30 s, the next failed with 25P02 in the aborted transaction), re-run 76 passed in 154 s; the new client test passed alone and in the suite (one pooled connection reused). Local dev server against `DATABASE_URL`, read-only: `/health/ready` 200 reachable twice. `pnpm lint` clean; `pnpm typecheck` passed; `pnpm test` 226 passed (db 81, api 27, validation 101, content 10, config 7); `pnpm content:check` valid.
+- **Status:** passed
+- **Notes:** The seed test timeout looks like the per-row round trips of decision 0013 finding 7 (Phase 6) on a slow network; no seed code changed here. Pool settings on Vercel are to be checked against current Vercel docs in 3.8.
+
+## 2026-10-16 · Phase 3 · apps/api, packages/db, packages/validation · Task 3.5 German Map endpoint
+
+- **Phase:** 3 API foundation
+- **Module:** apps/api, packages/db, packages/validation, docs/decisions
+- **Update:** Task 3.5: `GET /v1/levels/:code/map`; decision 0016 (database tests in CI)
+- **Type:** feature
+- **What was done:** Response and params schemas in `packages/validation/src/api-map.ts` (level, parts with tagline, units with slug and English subtitle, lessons with code, slug, title, archetypes, status and can-do objectives; strict; no uuid, TRD-API-21). Repository `packages/db/src/repositories/level-map.ts`: one joined query (levels, course_parts, units, lessons, lesson_objectives, learning_objectives) in part, unit, lesson position order. Service `apps/api/src/services/level-map.ts` builds the tree, checks it against the response schema (a mismatch is internal_error, not a client error) and answers `level_not_found` when there are no rows. Route `apps/api/src/routes/levels.ts` validates `:code` with `levelCodeSchema` (validation_failed) and is mounted under `/v1` when `createApp` gets a `db`. `apps/api` gains `test:db` (Supertest on the Neon test branch); its global setup, `@deutschfreak/db/testing` `seedTestDatabase`, migrates and seeds the test branch. Decision 0016 (owner, option A): CI will run `test:db` with a `DATABASE_URL_TEST` secret, wired in 3.7.
+- **Files:** docs/decisions/0016-database-tests-in-ci.md, packages/validation/src/api-map.ts, packages/validation/src/index.ts, packages/db/src/repositories/level-map.ts, packages/db/src/index.ts, packages/db/src/testing/index.ts, packages/db/src/testing/seed-test-database.ts, packages/db/package.json, apps/api/src/app.ts, apps/api/src/server.ts, apps/api/src/routes/levels.ts, apps/api/src/routes/levels.db.test.ts, apps/api/src/services/level-map.ts, apps/api/src/services/level-map.test.ts, apps/api/src/testing/db-setup.ts, apps/api/vitest.config.ts, apps/api/vitest.db.config.ts, apps/api/tsconfig.json, apps/api/package.json, PROGRESS.md
+- **Checks:** Removing the params check on purpose made 1 Supertest case fail; ordering by code and slug instead of position made 1 fail; both restored. `apps/api test:db` 5 passed (A1: 4 parts, 6 units each, 92 unique lessons, each with an objective; curriculum order; only L01 published; no uuid; B2 404 level_not_found; a1, A9, A1.1, xyz 400 validation_failed). Local server against dev: 200, 4 parts, 24 units, 92 lessons, published A1.1.U01.L01. `pnpm lint` clean; `pnpm typecheck` passed; `pnpm test` 229 passed (api 30, db 81, validation 101, content 10, config 7); `pnpm content:check` valid.
+- **Status:** passed
+- **Notes:** Owner kept the defaults: every lesson is on the map whatever its status (retired not yet specified by the Bible), the level code is exact and case-sensitive, JSON fields are camelCase. The first map call on a cold connection took about 0.9 s.
+
+## 2026-10-16 · Phase 3 · apps/api, packages/db, packages/validation · Task 3.6 lesson endpoint without answers
+
+- **Phase:** 3 API foundation
+- **Module:** apps/api, packages/db, packages/validation, docs/decisions
+- **Update:** Task 3.6: `GET /v1/lessons/:slug`, one joined query, answers stripped in the service; decision 0017
+- **Type:** feature
+- **What was done:** `packages/validation/src/api-lesson.ts`: strict response schema (lesson with unit; nine sections; blocks as a union on `kind`, each with its target: vocabulary, phrase, concept, example, dialogue with lines and voice codes, exercise with answer-free items) and `answerFreeItemSchema` (code, prompt, options, audio only). Repository `packages/db/src/repositories/lesson.ts`: one query joining lessons, units, sections, blocks, the six target tables, dialogue lines, voices and exercise items, in stage, block, line and item order. `apps/api/src/services/answer-free.ts`: allow-list stripping (written test first). `apps/api/src/services/lesson.ts` builds the tree, passes every item through the allow-list, checks the result against the strict schema (mismatch = internal_error) and answers `lesson_not_found` for an unknown slug and, per decision 0017, for a planned or retired lesson. Route `apps/api/src/routes/lessons.ts` validates `:slug`. Decision 0017 (owner: 1A, 2 keep).
+- **Files:** docs/decisions/0017-lesson-endpoint-gaps.md, packages/validation/src/api-lesson.ts, packages/validation/src/index.ts, packages/db/src/repositories/lesson.ts, packages/db/src/index.ts, apps/api/src/app.ts, apps/api/src/routes/lessons.ts, apps/api/src/routes/lessons.db.test.ts, apps/api/src/services/answer-free.ts, apps/api/src/services/answer-free.test.ts, apps/api/src/services/lesson.ts, PROGRESS.md
+- **Checks:** Red first: the 5 stripping tests could not load before `answer-free.ts` existed. Making the service copy the whole payload and loosening the item schema on purpose made the no-answer Supertest fail ("response has the key answers"); restored. `apps/api test:db` 12 passed (L01: 9 stages in order, 36 blocks, dialogue lines, exercise items; every item equals its code plus the prompt side of its stored payload; no answer key anywhere; exactly 1 query; no uuid; unknown and planned slugs 404; malformed slugs 400). Local server against dev: 200, no answers/model/checklist keys. `pnpm lint` clean; `pnpm typecheck` passed; `pnpm test` 234 passed (api 35, db 81, validation 101, content 10, config 7); `pnpm content:check` valid.
+- **Status:** passed
+- **Notes:** A first version of the no-answer test compared stored model-answer strings with the whole response and failed on "Tschüss", which is lesson content (the title); it now compares each item with its stored payload. Query counting (TRD-LOG-02) is a test assertion here, not development logging yet.
+
+## 2026-10-16 · Phase 3 · apps/api, packages/db, CI · Task 3.7 Supertest suite in CI
+
+- **Phase:** 3 API foundation
+- **Module:** apps/api, packages/db, .github, docs/decisions
+- **Update:** Task 3.7: the Supertest suite completed and run in CI against the Neon test branch; decision 0018
+- **Type:** test
+- **What was done:** New `apps/api/src/routes/health.db.test.ts`: `/health/ready` with the real client (200 reachable; 503 database_unavailable when unreachable), not_found for unknown `/v1` paths, wrong methods and unversioned paths, CORS on a real `/v1` route; its header lists the route coverage (TRD-TEST-02). With `levels.db.test.ts` and `lessons.db.test.ts` the suite has 16 cases. CI gains a `database` job (after `check`, concurrency group `neon-test-branch`) that checks the two secrets are set, then runs `@deutschfreak/db test:db` and `@deutschfreak/api test:db`; `DATABASE_URL` there is a host-only placeholder from `DATABASE_DEV_HOST` (decisions 0016, 0018). Root script `pnpm test:db` runs both suites. Two guard tests cover the CI placeholder form. Decision 0018 (owner, option A): the 2a test "seeds … 92 planned lessons" first sets A1 lessons back to planned inside its rolled-back transaction. The owner added the GitHub secrets `DATABASE_URL_TEST` and `DATABASE_DEV_HOST`.
+- **Files:** docs/decisions/0018-shared-test-branch.md, apps/api/src/routes/health.db.test.ts, packages/db/src/seed.db.test.ts, packages/db/src/testing/test-database.test.ts, .github/workflows/ci.yml, package.json, PROGRESS.md
+- **Checks:** Before the fix, `test:db` after the API suite had seeded content: 1 failed (the 2a planned-lessons test), 75 passed. Owner's `.env` re-checked with masked endpoints: dev `ep-gent…vm5d` (pooled and direct), test `ep-smal…uqj7` (direct), separate branches. After: `pnpm test:db` db 76 passed (195 s), api 16 passed. `pnpm lint` clean; `pnpm typecheck` passed; `pnpm test` 236 passed (db 83, api 35, validation 101, content 10, config 7); `pnpm content:check` valid. The CI job first runs when the branches are pushed.
+- **Status:** passed
+- **Notes:** Approved test change: one setup line in `seed.db.test.ts` (decision 0018); no assertion changed. A first version of the new CORS case expected no header for a foreign origin; `cors` always names the one allowed origin and the browser refuses the rest, as the 3.1 tests already assert, so the case now checks the header is neither the foreign origin nor `*`. The db suite takes about 3 minutes and once timed out on a slow network (decision 0013 finding 7, Phase 6).
+
+## 2026-10-17 · Phase 3 · apps/api, repo · Task 3.8 API deployed on Vercel
+
+- **Phase:** 3 API foundation
+- **Module:** apps/api, repo, docs/decisions
+- **Update:** Task 3.8: the API deployed as its own Vercel project; final environment variable names; decisions 0019 (previews use dev, TRD-OQ-18) and 0020 (longer database test limits in CI)
+- **Type:** feature
+- **What was done:** Vercel docs checked 2026-10-16 (Express on Vercel, `@vercel/functions`): Express runs as one function on Fluid compute (TRD-DEP-05 proven); the entry must be a fixed file name that imports express. Owner created the Vercel project (Root Directory `apps/api`, framework Express, `DATABASE_URL`, `DATABASE_URL_DIRECT`, `WEB_ORIGIN` for Preview and Production) and chose option A for TRD-OQ-18 (decision 0019). Code: `src/app.ts` renamed `create-app.ts`, `src/server.ts` renamed `dev-server.ts`; `src/main.ts` builds the configured app once at module scope; `scripts/bundle.ts` (esbuild) bundles `src/main.ts` with packages/db and packages/validation and their dependencies into `dist/app.js`, keeping this app's own npm dependencies external; `apps/api/index.js` is the Vercel entry (imports express, re-exports the bundle); `vercel.json` sets region `fra1` and build command `pnpm run build`; `db.ts` calls `attachDatabasePool`; `tsconfig.json` sets `typeRoots` relative to apps/api; `.env.example` lists the final names (DATABASE_URL, DATABASE_URL_DIRECT, WEB_ORIGIN, DATABASE_URL_TEST; PORT and NEXT_PUBLIC_API_URL commented). ESLint ignores `.vercel/`; `.gitignore` ignores `.vercel/`. CI database time limits raised (decision 0020) after the first database job timed out from the US runner.
+- **Files:** apps/api/index.js, apps/api/scripts/bundle.ts, apps/api/src/main.ts, apps/api/src/main.test.ts, apps/api/src/create-app.ts (was app.ts), apps/api/src/create-app.test.ts (was app.test.ts), apps/api/src/dev-server.ts (was server.ts), apps/api/src/db.ts, apps/api/src/health.ts, apps/api/src/error-handler.test.ts, apps/api/src/health.test.ts, apps/api/src/routes/health.db.test.ts, apps/api/src/routes/lessons.db.test.ts, apps/api/src/routes/levels.db.test.ts, apps/api/vercel.json, apps/api/tsconfig.json, apps/api/package.json, apps/api/vitest.db.config.ts, packages/db/vitest.db.config.ts, packages/config/eslint.config.js, .env.example, .gitignore, pnpm-lock.yaml, docs/decisions/0019-preview-database.md, docs/decisions/0020-ci-database-test-timeouts.md, PROGRESS.md
+- **Checks:** Five preview builds, each fixed from Vercel's logs: no entry importing express; TS2688 "node" types from Vercel's temporary tsconfig (fixed with typeRoots; a root @types/node attempt did not help and was removed); runtime ERR_MODULE_NOT_FOUND for `@deutschfreak/validation/src/index.ts` (fixed by the bundle). `npx vercel build` reproduced the build locally (function = index.js, dist/app.js, npm packages). The bundle run locally against dev: `/health/ready` reachable, map 92 lessons, lesson 0 answer keys. Deployed preview `deutschfreak-git-phase-03-38-vercel-deutschfreak.vercel.app` (6b76823), opened by the owner: `/health/ready` {"status":"ready","database":"reachable"}; `/v1/levels/A1/map` the A1 tree with L01 published. CI run 38953283422 (5b2aa1a) green: check job, then database job (db suite 15.5 min, API Supertest suite passed). `pnpm lint` clean; `pnpm typecheck` passed; `pnpm test` 237 passed (db 83, api 36, validation 101, content 10, config 7); `pnpm content:check` valid.
+- **Status:** passed
+- **Notes:** M2 gate met: Supertest green in CI, and the API answers on a Vercel URL. Previews sit behind Vercel's login (Deployment Protection); Phase 4 must decide how the web app reaches the API. Production builds from main and fails until Phase 3 is merged; its DATABASE_URL is currently dev, and a production database is still to be decided before real learners. The owner signed the Vercel CLI in on this laptop; the CLI linked the repo (`.vercel/`, ignored) and generated an unused deployment-protection bypass token (owner may delete it). Bible follow-ups for the next documentation update: TRD §24 and §25 (Express on Vercel proven, bundled entry, fra1, final names), plus decisions 0014 and 0015.
+
+## 2026-10-17 · Phase 3 · apps/api, packages/db, packages/validation, CI · Phase 3 review fixes
+
+- **Phase:** 3 API foundation
+- **Module:** apps/api, packages/db, packages/validation, .github, docs/decisions
+- **Update:** Fixes for the ten findings of the Phase 3 code review (a4688d6..b097a71); decision 0021
+- **Type:** fix
+- **What was done:** (1) `answerFreeItem` and `answerFreeItemSchema` drop `audio`, which named the phrase being heard on listening items (the answer); items carry prompt and options only. (2) The error handler maps any Express/body-parser error with a 4xx status to a client error (413 payload_too_large, JSON parse invalid_json, otherwise validation_failed). (3) `createDatabase` sets `connectionTimeoutMillis` 5000 (`connectionTimeoutMs`). (4) `src/main.ts` builds the app inside try/catch; `createApiDatabase()` replaces the import-time client; on a configuration error one `startup` error line is logged and `createApp({ webOrigin: false, startupError: true })` serves `/health` and answers internal_error elsewhere. (5) `scripts/bundle.ts` uses `fileURLToPath`. (6) CI triggers: push to main, pull_request, workflow_dispatch. (7) The request log writes on `close` with `aborted`. (8) `errorLogLine` in request-log.ts used by health, the error handler and the idle-connection handler. (9) `readApiConfig` checks scheme, credentials, path, query and fragment separately and returns the normalised origin. (10) `parseRequest` in errors.ts turns request-input ZodErrors into validation_failed; the error handler no longer maps ZodError.
+- **Files:** docs/decisions/0021-review-3-fixes.md, apps/api/src/services/answer-free.ts, apps/api/src/services/answer-free.test.ts, packages/validation/src/api-lesson.ts, apps/api/src/routes/lessons.db.test.ts, apps/api/src/error-handler.ts, apps/api/src/error-handler.test.ts, apps/api/src/errors.ts, apps/api/src/routes/lessons.ts, apps/api/src/routes/levels.ts, packages/db/src/client.ts, packages/db/src/client.test.ts, packages/db/src/index.ts, apps/api/src/main.ts, apps/api/src/db.ts, apps/api/src/create-app.ts, apps/api/src/create-app.test.ts, apps/api/src/startup.test.ts, apps/api/src/health.ts, apps/api/src/request-log.ts, apps/api/src/request-log.test.ts, apps/api/src/config.ts, apps/api/src/config.test.ts, apps/api/scripts/bundle.ts, .github/workflows/ci.yml, PROGRESS.md
+- **Checks:** Red first for (1): the new audio unit test failed before the fix; re-adding `audio` to the allow-list and schema made the database no-answers test fail. Breaking fixes 2, 3, 4, 7, 9 and 10 one at a time made their new tests fail (2, 1, 1, 1, 1, 1); all restored. `pnpm lint` clean; `pnpm typecheck` passed; `pnpm test` 249 passed (api 47, db 84, validation 101, content 10, config 7); `pnpm content:check` valid; `pnpm test:db` 76 + 16 passed. `npx vercel build` succeeded; the bundle run locally against dev: `/health/ready` 200, lesson without answers/audio/model/checklist keys, `/v1/lessons/%E0` 400 validation_failed.
+- **Status:** passed
+- **Notes:** Approved test changes: the audio case now expects audio dropped; the request-log case expects `aborted: false`; the Zod probe route uses `parseRequest`. Listening items are not usable until Phase 7 provides an opaque audio reference. A branch without a pull request is no longer checked by CI automatically ("Run workflow" or open the pull request). Next: pull request phase-03/review-fixes → main, CI green, then the M2 gate re-run.
+
+## 2026-10-17 · Phase 3 · apps/api · Phase 3 review notes N1 to N5
+
+- **Phase:** 3 API foundation
+- **Module:** apps/api, docs/reviews
+- **Update:** The second review's notes on the review fixes (docs/reviews/phase-03-review-fixes.md), approved by the owner with the fixes
+- **Type:** fix
+- **What was done:** N1: decision 0021 written (previous entry). N2: CI runs on branches only through a pull request or "Run workflow" (in decision 0021). N3: the no-answers Supertest no longer lists code prefixes by hand; it collects every `code` and `voice` value in the response and fails if any string in an exercise item (other than its own code) equals one. N4: an aborted request is logged at `warn`, with status 499 when no response had been sent, instead of info/200. N5: listening items carry nothing playable until Phase 7 gives them an opaque audio reference; to carry into Phase 4 planning.
+- **Files:** apps/api/src/routes/lessons.db.test.ts, apps/api/src/request-log.ts, apps/api/src/request-log.test.ts, docs/reviews/phase-03-review-fixes.md, PROGRESS.md
+- **Checks:** Reverting N4 made the aborted-request test fail; leaking the stored audio code into an item's options with the equality check switched off made the new guard fail ("…:i01 names phrase:hallo"); both restored. `pnpm lint` clean; `pnpm typecheck` passed; `pnpm test` 249 passed; `pnpm content:check` valid; `apps/api test:db` 16 passed.
+- **Status:** passed
+- **Notes:** docs/reviews/phase-03-review-fixes.md is the review record written by the owner's review session; committed as is. Next: pull request phase-03/review-fixes → main, CI green, M2 gate re-run.
+
+## 2026-10-17 · Phase 3 · repo · Phase 3 gate M2 reached
+
+- **Phase:** 3 API foundation
+- **Module:** repo
+- **Update:** Gate M2: Supertest covers success, 404 and invalid input; the API answers on a Vercel URL
+- **Type:** test
+- **What was done:** Checked the M2 gate and the Phase 3 acceptance criteria. Supertest: 16 cases cover every route for success, 404 and invalid input, the no-answers test (TRD-TEST-03) and one query per lesson; green in CI (run 38953283422, database job), then on the review fixes. Vercel: the preview answered `/health/ready` {"status":"ready","database":"reachable"} and `/v1/levels/A1/map` with the 92-lesson A1 tree (3.8). The independent review (`/review 3`) found that listening items leaked their answer through the stored audio code; that and the nine other findings and the review notes N1 to N5 were fixed (decision 0021, 5993437, 5797bd0). The owner re-ran the gate and confirmed M2.
+- **Files:** PROGRESS.md
+- **Checks:** `pnpm lint` clean; `pnpm typecheck` passed; `pnpm test` 249 passed; `pnpm content:check` valid; `pnpm test:db` 76 + 16 passed; CI on pull request #3 (phase-03/review-fixes → main) running at the time of this entry.
+- **Status:** passed
+- **Notes:** The owner merges pull request #3 into main once its check and database jobs are green; Vercel then builds Production from main. Carried forward: teacher review of 22 German strings (docs/content-review/A1.1.U01.md); Phase 6 follow-ups of decision 0013 (seed batching would also shorten CI); Piper voice licences before audio; Phase 4: how the web app reaches the protected API, listening items without playable audio until Phase 7, and a production database before real learners; Bible documentation update for decisions 0014, 0015, 0019, 0020, 0021 and TRD §24/§25. Phase 4 starts in a new session.
