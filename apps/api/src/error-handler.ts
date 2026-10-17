@@ -1,26 +1,37 @@
 import type { ErrorRequestHandler, RequestHandler } from 'express';
-import { ZodError } from 'zod';
 import type { ApiErrorCode, ApiErrorResponse } from '@deutschfreak/validation';
 import { ApiError } from './errors.ts';
-import type { LogSink } from './request-log.ts';
+import { errorLogLine, type LogSink } from './request-log.ts';
 
 /** Registered after every route: a request no route answered is `not_found`. */
 export const notFound: RequestHandler = (req, _res, next) => {
   next(new ApiError('not_found', `No route for ${req.method} ${req.path}.`));
 };
 
-/** Turns body-parser, Zod and unexpected errors into an ApiError. */
+/** The 4xx status Express or body-parser put on an error they raised because of the request, if any. */
+function clientStatus(err: unknown): number | undefined {
+  if (typeof err !== 'object' || err === null) return undefined;
+  const { status, statusCode } = err as { status?: unknown; statusCode?: unknown };
+  const value = typeof status === 'number' ? status : typeof statusCode === 'number' ? statusCode : undefined;
+  return value !== undefined && value >= 400 && value <= 499 ? value : undefined;
+}
+
+/**
+ * Turns an error into the ApiError to send, or undefined for an unexpected (server) error. Errors that Express or
+ * body-parser raise because of the request carry a 4xx `status`; all of them are client errors (review 3 finding 2),
+ * not only the two body-parser types named here. A ZodError is NOT a client error: request input is validated with
+ * parseRequest, so a ZodError here comes from server-side data (review 3 finding 10).
+ */
 function toApiError(err: unknown): ApiError | undefined {
   if (err instanceof ApiError) return err;
-  if (err instanceof ZodError) {
-    // TRD-ERR-03: a validation failure is a client error. Paths and Zod messages name the problem, never the value.
-    const problems = err.issues.map((issue) => `${issue.path.join('.') || '(root)'}: ${issue.message}`);
-    return new ApiError('validation_failed', `Invalid request. ${problems.join('; ')}`);
-  }
-  const type = typeof err === 'object' && err !== null && 'type' in err ? err.type : undefined;
+  const status = clientStatus(err);
+  if (status === undefined) return undefined;
+  const type = (err as { type?: unknown }).type;
   if (type === 'entity.parse.failed') return new ApiError('invalid_json', 'The request body is not valid JSON.');
-  if (type === 'entity.too.large') return new ApiError('payload_too_large', 'The request body is too large.');
-  return undefined;
+  if (status === 413) return new ApiError('payload_too_large', 'The request body is too large.');
+  // Any other request fault (a malformed URL escape, an unsupported charset or encoding, an aborted upload):
+  // decision 0015 has no closer code, so it is answered as invalid input.
+  return new ApiError('validation_failed', 'The request could not be read.');
 }
 
 /**
@@ -35,13 +46,7 @@ export function errorHandler(logSink: LogSink): ErrorRequestHandler {
     }
     let apiError = toApiError(err);
     if (!apiError) {
-      const error = err instanceof Error ? err : new Error(String(err));
-      logSink({
-        level: 'error',
-        time: new Date().toISOString(),
-        requestId: req.id,
-        error: { name: error.name, message: error.message, stack: error.stack },
-      });
+      logSink(errorLogLine(err, req.id));
       apiError = new ApiError('internal_error', 'Something went wrong on our side. Please try again.');
     }
     const code: ApiErrorCode = apiError.code;

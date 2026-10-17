@@ -49,6 +49,7 @@ describe('request log (TRD-LOG-01, decision 0014)', () => {
       path: '/probe',
       status: 200,
       durationMs: expect.any(Number),
+      aborted: false,
     });
     expect(() => JSON.parse(JSON.stringify(line))).not.toThrow();
   });

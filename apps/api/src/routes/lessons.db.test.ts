@@ -88,11 +88,15 @@ describe('GET /v1/lessons/:slug (TRD-API-03)', () => {
       const payload = byCode.get(item.code);
       expect(payload, item.code).toBeDefined();
       const promptSide = Object.fromEntries(
-        Object.entries(payload!).filter(([key]) => ['prompt', 'options', 'audio'].includes(key)),
+        Object.entries(payload!).filter(([key]) => ['prompt', 'options'].includes(key)),
       );
       expect(item).toEqual({ code: item.code, ...promptSide });
     }
     expect(stored.some((row) => 'answers' in row.payload || 'model' in row.payload)).toBe(true);
+    // No item names a knowledge object: a phrase or word code would point to the block that holds its meaning,
+    // which is the answer of a listening item (review 3 finding 1).
+    expect(stored.some((row) => 'audio' in row.payload)).toBe(true);
+    expect(JSON.stringify(items)).not.toMatch(/(phrase|vocab|eg|dlg|sound|pattern):/);
   });
 
   it('loads the lesson with one query, not one per block (TRD-BE-04)', async () => {

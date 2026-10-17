@@ -5,7 +5,7 @@ import { answerFreeItem } from './answer-free.ts';
 // model answer and the checklist; only the prompt side may reach the browser. Written before answer-free.ts.
 
 describe('answerFreeItem', () => {
-  it('keeps the prompt, the options and the audio reference', () => {
+  it('keeps the prompt and the options', () => {
     expect(
       answerFreeItem('ex:a:i01', {
         prompt: '8 a.m. You meet a colleague at work.',
@@ -17,13 +17,14 @@ describe('answerFreeItem', () => {
       prompt: '8 a.m. You meet a colleague at work.',
       options: ['Guten Morgen', 'Guten Abend', 'Gute Nacht'],
     });
-    expect(
-      answerFreeItem('ex:b:i01', { audio: 'phrase:hallo', options: ['Hello', 'Bye'], answers: ['Hello'] }),
-    ).toEqual({
-      code: 'ex:b:i01',
-      audio: 'phrase:hallo',
-      options: ['Hello', 'Bye'],
-    });
+  });
+
+  it('drops the stored audio reference, which names the very phrase being heard (review 3 finding 1)', () => {
+    // A listening item stores the code of the phrase it plays, e.g. phrase:hallo; the lesson's phrase block links
+    // that code to its meaning "Hello", the correct option. Audio is sent again only as an opaque reference (Phase 7).
+    const item = answerFreeItem('ex:b:i01', { audio: 'phrase:hallo', options: ['Hello', 'Bye'], answers: ['Hello'] });
+    expect(item).toEqual({ code: 'ex:b:i01', options: ['Hello', 'Bye'] });
+    expect(JSON.stringify(item)).not.toContain('phrase:hallo');
   });
 
   it('drops accepted answers, the model answer and the checklist', () => {

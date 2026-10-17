@@ -1,7 +1,7 @@
 import type { HealthResponse, ReadyResponse } from '@deutschfreak/validation';
 import { Router } from 'express';
 import { ApiError } from './errors.ts';
-import type { LogSink } from './request-log.ts';
+import { errorLogLine, type LogSink } from './request-log.ts';
 
 /** Resolves when the database answers a trivial query; rejects otherwise. Wired to the real client in src/main.ts. */
 export type DatabaseCheck = () => Promise<void>;
@@ -32,14 +32,10 @@ export function healthRouter(checkDatabase: DatabaseCheck, logSink: LogSink, tim
     try {
       await withTimeout(checkDatabase(), timeoutMs);
     } catch (err) {
+      // A check that says why the API is not ready (a configuration error, review 3 finding 4) answers as it says.
+      if (err instanceof ApiError) throw err;
       // The cause is logged for the operator; the response never carries it (decision 0014).
-      const error = err instanceof Error ? err : new Error(String(err));
-      logSink({
-        level: 'error',
-        time: new Date().toISOString(),
-        requestId: req.id,
-        error: { name: error.name, message: error.message, stack: error.stack },
-      });
+      logSink(errorLogLine(err, req.id));
       throw new ApiError('database_unavailable', 'The database cannot be reached.');
     }
     const body: ReadyResponse = { status: 'ready', database: 'reachable' };

@@ -31,3 +31,22 @@ describe('readApiConfig', () => {
     }
   });
 });
+
+describe('readApiConfig origin normalisation (review 3 finding 9)', () => {
+  it('accepts an origin with upper-case letters or a default port and returns it as browsers send it', () => {
+    expect(readApiConfig({ WEB_ORIGIN: 'https://DeutschFreak.com' })).toEqual({
+      webOrigin: 'https://deutschfreak.com',
+    });
+    expect(readApiConfig({ WEB_ORIGIN: 'https://deutschfreak.com:443' })).toEqual({
+      webOrigin: 'https://deutschfreak.com',
+    });
+    expect(readApiConfig({ WEB_ORIGIN: 'http://localhost:3000' })).toEqual({ webOrigin: 'http://localhost:3000' });
+  });
+
+  it('names the actual problem', () => {
+    expect(() => readApiConfig({ WEB_ORIGIN: 'ftp://x.org' })).toThrow(/must start with https:\/\/ or http:\/\//);
+    expect(() => readApiConfig({ WEB_ORIGIN: 'https://user:pw@x.org' })).toThrow(/user name or password/);
+    expect(() => readApiConfig({ WEB_ORIGIN: 'https://x.org?a=1' })).toThrow(/bare origin/);
+    expect(() => readApiConfig({ WEB_ORIGIN: 'https://x.org#top' })).toThrow(/bare origin/);
+  });
+});

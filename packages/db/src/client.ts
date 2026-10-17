@@ -21,8 +21,14 @@ export interface DatabaseOptions {
   onIdleError?: (error: Error) => void;
 }
 
+/**
+ * How long a new connection may take before the attempt fails (review 3 finding 3). Without it
+ * pg waits forever, so an unreachable database would hold pool slots and hang requests instead of failing fast.
+ */
+export const connectionTimeoutMs = 5000;
+
 export function createDatabase(connectionString: string, { onIdleError }: DatabaseOptions = {}): Database {
-  const pool = new pg.Pool({ connectionString });
+  const pool = new pg.Pool({ connectionString, connectionTimeoutMillis: connectionTimeoutMs });
   // pg emits 'error' when an idle client loses its connection; without a listener the process would exit.
   pool.on('error', (error) => onIdleError?.(error));
   return {

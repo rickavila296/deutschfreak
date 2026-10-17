@@ -1,8 +1,13 @@
 name: CI
 
+# Pushes to main, every pull request, and on demand (Actions → CI → Run workflow). A push to a branch with an open
+# pull request is covered by the pull_request run alone, so the database job no longer runs twice per commit
+# (review 3 finding 6). A branch without a pull request can be checked with "Run workflow".
 on:
   push:
+    branches: [main]
   pull_request:
+  workflow_dispatch:
 
 jobs:
   check:

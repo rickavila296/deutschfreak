@@ -67,14 +67,14 @@ export const lessonDialogueSchema = z.strictObject({
 });
 
 /**
- * The answer-free side of an exercise item: only the prompt, the options and an audio reference. Accepted answers,
- * the model answer, the checklist, the feedback and anything else in the stored payload are never sent.
+ * The answer-free side of an exercise item: only the prompt and the options. Accepted answers, the stored audio
+ * reference (it names the phrase being heard; decision 0021), the model answer, the checklist, the feedback and
+ * anything else in the stored payload are never sent.
  */
 export const answerFreeItemSchema = z.strictObject({
   code: text,
   prompt: text.optional(),
   options: z.array(text).optional(),
-  audio: text.optional(),
 });
 
 export const lessonExerciseSchema = z.strictObject({

@@ -5,6 +5,7 @@
 // (and their own dependencies, such as pg and drizzle-orm) inside the file. This app's direct npm dependencies stay
 // external and are traced by Vercel from apps/api/node_modules.
 import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
 import { build } from 'esbuild';
 
 const root = new URL('..', import.meta.url);
@@ -12,7 +13,8 @@ const pkg = JSON.parse(readFileSync(new URL('package.json', root), 'utf8')) as {
 const external = Object.keys(pkg.dependencies).filter((name) => !name.startsWith('@deutschfreak/'));
 
 await build({
-  absWorkingDir: new URL('.', root).pathname.replace(/^\/([A-Za-z]:)/, '$1'),
+  // fileURLToPath decodes spaces and non-ASCII characters and handles Windows drive letters (review 3 finding 5).
+  absWorkingDir: fileURLToPath(root),
   entryPoints: ['src/main.ts'],
   outfile: 'dist/app.js',
   bundle: true,

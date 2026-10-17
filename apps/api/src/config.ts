@@ -1,7 +1,7 @@
 // API settings from the environment (TRD §25). Values are never logged or put in error messages (decision 0014).
 
 export interface ApiConfig {
-  /** The one browser origin CORS allows (TRD-SEC-15). */
+  /** The one browser origin CORS allows (TRD-SEC-15), normalised as browsers send it. */
   webOrigin: string;
 }
 
@@ -15,8 +15,14 @@ export function readApiConfig(env: NodeJS.ProcessEnv = process.env): ApiConfig {
   } catch {
     throw new Error('WEB_ORIGIN is not a URL. It must be an origin such as https://deutschfreak.com');
   }
-  if ((url.protocol !== 'https:' && url.protocol !== 'http:') || url.origin !== value) {
-    throw new Error('WEB_ORIGIN must be a bare origin (scheme, host and port only, no path or trailing slash).');
+  if (url.protocol !== 'https:' && url.protocol !== 'http:') {
+    throw new Error('WEB_ORIGIN must start with https:// or http://.');
+  }
+  // Checked part by part rather than against url.origin, which lower-cases the host and drops a default port, so
+  // https://DeutschFreak.com or https://deutschfreak.com:443 are accepted and normalised (review 3 finding 9).
+  if (url.username || url.password) throw new Error('WEB_ORIGIN must not contain a user name or password.');
+  if (url.pathname !== '/' || value.endsWith('/') || url.search || url.hash || value.includes('?')) {
+    throw new Error('WEB_ORIGIN must be a bare origin: scheme, host and port only, with no path or trailing slash.');
   }
   return { webOrigin: url.origin };
 }

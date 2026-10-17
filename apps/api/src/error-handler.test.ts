@@ -4,7 +4,7 @@ import request from 'supertest';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { z } from 'zod';
 import { createApp } from './create-app.ts';
-import { ApiError } from './errors.ts';
+import { ApiError, parseRequest } from './errors.ts';
 import type { ErrorLogLine, LogLine } from './request-log.ts';
 
 let lines: LogLine[];
@@ -23,7 +23,7 @@ beforeEach(() => {
     throw new ApiError('lesson_not_found', 'No lesson has this slug.');
   });
   routes.get('/validated', (req, res) => {
-    const query = querySchema.parse(req.query);
+    const query = parseRequest(querySchema, req.query);
     res.json(query);
   });
   routes.post('/body', (req, res) => {
@@ -35,6 +35,13 @@ beforeEach(() => {
   routes.get('/async-crash', async () => {
     await Promise.resolve();
     throw new Error('async secret-detail');
+  });
+  routes.get('/server-data', () => {
+    // A schema failure on data the server holds, not on the request (review 3 finding 10).
+    querySchema.parse({ page: 'stored-but-broken' });
+  });
+  routes.get('/param/:value', (req, res) => {
+    res.json({ value: req.params.value });
   });
   routes.get('/throw-string', () => {
     throw 'a bare string';
@@ -107,5 +114,37 @@ describe('unexpected errors', () => {
     await request(app).get('/lesson');
     await request(app).get('/v1/nothing-here');
     expect(lines.some((l) => 'error' in l)).toBe(false);
+  });
+});
+
+describe('client errors raised by Express or body-parser (review 3 finding 2)', () => {
+  it('answers a malformed URL escape with a 400, not a 500, and logs no server error', async () => {
+    const res = await request(app).get('/param/%E0');
+    expectErrorShape(res, 'validation_failed', 400);
+    expect(lines.some((l) => 'error' in l)).toBe(false);
+  });
+
+  it('answers an unsupported charset or content encoding with a 400, not a 500', async () => {
+    const charset = await request(app)
+      .post('/body')
+      .set('Content-Type', 'application/json; charset=latin2')
+      .send('{"a":1}');
+    expectErrorShape(charset, 'validation_failed', 400);
+    const encoding = await request(app)
+      .post('/body')
+      .set('Content-Type', 'application/json')
+      .set('Content-Encoding', 'compress')
+      .send('{"a":1}');
+    expectErrorShape(encoding, 'validation_failed', 400);
+    expect(lines.some((l) => 'error' in l)).toBe(false);
+  });
+});
+
+describe('schema failures outside request input (review 3 finding 10)', () => {
+  it('answer internal_error and are logged, without exposing field paths', async () => {
+    const res = await request(app).get('/server-data');
+    expectErrorShape(res, 'internal_error', 500);
+    expect(res.body.error.message).not.toContain('page');
+    expect(lines.filter((l): l is ErrorLogLine => 'error' in l)).toHaveLength(1);
   });
 });
