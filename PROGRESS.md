@@ -562,3 +562,15 @@ The entry format is in `CLAUDE.md`, under "PROGRESS.md entry".
 - **Checks:** the Bible edit matched its anchor exactly once
 - **Status:** passed
 - **Notes:** Found during the Phase 4 prerequisite check: Production had no environment variables, so /health answered but /health/ready and /v1 returned internal_error. The owner sets the variables in Vercel and redeploys Production; Claude Code does not handle the connection strings.
+
+## 2026-10-17 · Phase 4 · apps/web · Task 4.4 page shell
+
+- **Phase:** 4 Web shell
+- **Module:** apps/web
+- **Update:** Task 4.4: header, primary navigation (no Practice item), footer, skip link and focus styles
+- **Type:** feature
+- **What was done:** The root layout wraps every page: skip link "Skip to content" as the first focusable element (DESIGN-UI-006), header with the DeutschFreak wordmark in Inter 700 deep ink and the primary navigation (DESIGN-UI-001), `<main id="main">`, footer. `src/lib/routes.ts` holds the decision 0028 paths, the navigation list and the footer groups. Navigation: a row from md (tablet and desktop) and, on mobile, a "Menu" button with a Lucide icon that opens the list, keyboard operable, Escape closes it and returns focus (DESIGN-UI-004, TRD-A11Y-02); the current section has aria-current, weight 600 and an underline (DESIGN-UI-003). Only items whose page exists are listed: Learn now; Browse, Vocabulary, Pronunciation, Germany and Progress are added in the launch order when their pages are built; login and sign-up come with accounts in Phase 5. Footer: the line "Open-source German learning" and the DeutschFreak (Learn) and Project (GitHub, Report an issue) groups; links without a destination yet (FLOW-OQ-08, no licence file yet) and the empty Community group are left out. Focus: 2 px deep-ink outline with 2 px offset on every focusable element. Content width 1200 px through a new `--container-page` token (DESIGN-LAYOUT-02) and the section 14 side margins; touch targets at least 44 px. Component tests run in jsdom with Testing Library.
+- **Files:** apps/web/package.json (lucide-react; jsdom, @testing-library/react, @testing-library/user-event), vitest.config.ts, src/app/layout.tsx, page.tsx, globals.css, theme.css, src/lib/routes.ts, src/components/skip-link.tsx, nav-list.tsx, primary-nav.tsx, mobile-menu.tsx, site-header.tsx, site-footer.tsx, page-shell.test.tsx; pnpm-lock.yaml
+- **Checks:** `pnpm lint` clean; `pnpm typecheck` passed (5 packages with a typecheck script); `pnpm test` 267 passed (web 18, validation 101, config 7, content 10, db 84, api 47); `pnpm content:check` valid; web build succeeded. The tests failed once with aria-current removed and with the Escape focus return removed. Checked in the browser at 800 px (navigation row, skip link visible on Tab) and 375 px (Menu button opens the list).
+- **Status:** passed
+- **Notes:** Earlier entries say "6 packages" for typecheck; the count is 5 (packages/config has no typecheck script). Navigation and footer show only what exists, which is the owner-approved reading of FLOW-NAV-001/005 for Phase 4.
