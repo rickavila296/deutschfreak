@@ -430,3 +430,15 @@ The entry format is in `CLAUDE.md`, under "PROGRESS.md entry".
 - **Checks:** Reverting N4 made the aborted-request test fail; leaking the stored audio code into an item's options with the equality check switched off made the new guard fail ("…:i01 names phrase:hallo"); both restored. `pnpm lint` clean; `pnpm typecheck` passed; `pnpm test` 249 passed; `pnpm content:check` valid; `apps/api test:db` 16 passed.
 - **Status:** passed
 - **Notes:** docs/reviews/phase-03-review-fixes.md is the review record written by the owner's review session; committed as is. Next: pull request phase-03/review-fixes → main, CI green, M2 gate re-run.
+
+## 2026-10-17 · Phase 3 · repo · Phase 3 gate M2 reached
+
+- **Phase:** 3 API foundation
+- **Module:** repo
+- **Update:** Gate M2: Supertest covers success, 404 and invalid input; the API answers on a Vercel URL
+- **Type:** test
+- **What was done:** Checked the M2 gate and the Phase 3 acceptance criteria. Supertest: 16 cases cover every route for success, 404 and invalid input, the no-answers test (TRD-TEST-03) and one query per lesson; green in CI (run 38953283422, database job), then on the review fixes. Vercel: the preview answered `/health/ready` {"status":"ready","database":"reachable"} and `/v1/levels/A1/map` with the 92-lesson A1 tree (3.8). The independent review (`/review 3`) found that listening items leaked their answer through the stored audio code; that and the nine other findings and the review notes N1 to N5 were fixed (decision 0021, 5993437, 5797bd0). The owner re-ran the gate and confirmed M2.
+- **Files:** PROGRESS.md
+- **Checks:** `pnpm lint` clean; `pnpm typecheck` passed; `pnpm test` 249 passed; `pnpm content:check` valid; `pnpm test:db` 76 + 16 passed; CI on pull request #3 (phase-03/review-fixes → main) running at the time of this entry.
+- **Status:** passed
+- **Notes:** The owner merges pull request #3 into main once its check and database jobs are green; Vercel then builds Production from main. Carried forward: teacher review of 22 German strings (docs/content-review/A1.1.U01.md); Phase 6 follow-ups of decision 0013 (seed batching would also shorten CI); Piper voice licences before audio; Phase 4: how the web app reaches the protected API, listening items without playable audio until Phase 7, and a production database before real learners; Bible documentation update for decisions 0014, 0015, 0019, 0020, 0021 and TRD §24/§25. Phase 4 starts in a new session.
