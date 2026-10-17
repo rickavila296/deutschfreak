@@ -1,4 +1,13 @@
-import type { MapLesson, MapPart, MapUnit } from '@deutschfreak/validation';
+import type { LevelMapResponse, MapLesson, MapPart, MapUnit } from '@deutschfreak/validation';
+
+/** The unit with this slug and its part, or null. The API has no unit endpoint; the map holds every unit. */
+export function findUnit(map: LevelMapResponse, slug: string): { part: MapPart; unit: MapUnit } | null {
+  for (const part of map.parts) {
+    const unit = part.units.find((candidate) => candidate.slug === slug);
+    if (unit) return { part, unit };
+  }
+  return null;
+}
 
 /** Only published lessons can be opened (FR-012); planned and retired ones are shown as planned. */
 export const isLive = (lesson: MapLesson) => lesson.status === 'published';
