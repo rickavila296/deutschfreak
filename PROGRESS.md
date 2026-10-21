@@ -622,3 +622,15 @@ The entry format is in `CLAUDE.md`, under "PROGRESS.md entry".
 - **Checks:** `pnpm lint` clean; `pnpm typecheck` passed (5 packages); `pnpm test` 297 passed (web 46, validation 101, config 7, content 11, db 84, api 48); `pnpm content:check` valid; `pnpm test:e2e` 6 passed (3 tests × laptop and phone) against the dev branch. The rail tests failed once with steps ahead made selectable. Checked in the browser at 1280 px (rail beside content, stage 3 after two Continues) and 375 px (compact rail expanded).
 - **Status:** passed
 - **Notes:** Not built yet, by design or because the Bible leaves it open: the "completed"/"mastered" rail markers (DESIGN-UI-074, FLOW-OQ-17; need progress), stages 2 and 3 collapsed in checkpoint lessons (DESIGN-UI-075; no checkpoint lesson is published yet), one block at a time on a phone (TRD-FE-10; comes with the interactive lesson), and lang="de" on exercise options (the API does not say which options are German). The e2e test is not in CI: it needs a database with the content, and CI has only the test branch secrets.
+
+## 2026-10-21 · Phase 4 · apps/web · Task 4.8 not-found and error pages
+
+- **Phase:** 4 Web shell
+- **Module:** apps/web
+- **Update:** Task 4.8: not-found page and whole-page load error
+- **Type:** feature
+- **What was done:** `src/app/not-found.tsx` renders `NotFoundMessage` inside the page shell for every `notFound()` and unknown address, with status 404 (FLOW-ERR-001, DESIGN-UI-134, decision 0028): heading "Page not found", one plain sentence that covers a planned lesson or a typo, and a primary link "Go to the German Map". `src/app/error.tsx` renders `LoadErrorMessage` when a page's data cannot be loaded (FLOW-ERR-002, DESIGN-UI-130, 131): role="alert", a red-text heading "This page could not be loaded" with a Lucide icon, a sentence on what to do, no error code or blame, a "Try again" button (refreshes the page from the server and resets) and a link to the German Map; header and navigation stay usable around it. The Playwright spec now also checks the not-found heading and the way back for a planned lesson, and a 404 for an unknown address.
+- **Files:** apps/web/src/app/not-found.tsx, src/app/error.tsx, src/components/states/not-found-message.tsx, load-error-message.tsx, states.test.tsx, apps/web/e2e/map-and-lesson.spec.ts
+- **Checks:** `pnpm lint` clean; `pnpm typecheck` passed; `pnpm test` 300 passed (web 49, validation 101, config 7, content 11, db 84, api 48); `pnpm content:check` valid; `pnpm test:e2e` 8 passed (4 tests × laptop and phone) against the dev branch. With the web app built against an unreachable API, /learn showed the error page with status 500 and the navigation in place.
+- **Status:** passed
+- **Notes:** The not-found page offers only the German Map; Browse and search (FLOW-ERR-001) are added when those pages exist. The copy is mine within the Design Brief's voice rules; the Bible gives no exact wording.
