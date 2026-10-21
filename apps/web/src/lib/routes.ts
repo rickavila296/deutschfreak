@@ -3,8 +3,10 @@
 export const routes = {
   home: '/',
   learn: '/learn',
+  /** The id of a part section on the German Map: A1.1 → a1-1 (review 4 finding 10). */
+  partAnchor: (code: string) => code.toLowerCase().replaceAll('.', '-'),
   /** A part section on the German Map: A1.1 → /learn#a1-1. */
-  part: (code: string) => `/learn#${code.toLowerCase().replaceAll('.', '-')}`,
+  part: (code: string) => `/learn#${routes.partAnchor(code)}`,
   unit: (slug: string) => `/learn/units/${encodeURIComponent(slug)}`,
   lesson: (slug: string) => `/learn/lessons/${encodeURIComponent(slug)}`,
 } as const;

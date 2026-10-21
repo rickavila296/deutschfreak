@@ -1,13 +1,17 @@
 import {
+  apiErrorResponseSchema,
   lessonResponseSchema,
   levelMapResponseSchema,
+  type ApiErrorCode,
   type LessonResponse,
   type LevelMapResponse,
 } from '@deutschfreak/validation';
 import { readApiUrl } from './config.ts';
 
 // Server-side calls to the API (TRD-FE-01). Every response is checked with the same Zod schema the API uses
-// (TRD-FE-05). Content changes only when it is seeded, so responses are cached for five minutes.
+// (TRD-FE-05). Content changes only when it is seeded, so responses stay in Next's data cache for five minutes.
+// Pages call connection() rather than `dynamic = 'force-dynamic'`, which would turn this cache off (review 4
+// finding 3; Next 16 docs: force-dynamic sets every fetch to no-store).
 const revalidateSeconds = 300;
 
 /** The API could not be reached or answered with an unexpected status or shape. The page shows its error state. */
@@ -18,7 +22,13 @@ export class ApiRequestError extends Error {
   }
 }
 
-async function getJson(path: string, fetchImpl: typeof fetch): Promise<unknown | null> {
+/**
+ * GETs an API path. Returns null only when the API itself says the thing does not exist: a 404 in its error shape
+ * with `notFoundCode` (decision 0015). Any other 404 (a wrong NEXT_PUBLIC_API_URL, a page in front of the API) and any
+ * body that is not JSON is an ApiRequestError, so the page shows its error state, not "Page not found" (review 4
+ * findings 4 and 5).
+ */
+async function getJson(path: string, notFoundCode: ApiErrorCode, fetchImpl: typeof fetch): Promise<unknown | null> {
   let response: Response;
   try {
     response = await fetchImpl(`${readApiUrl()}${path}`, {
@@ -28,31 +38,58 @@ async function getJson(path: string, fetchImpl: typeof fetch): Promise<unknown |
   } catch (error) {
     throw new ApiRequestError(`The API could not be reached for ${path}.`, { cause: error });
   }
-  if (response.status === 404) return null;
+  let body: unknown;
+  try {
+    body = await response.json();
+  } catch (error) {
+    throw new ApiRequestError(`The API answered ${response.status} for ${path} without a JSON body.`, { cause: error });
+  }
+  if (response.status === 404) {
+    const apiError = apiErrorResponseSchema.safeParse(body);
+    if (apiError.success && apiError.data.error.code === notFoundCode) return null;
+    throw new ApiRequestError(`Unexpected 404 for ${path}; is NEXT_PUBLIC_API_URL the API?`);
+  }
   if (!response.ok) throw new ApiRequestError(`The API answered ${response.status} for ${path}.`);
-  return response.json();
+  return body;
+}
+
+/** What getChecked needs from a shared Zod schema. */
+interface CheckSchema<T> {
+  safeParse(value: unknown): { success: true; data: T } | { success: false; error: unknown };
 }
 
 /**
- * A published lesson without answers (`GET /v1/lessons/:slug`), or null when there is none: the API answers 404 for
- * an unknown slug and for a planned lesson (decision 0017), so both show the not-found page (decision 0028).
+ * GETs an API path and checks the body with its shared schema (TRD-FE-05). Null for the API's own not-found answer;
+ * an ApiRequestError for anything unexpected, including a body the schema refuses (review 4 finding 9).
  */
-export async function getLesson(slug: string, fetchImpl: typeof fetch = fetch): Promise<LessonResponse | null> {
-  const body = await getJson(`/v1/lessons/${encodeURIComponent(slug)}`, fetchImpl);
+async function getChecked<T>(
+  path: string,
+  notFoundCode: ApiErrorCode,
+  schema: CheckSchema<T>,
+  label: string,
+  fetchImpl: typeof fetch,
+): Promise<T | null> {
+  const body = await getJson(path, notFoundCode, fetchImpl);
   if (body === null) return null;
-  const parsed = lessonResponseSchema.safeParse(body);
+  const parsed = schema.safeParse(body);
   if (!parsed.success) {
-    throw new ApiRequestError('The lesson response does not match its schema.', { cause: parsed.error });
+    throw new ApiRequestError(`The ${label} response does not match its schema.`, { cause: parsed.error });
   }
   return parsed.data;
 }
 
-/** The German Map of one level (`GET /v1/levels/:code/map`), or null when the level does not exist. */
-export async function getLevelMap(code: string, fetchImpl: typeof fetch = fetch): Promise<LevelMapResponse | null> {
-  const body = await getJson(`/v1/levels/${encodeURIComponent(code)}/map`, fetchImpl);
-  if (body === null) return null;
-  const parsed = levelMapResponseSchema.safeParse(body);
-  if (!parsed.success)
-    throw new ApiRequestError('The map response does not match its schema.', { cause: parsed.error });
-  return parsed.data;
+/**
+ * A published lesson without answers (`GET /v1/lessons/:slug`), or null when there is none: the API answers 404
+ * `lesson_not_found` for an unknown slug and for a planned lesson (decision 0017), so both show the not-found page
+ * (decision 0028).
+ */
+export function getLesson(slug: string, fetchImpl: typeof fetch = fetch): Promise<LessonResponse | null> {
+  const path = `/v1/lessons/${encodeURIComponent(slug)}`;
+  return getChecked(path, 'lesson_not_found', lessonResponseSchema, 'lesson', fetchImpl);
+}
+
+/** The German Map of one level (`GET /v1/levels/:code/map`), or null for 404 `level_not_found`. */
+export function getLevelMap(code: string, fetchImpl: typeof fetch = fetch): Promise<LevelMapResponse | null> {
+  const path = `/v1/levels/${encodeURIComponent(code)}/map`;
+  return getChecked(path, 'level_not_found', levelMapResponseSchema, 'map', fetchImpl);
 }

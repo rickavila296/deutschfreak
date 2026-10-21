@@ -22,7 +22,9 @@ describe('getLevelMap (TRD-FE-05)', () => {
   });
 
   it('returns null for 404', async () => {
-    await expect(getLevelMap('B2', fakeFetch(404, { error: { code: 'level_not_found' } }))).resolves.toBeNull();
+    await expect(
+      getLevelMap('B2', fakeFetch(404, { error: { code: 'level_not_found', message: 'No level has the code B2.' } })),
+    ).resolves.toBeNull();
   });
 
   it('throws ApiRequestError for other error statuses', async () => {
@@ -61,7 +63,12 @@ describe('getLesson (TRD-FE-05)', () => {
   });
 
   it('returns null for 404, as for a planned lesson (decision 0017)', async () => {
-    await expect(getLesson('planned', fakeFetch(404, { error: { code: 'lesson_not_found' } }))).resolves.toBeNull();
+    await expect(
+      getLesson(
+        'planned',
+        fakeFetch(404, { error: { code: 'lesson_not_found', message: 'No published lesson has this slug.' } }),
+      ),
+    ).resolves.toBeNull();
   });
 
   it('refuses a response with an answer field (TRD-SEC-11)', async () => {
@@ -93,5 +100,34 @@ describe('getLesson (TRD-FE-05)', () => {
       ],
     };
     await expect(getLesson('example-lesson', fakeFetch(200, leaky))).rejects.toThrow(/schema/);
+  });
+});
+
+describe('review 4 fixes (api client)', () => {
+  it('treats a 404 that is not the API not-found answer as an error, not "Page not found" (finding 4)', async () => {
+    const vercel404 = vi.fn(
+      async () => new Response('The page could not be found', { status: 404 }),
+    ) as unknown as typeof fetch;
+    await expect(getLevelMap('A1', vercel404)).rejects.toBeInstanceOf(ApiRequestError);
+    const routeMissing = fakeFetch(404, { error: { code: 'not_found', message: 'No route.' } });
+    await expect(getLevelMap('A1', routeMissing)).rejects.toBeInstanceOf(ApiRequestError);
+    const wrongCode = fakeFetch(404, { error: { code: 'level_not_found', message: 'No level.' } });
+    await expect(getLesson('x', wrongCode)).rejects.toBeInstanceOf(ApiRequestError);
+  });
+
+  it('turns a 2xx body that is not JSON into ApiRequestError (finding 5)', async () => {
+    const html = vi.fn(
+      async () => new Response('<!doctype html><title>Login</title>', { status: 200 }),
+    ) as unknown as typeof fetch;
+    await expect(getLevelMap('A1', html)).rejects.toBeInstanceOf(ApiRequestError);
+    await expect(getLesson('x', html)).rejects.toBeInstanceOf(ApiRequestError);
+  });
+
+  it('asks Next to cache API responses for five minutes (finding 3)', async () => {
+    const fetchImpl = fakeFetch(200, validMap);
+    await getLevelMap('A1', fetchImpl);
+    const init = vi.mocked(fetchImpl).mock.calls[0]?.[1] as RequestInit & { next?: { revalidate?: number } };
+    expect(init.next?.revalidate).toBe(300);
+    expect(init.cache).toBeUndefined();
   });
 });

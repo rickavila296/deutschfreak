@@ -50,8 +50,12 @@ const lesson: LessonResponse = {
 };
 
 const visibleStage = () => screen.getByRole('heading', { level: 2 }).textContent;
-const railStep = (name: RegExp) =>
-  within(screen.getAllByRole('navigation', { name: 'Lesson stages' })[0]!).getAllByLabelText(name)[0]!;
+// A rail step by stage number: the button or span inside its list item. Its accessible name is its text, with the
+// number and state as visually hidden text (review 4 finding 7).
+const railStep = (stage: number) => {
+  const nav = screen.getAllByRole('navigation', { name: 'Lesson stages' })[0]!;
+  return within(nav).getAllByRole('listitem')[stage - 1]!.firstElementChild as HTMLElement;
+};
 
 describe('lesson page (Plan task 4.7, FLOW-LESSON-001)', () => {
   it('shows the lesson title in German and a link back to its unit', () => {
@@ -85,11 +89,14 @@ describe('lesson page (Plan task 4.7, FLOW-LESSON-001)', () => {
       'Review',
       'Mastery',
     ]) {
-      expect(within(nav).getAllByText(name).length).toBeGreaterThan(0);
+      expect(nav.textContent).toContain(name);
     }
+    expect(within(nav).getAllByRole('listitem')).toHaveLength(9);
     expect(within(nav).queryAllByRole('button', { name: /not reached/ })).toHaveLength(0);
-    expect(railStep(/9 Mastery, not reached yet/).tagName).toBe('SPAN');
-    expect(railStep(/1 Objective, current stage/).getAttribute('aria-current')).toBe('step');
+    expect(railStep(9).tagName).toBe('SPAN');
+    expect(railStep(9).textContent).toBe('9Stage 9: Mastery, not reached yet');
+    expect(railStep(1).getAttribute('aria-current')).toBe('step');
+    expect(railStep(1).textContent).toContain('Stage 1: Objective, current stage');
   });
 
   it('continues one stage at a time and jumps back to any reached stage, never ahead (FLOW-LESSON-011, 012)', async () => {
@@ -99,19 +106,20 @@ describe('lesson page (Plan task 4.7, FLOW-LESSON-001)', () => {
     await user.click(screen.getByRole('button', { name: 'Continue to Understand' }));
     expect(visibleStage()).toBe('Stage 3Understand');
     // Back to stage 1, then forward again up to the furthest stage reached (3), but not to 4.
-    await user.click(railStep(/1 Objective, reached/));
+    await user.click(screen.getAllByRole('button', { name: 'Stage 1: Objective, reached' })[0]!);
     expect(visibleStage()).toBe('Stage 1Objective');
-    expect(railStep(/3 Understand, reached/).tagName).toBe('BUTTON');
-    expect(railStep(/4 Hear, not reached yet/).tagName).toBe('SPAN');
-    await user.click(railStep(/3 Understand, reached/));
+    expect(railStep(3).tagName).toBe('BUTTON');
+    expect(railStep(4).tagName).toBe('SPAN');
+    expect(railStep(4).textContent).toContain('not reached yet');
+    await user.click(railStep(3));
     expect(visibleStage()).toBe('Stage 3Understand');
   });
 
   it('marks a light stage with a smaller marker (DESIGN-UI-071)', () => {
     render(<LessonPage lesson={lesson} />);
-    const marker = (name: RegExp) => railStep(name).querySelector('[aria-hidden="true"]')!.className;
-    expect(marker(/3 Understand/)).toContain('size-6');
-    expect(marker(/2 Discover/)).toContain('size-8');
+    const marker = (stage: number) => railStep(stage).querySelector('[aria-hidden="true"]')!.className;
+    expect(marker(3)).toContain('size-6');
+    expect(marker(2)).toContain('size-8');
   });
 
   it('shows translations, except in stages 7 and 9 (TRD-FE-11)', () => {
@@ -160,5 +168,63 @@ describe('lesson page (Plan task 4.7, FLOW-LESSON-001)', () => {
     };
     render(<LessonPage lesson={noun} />);
     expect(screen.getByText('der Name').getAttribute('lang')).toBe('de');
+  });
+});
+
+describe('review 4 fixes', () => {
+  // Stage 1 and stage 3 missing from the data.
+  const gappy: LessonResponse = { ...lesson, sections: lesson.sections.filter((s) => s.stage !== 1 && s.stage !== 3) };
+
+  it('starts at the first stage present and continues over a missing stage, never to a blank one (finding 1)', async () => {
+    const user = userEvent.setup();
+    const { container } = render(<LessonPage lesson={gappy} />);
+    expect(visibleStage()).toBe('Stage 2Discover');
+    expect([...container.querySelectorAll('section')].filter((s) => !s.hidden)).toHaveLength(1);
+    await user.click(screen.getByRole('button', { name: 'Continue to Hear' }));
+    expect(visibleStage()).toBe('Stage 4Hear');
+    // The missing stage is on the rail but can never be selected.
+    expect(railStep(3).tagName).toBe('SPAN');
+    expect(railStep(3).textContent).toContain('not available');
+    expect(screen.queryByRole('button', { name: 'Continue to Understand' })).toBeNull();
+  });
+
+  it('gives rail steps no aria-label: the state is spoken as text (finding 7)', () => {
+    render(<LessonPage lesson={lesson} />);
+    const nav = screen.getAllByRole('navigation', { name: 'Lesson stages' })[0]!;
+    expect(nav.querySelectorAll('[aria-label]')).toHaveLength(0);
+    expect(nav.querySelectorAll('.sr-only').length).toBeGreaterThanOrEqual(18);
+  });
+
+  it('puts translations behind a tap outside A1.1, still hidden in stages 7 and 9 (TRD-FE-11, finding 8)', () => {
+    const laterPart: LessonResponse = {
+      ...lesson,
+      lesson: {
+        ...lesson.lesson,
+        code: 'A1.2.U01.L01',
+        unit: { code: 'A1.2.U01', slug: 'unit-two', title: 'Unit two' },
+      },
+    };
+    const { container } = render(<LessonPage lesson={laterPart} />);
+    const stage3 = container.querySelector('section[aria-labelledby="stage-3"]')!;
+    expect(
+      within(stage3 as HTMLElement)
+        .getByText('Show translation')
+        .closest('details')?.open,
+    ).toBe(false);
+    expect(stage3.textContent).toContain('English 3');
+    expect(container.textContent).not.toContain('English 7');
+  });
+});
+
+describe('translationMode (TRD-FE-11)', () => {
+  it('is shown in A1.1, a tap from A1.2, and hidden in stages 7 and 9 everywhere', async () => {
+    const { translationMode } = await import('./stages.ts');
+    expect(translationMode('A1.1.U03', 3)).toBe('shown');
+    expect(translationMode('A1.2.U01', 3)).toBe('reveal');
+    expect(translationMode('A1.4.U02', 5)).toBe('reveal');
+    for (const unit of ['A1.1.U01', 'A1.3.U02']) {
+      expect(translationMode(unit, 7)).toBe('hidden');
+      expect(translationMode(unit, 9)).toBe('hidden');
+    }
   });
 });

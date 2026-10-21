@@ -1,5 +1,6 @@
 import type { LessonResponseBlock } from '@deutschfreak/validation';
 import type { ReactNode } from 'react';
+import type { TranslationMode } from './stages.ts';
 
 // The one generic block renderer (TRD-FE-03): it picks a component by the block's kind, never by lesson. Phase 4 is
 // read-only: every block is text. Exercises show their instruction, prompts and options with nothing to answer, and
@@ -7,20 +8,20 @@ import type { ReactNode } from 'react';
 
 interface BlockProps {
   block: LessonResponseBlock;
-  /** False in stages 7 and 9, where translations are hidden (TRD-FE-11). */
-  showTranslation: boolean;
+  /** Shown, behind a tap, or hidden, by part and stage (TRD-FE-11). */
+  translation: TranslationMode;
 }
 
-export function Block({ block, showTranslation }: BlockProps) {
+export function Block({ block, translation }: BlockProps) {
   return (
     <div className="flex flex-col gap-2" data-kind={block.kind}>
       {block.textEn && <p className="max-w-prose text-reading text-ink">{block.textEn}</p>}
-      <BlockBody block={block} showTranslation={showTranslation} />
+      <BlockBody block={block} translation={translation} />
     </div>
   );
 }
 
-function BlockBody({ block, showTranslation }: BlockProps): ReactNode {
+function BlockBody({ block, translation }: BlockProps): ReactNode {
   switch (block.kind) {
     case 'text':
       return null;
@@ -31,7 +32,8 @@ function BlockBody({ block, showTranslation }: BlockProps): ReactNode {
           // Nouns always appear with their article (Design Brief, web rules).
           german={article ? `${article} ${lemma}` : lemma}
           note={plural ? `plural: ${plural}` : undefined}
-          translation={showTranslation ? meaningEn : undefined}
+          translation={meaningEn}
+          mode={translation}
         />
       );
     }
@@ -40,13 +42,12 @@ function BlockBody({ block, showTranslation }: BlockProps): ReactNode {
         <German
           german={block.phrase.german}
           note={block.phrase.register === 'neutral' ? undefined : block.phrase.register}
-          translation={showTranslation ? block.phrase.meaningEn : undefined}
+          translation={block.phrase.meaningEn}
+          mode={translation}
         />
       );
     case 'example':
-      return (
-        <German german={block.example.german} translation={showTranslation ? block.example.meaningEn : undefined} />
-      );
+      return <German german={block.example.german} translation={block.example.meaningEn} mode={translation} />;
     case 'concept':
       return (
         <div className="flex flex-col gap-1 rounded-lg bg-surface p-4 md:p-6">
@@ -65,7 +66,7 @@ function BlockBody({ block, showTranslation }: BlockProps): ReactNode {
                 <span lang="de" className="text-german-lg text-ink">
                   {line.german}
                 </span>
-                {showTranslation && <span className="text-small text-muted-text">{line.meaningEn}</span>}
+                <Translation text={line.meaningEn} mode={translation} />
               </li>
             ))}
           </ol>
@@ -97,16 +98,38 @@ function BlockBody({ block, showTranslation }: BlockProps): ReactNode {
 }
 
 /** German set one step larger than the English beside it (Design Brief §9), marked lang="de". */
-function German({ german, note, translation }: { german: string; note?: string; translation?: string }) {
+function German({
+  german,
+  note,
+  translation,
+  mode,
+}: {
+  german: string;
+  note?: string;
+  translation: string;
+  mode: TranslationMode;
+}) {
   return (
-    <p className="flex flex-col gap-1">
+    <div className="flex flex-col gap-1">
       <span className="flex flex-wrap items-baseline gap-x-3">
         <span lang="de" className="text-german-md text-ink">
           {german}
         </span>
         {note && <span className="text-small text-muted-text">{note}</span>}
       </span>
-      {translation && <span className="text-small text-muted-text">{translation}</span>}
-    </p>
+      <Translation text={translation} mode={mode} />
+    </div>
+  );
+}
+
+/** The English beside German: on the page, behind a native disclosure (no client code), or left out (TRD-FE-11). */
+function Translation({ text, mode }: { text: string; mode: TranslationMode }) {
+  if (mode === 'hidden') return null;
+  if (mode === 'shown') return <span className="text-small text-muted-text">{text}</span>;
+  return (
+    <details className="text-small text-muted-text">
+      <summary className="flex min-h-11 cursor-pointer items-center text-blue-text">Show translation</summary>
+      {text}
+    </details>
   );
 }

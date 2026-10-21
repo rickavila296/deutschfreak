@@ -2,7 +2,7 @@ import type { LessonResponse } from '@deutschfreak/validation';
 import { routes } from '../../lib/routes.ts';
 import { Block } from './block.tsx';
 import { LessonStages, type StagePanel } from './stage-rail.tsx';
-import { showsTranslation } from './stages.ts';
+import { translationMode } from './stages.ts';
 
 // The read-only lesson page (Plan task 4.7, FLOW-LESSON-001): lesson header, then the nine stages behind the rail.
 // One page per lesson, the same component for every lesson (TRD-FE-03).
@@ -16,7 +16,7 @@ export function LessonPage({ lesson: response }: { lesson: LessonResponse }) {
       content: (
         <div className="flex flex-col gap-6">
           {section.blocks.map((block) => (
-            <Block key={block.code} block={block} showTranslation={showsTranslation(section.stage)} />
+            <Block key={block.code} block={block} translation={translationMode(lesson.unit.code, section.stage)} />
           ))}
         </div>
       ),

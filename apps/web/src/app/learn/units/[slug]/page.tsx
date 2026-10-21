@@ -1,16 +1,16 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { connection } from 'next/server';
 import { findUnit } from '../../../../components/map/map-rules.ts';
 import { UnitPage } from '../../../../components/map/unit-page.tsx';
 import { getLevelMap } from '../../../../lib/api.ts';
-
-export const dynamic = 'force-dynamic';
 
 interface Props {
   params: Promise<{ slug: string }>;
 }
 
 async function load(slug: string) {
+  await connection();
   const map = await getLevelMap('A1');
   return map ? findUnit(map, slug) : null;
 }

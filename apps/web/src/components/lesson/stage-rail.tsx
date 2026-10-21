@@ -14,19 +14,34 @@ export interface StagePanel {
   content: ReactNode;
 }
 
-type StepState = 'current' | 'reached' | 'ahead';
+type StepState = 'current' | 'reached' | 'ahead' | 'unavailable';
 
-const stepState = (stage: number, current: number, furthest: number): StepState =>
-  stage === current ? 'current' : stage <= furthest ? 'reached' : 'ahead';
+function stepState(stage: number, current: number, furthest: number, present: ReadonlySet<number>): StepState {
+  if (!present.has(stage)) return 'unavailable';
+  return stage === current ? 'current' : stage <= furthest ? 'reached' : 'ahead';
+}
+
+const stateText: Record<StepState, string> = {
+  current: 'current stage',
+  reached: 'reached',
+  ahead: 'not reached yet',
+  unavailable: 'not available',
+};
 
 /**
  * The lesson's stages behind the nine-step rail (FLOW-LESSON-010 to 013, DESIGN-UI-070 to 076). One stage shows at a
  * time; Continue moves on one stage; the rail selects any stage already reached and nothing beyond the furthest.
- * A visitor starts at stage 1 and nothing is stored (Phase 4 has no accounts).
+ * A visitor starts at the first stage and nothing is stored (Phase 4 has no accounts). Navigation runs over the stages
+ * the lesson actually has: a stage missing from the data is shown on the rail but never selected or continued to, so
+ * no step leads to an empty screen (FLOW-LESSON-013; review 4 finding 1).
  */
 export function LessonStages({ panels }: { panels: readonly StagePanel[] }) {
-  const [current, setCurrent] = useState(1);
-  const [furthest, setFurthest] = useState(1);
+  const stages = [...new Set(panels.map((panel) => panel.stage))].sort((a, b) => a - b);
+  const present = new Set(stages);
+  const first = stages[0] ?? 1;
+  const nextStage = (stage: number) => stages.find((candidate) => candidate > stage);
+  const [current, setCurrent] = useState(first);
+  const [furthest, setFurthest] = useState(first);
   const [railOpen, setRailOpen] = useState(false);
   const headingRefs = useRef<Record<number, HTMLHeadingElement | null>>({});
   const railId = useId();
@@ -46,7 +61,7 @@ export function LessonStages({ panels }: { panels: readonly StagePanel[] }) {
         <RailStep
           key={stage}
           stage={stage}
-          state={stepState(stage, current, furthest)}
+          state={stepState(stage, current, furthest, present)}
           light={weights.get(stage) === 'light'}
           onSelect={() => goTo(stage)}
         />
@@ -96,13 +111,13 @@ export function LessonStages({ panels }: { panels: readonly StagePanel[] }) {
                 {stageName(panel.stage)}
               </h2>
               {panel.content}
-              {panel.stage < stageCount && (
+              {nextStage(panel.stage) !== undefined && (
                 <button
                   type="button"
-                  onClick={() => goTo(panel.stage + 1)}
+                  onClick={() => goTo(nextStage(panel.stage)!)}
                   className="flex min-h-11 items-center self-start rounded-md bg-blue px-6 text-body font-semibold text-white hover:bg-blue-text"
                 >
-                  Continue to {stageName(panel.stage + 1)}
+                  Continue to {stageName(nextStage(panel.stage)!)}
                 </button>
               )}
             </div>
@@ -132,8 +147,8 @@ function RailStep({
     current: 'bg-blue text-white',
     reached: 'border-2 border-ink text-ink',
     ahead: 'border border-muted text-muted-text',
+    unavailable: 'border border-dashed border-muted text-muted-text',
   }[state];
-  const label = `${stage} ${stageName(stage)}`;
   const content = (
     <>
       <span
@@ -145,7 +160,9 @@ function RailStep({
       <span
         className={state === 'current' ? 'font-bold text-ink' : state === 'reached' ? 'text-ink' : 'text-muted-text'}
       >
-        {stageName(stage)}
+        {/* The number and state are spoken as text: aria-label on a span without a role is ignored (review 4 finding 7). */}
+        <span className="sr-only">Stage {stage}:</span> {stageName(stage)}
+        <span className="sr-only">, {stateText[state]}</span>
       </span>
     </>
   );
@@ -153,15 +170,11 @@ function RailStep({
   return (
     <li>
       {state === 'reached' ? (
-        <button type="button" onClick={onSelect} aria-label={`${label}, reached`} className={`${row} hover:bg-surface`}>
+        <button type="button" onClick={onSelect} className={`${row} hover:bg-surface`}>
           {content}
         </button>
       ) : (
-        <span
-          aria-current={state === 'current' ? 'step' : undefined}
-          aria-label={state === 'current' ? `${label}, current stage` : `${label}, not reached yet`}
-          className={row}
-        >
+        <span aria-current={state === 'current' ? 'step' : undefined} className={row}>
           {content}
         </span>
       )}

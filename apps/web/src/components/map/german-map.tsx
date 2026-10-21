@@ -7,7 +7,7 @@ import { OpenPartFromHash } from './open-part-from-hash.tsx';
 import { Tag } from './tag.tsx';
 
 // The German Map (FLOW-LEARN-001, DESIGN-UI-080 to 085): the whole level as an outline of parts, units and lessons.
-// Parts are native <details> elements, so they collapse with keyboard and mouse without client code; A1.1 is open.
+// Each part's unit list is a native <details>, so it collapses with keyboard and mouse without client code; A1.1 is open.
 // Rendered on the server with its full text in the HTML (TRD-FE-01, TRD-SEO-01).
 export function GermanMap({ map }: { map: LevelMapResponse }) {
   return (
@@ -26,32 +26,40 @@ export function GermanMap({ map }: { map: LevelMapResponse }) {
   );
 }
 
+// A part section (FLOW-LEARN-002). The heading, learner statement, tag and course-page copy sit outside the collapsible
+// so the part title is a real heading: a <summary> is a button, and assistive technology drops headings inside it
+// (review 4 finding 6). Only the unit list collapses (DESIGN-UI-084).
 function PartSection({ part }: { part: MapPart }) {
   const live = isPartLive(part);
-  const anchor = routes.part(part.code).split('#')[1];
+  const anchor = routes.partAnchor(part.code);
   return (
-    <details id={anchor} open={part.code === defaultOpenPart} className="group rounded-lg border border-border">
-      <summary className="grid min-h-11 cursor-pointer list-none grid-cols-[1fr_auto] items-center gap-x-4 gap-y-1 rounded-lg p-4 md:p-6">
-        <h2 className="text-h2 text-ink">
+    <section id={anchor} aria-labelledby={`${anchor}-title`} className="rounded-lg border border-border">
+      <div className="flex flex-col gap-2 p-4 md:p-6">
+        <h2 id={`${anchor}-title`} className="text-h2 text-ink">
           {part.code} {part.title}
         </h2>
-        <ChevronDown
-          aria-hidden="true"
-          size={24}
-          className="row-span-2 text-ink transition-transform group-open:rotate-180 motion-reduce:transition-none"
-        />
-        <span className="flex flex-wrap items-center gap-3">
+        <p className="flex flex-wrap items-center gap-3">
           <span className="text-body text-muted-text">{part.tagline}</span>
           <Tag tone={live ? 'live' : 'planned'}>{live ? 'Available now' : 'Planned'}</Tag>
-        </span>
-      </summary>
-      <div className="flex flex-col gap-8 px-4 pb-6 md:px-6">
+        </p>
         {part.descriptionEn && <p className="max-w-prose text-reading text-ink">{part.descriptionEn}</p>}
-        {part.units.map((unit) => (
-          <UnitSection key={unit.code} unit={unit} />
-        ))}
       </div>
-    </details>
+      <details open={part.code === defaultOpenPart} className="group border-t border-border">
+        <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-4 px-4 py-2 text-body font-semibold text-ink md:px-6">
+          Units and lessons of {part.code}
+          <ChevronDown
+            aria-hidden="true"
+            size={24}
+            className="shrink-0 transition-transform group-open:rotate-180 motion-reduce:transition-none"
+          />
+        </summary>
+        <div className="flex flex-col gap-8 px-4 pt-2 pb-6 md:px-6">
+          {part.units.map((unit) => (
+            <UnitSection key={unit.code} unit={unit} />
+          ))}
+        </div>
+      </details>
+    </section>
   );
 }
 

@@ -123,13 +123,19 @@ describe('German Map (FLOW-LEARN-001, DESIGN-UI-080 to 085)', () => {
 
   it('tags the live part "Available now" and opens it; other parts are planned and closed (DESIGN-UI-084)', () => {
     const { container } = render(<GermanMap map={map} />);
-    const [first, second] = container.querySelectorAll('details');
-    expect(first?.id).toBe('a1-1');
-    expect(first?.open).toBe(true);
-    expect(within(first!.querySelector('summary')!).getByText('Available now')).toBeTruthy();
-    expect(second?.id).toBe('a1-2');
-    expect(second?.open).toBe(false);
-    expect(within(second!.querySelector('summary')!).getByText('Planned')).toBeTruthy();
+    const first = container.querySelector('section#a1-1')!;
+    const second = container.querySelector('section#a1-2')!;
+    expect(first.querySelector('details')?.open).toBe(true);
+    expect(within(first as HTMLElement).getAllByText('Available now')).toHaveLength(1);
+    expect(second.querySelector('details')?.open).toBe(false);
+    expect(within(second as HTMLElement).getAllByText('Planned').length).toBeGreaterThan(0);
+  });
+
+  it('keeps each part title a real heading, outside the collapsible summary (review 4 finding 6)', () => {
+    const { container } = render(<GermanMap map={map} />);
+    expect(container.querySelector('summary h1, summary h2, summary h3')).toBeNull();
+    expect(screen.getByRole('region', { name: 'A1.1 Part one' }).id).toBe('a1-1');
+    expect(screen.getByRole('heading', { level: 2, name: 'A1.2 Part two' })).toBeTruthy();
   });
 
   it('shows the course-page copy of a part when it has one (FLOW-LEARN-002, decision 0030)', () => {
@@ -149,12 +155,18 @@ describe('German Map (FLOW-LEARN-001, DESIGN-UI-080 to 085)', () => {
 describe('part anchors (decision 0028)', () => {
   it('opens the closed part named in the address fragment', () => {
     const { container } = render(<GermanMap map={map} />);
-    const second = container.querySelector<HTMLDetailsElement>('details#a1-2');
+    const second = container.querySelector<HTMLDetailsElement>('section#a1-2 details');
     Element.prototype.scrollIntoView = () => {};
     expect(second?.open).toBe(false);
     openPartFromHash('#a1-2', container);
     expect(second?.open).toBe(true);
     openPartFromHash('#no-such-part', container);
     openPartFromHash('', container);
+  });
+
+  it('ignores a fragment that is not valid percent-encoding instead of throwing (review 4 finding 2)', () => {
+    const { container } = render(<GermanMap map={map} />);
+    expect(() => openPartFromHash('#%E0', container)).not.toThrow();
+    expect(container.querySelector<HTMLDetailsElement>('section#a1-2 details')?.open).toBe(false);
   });
 });
