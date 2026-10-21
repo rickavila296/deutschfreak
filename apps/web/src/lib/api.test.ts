@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { ApiRequestError, getLevelMap } from './api.ts';
+import { ApiRequestError, getLesson, getLevelMap } from './api.ts';
 
 // The network is replaced; the client's own handling of status codes and schema checks is what is tested.
 const validMap = {
@@ -38,5 +38,60 @@ describe('getLevelMap (TRD-FE-05)', () => {
       throw new TypeError('fetch failed');
     }) as unknown as typeof fetch;
     await expect(getLevelMap('A1', down)).rejects.toBeInstanceOf(ApiRequestError);
+  });
+});
+
+describe('getLesson (TRD-FE-05)', () => {
+  const lesson = {
+    lesson: {
+      code: 'A1.1.U01.L01',
+      slug: 'example-lesson',
+      title: 'Title',
+      archetypes: ['conversation'],
+      masteryTaskEn: 'Task',
+      unit: { code: 'A1.1.U01', slug: 'unit-one', title: 'Unit' },
+    },
+    sections: [],
+  };
+
+  it('calls /v1/lessons/:slug and returns the checked lesson', async () => {
+    const fetchImpl = fakeFetch(200, lesson);
+    await expect(getLesson('example-lesson', fetchImpl)).resolves.toEqual(lesson);
+    expect(vi.mocked(fetchImpl).mock.calls[0]?.[0]).toBe('http://api.test/v1/lessons/example-lesson');
+  });
+
+  it('returns null for 404, as for a planned lesson (decision 0017)', async () => {
+    await expect(getLesson('planned', fakeFetch(404, { error: { code: 'lesson_not_found' } }))).resolves.toBeNull();
+  });
+
+  it('refuses a response with an answer field (TRD-SEC-11)', async () => {
+    const leaky = {
+      ...lesson,
+      sections: [
+        {
+          code: 'A1.1.U01.L01.S5',
+          stage: 5,
+          weight: 'normal',
+          blocks: [
+            {
+              code: 'A1.1.U01.L01.S5.B01',
+              kind: 'exercise',
+              role: null,
+              status: null,
+              mode: null,
+              textEn: null,
+              exercise: {
+                code: 'ex:one',
+                type: 'multiple_choice',
+                skill: 'reading',
+                instructionEn: 'Choose.',
+                items: [{ code: 'ex:one:i01', prompt: 'Which?', options: ['A', 'B'], answer: 'A' }],
+              },
+            },
+          ],
+        },
+      ],
+    };
+    await expect(getLesson('example-lesson', fakeFetch(200, leaky))).rejects.toThrow(/schema/);
   });
 });
