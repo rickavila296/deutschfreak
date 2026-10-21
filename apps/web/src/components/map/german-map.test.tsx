@@ -170,3 +170,14 @@ describe('part anchors (decision 0028)', () => {
     expect(container.querySelector<HTMLDetailsElement>('section#a1-2 details')?.open).toBe(false);
   });
 });
+
+describe('review 4b fixes (map)', () => {
+  it('gives a lesson type a quiet label that cannot be mistaken for the boxed Checkpoint mark (finding 4)', () => {
+    render(<GermanMap map={map} />);
+    const conversation = within(row('A1.1.U01.L01')).getByText('Conversation');
+    const checkpoint = within(row('A1.1.U01.L03')).getByText('Checkpoint');
+    expect(checkpoint.className).toContain('border');
+    expect(conversation.className).not.toContain('border');
+    expect(conversation.className).not.toBe(checkpoint.className);
+  });
+});

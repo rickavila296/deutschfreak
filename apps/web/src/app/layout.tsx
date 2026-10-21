@@ -6,7 +6,14 @@ import { SkipLink } from '../components/skip-link.tsx';
 import { inter } from './fonts.ts';
 import './globals.css';
 
+// The base for relative metadata URLs such as the canonical link. On Vercel it is the project's production domain,
+// which Vercel sets on every deployment; locally it is the dev server.
+const siteUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
+  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+  : 'http://localhost:3000';
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: 'DeutschFreak',
 };
 

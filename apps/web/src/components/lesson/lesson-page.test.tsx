@@ -228,3 +228,48 @@ describe('translationMode (TRD-FE-11)', () => {
     }
   });
 });
+
+describe('review 4b fixes (lesson page)', () => {
+  it('shows a plain empty state for a lesson with no stages, not a rail over a blank page (finding 2)', () => {
+    render(<LessonPage lesson={{ ...lesson, sections: [] }} />);
+    expect(screen.getByText('This lesson has no content yet.')).toBeTruthy();
+    expect(screen.queryByRole('navigation', { name: 'Lesson stages' })).toBeNull();
+  });
+
+  it('renders repeated exercise options once each, without a duplicate-key warning (finding 3)', () => {
+    const errors: unknown[] = [];
+    const original = console.error;
+    console.error = (...args: unknown[]) => errors.push(args.join(' '));
+    try {
+      const repeated: LessonResponse = {
+        ...lesson,
+        sections: [
+          {
+            code: 'A1.1.U01.L01.S5',
+            stage: 5,
+            weight: 'normal',
+            blocks: [
+              {
+                ...base,
+                code: 'A1.1.U01.L01.S5.B01',
+                kind: 'exercise',
+                exercise: {
+                  code: 'ex:articles',
+                  type: 'multiple_choice',
+                  skill: 'reading',
+                  instructionEn: 'Choose the article.',
+                  items: [{ code: 'ex:articles:i01', prompt: 'Which?', options: ['der', 'die', 'der'] }],
+                },
+              },
+            ],
+          },
+        ],
+      };
+      const { container } = render(<LessonPage lesson={repeated} />);
+      expect(container.querySelectorAll('[data-kind="exercise"] ul li')).toHaveLength(3);
+      expect(errors.filter((e) => String(e).includes('same key'))).toEqual([]);
+    } finally {
+      console.error = original;
+    }
+  });
+});

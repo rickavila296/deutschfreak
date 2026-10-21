@@ -38,7 +38,13 @@ export function LessonPage({ lesson: response }: { lesson: LessonResponse }) {
           {lesson.title}
         </h1>
       </div>
-      <LessonStages panels={panels} />
+      {panels.length > 0 ? (
+        <LessonStages panels={panels} />
+      ) : (
+        // A lesson with no stages in the data gets a plain empty state, not a rail over a blank page (review 4b
+        // finding 2; Design §29).
+        <p className="max-w-prose text-reading text-ink">This lesson has no content yet.</p>
+      )}
     </div>
   );
 }
