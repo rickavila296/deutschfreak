@@ -41,6 +41,7 @@ export async function seedStructure(db: Db, file: StructureFile): Promise<SeedRe
           levelId: idOf(levelIds, level.code),
           title: part.title,
           tagline: part.tagline,
+          descriptionEn: part.description_en ?? null,
           position,
         })),
       )
@@ -50,6 +51,7 @@ export async function seedStructure(db: Db, file: StructureFile): Promise<SeedRe
           levelId: excluded('level_id'),
           title: excluded('title'),
           tagline: excluded('tagline'),
+          descriptionEn: excluded('description_en'),
           position: excluded('position'),
           updatedAt: now,
         },
@@ -67,6 +69,7 @@ export async function seedStructure(db: Db, file: StructureFile): Promise<SeedRe
           slug: unit.slug,
           title: unit.title,
           subtitleEn: unit.subtitle_en,
+          contextEn: unit.context_en ?? null,
           position,
         })),
       )
@@ -77,6 +80,7 @@ export async function seedStructure(db: Db, file: StructureFile): Promise<SeedRe
           slug: excluded('slug'),
           title: excluded('title'),
           subtitleEn: excluded('subtitle_en'),
+          contextEn: excluded('context_en'),
           position: excluded('position'),
           updatedAt: now,
         },

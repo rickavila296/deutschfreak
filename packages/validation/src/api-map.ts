@@ -37,6 +37,8 @@ export const mapUnitSchema = z.strictObject({
   slug: slugSchema,
   title: z.string().min(1),
   subtitleEn: z.string().min(1),
+  /** The situation the unit is set in; null for close-out units (decision 0030). */
+  contextEn: z.string().min(1).nullable(),
   lessons: z.array(mapLessonSchema),
 });
 
@@ -44,6 +46,8 @@ export const mapPartSchema = z.strictObject({
   code: partCodeSchema,
   title: z.string().min(1),
   tagline: z.string().min(1),
+  /** Course-page copy of the part (decision 0030); null if none is written. */
+  descriptionEn: z.string().min(1).nullable(),
   units: z.array(mapUnitSchema),
 });
 

@@ -21,12 +21,14 @@ interface Unit {
   slug: string;
   title: string;
   subtitleEn: string;
+  contextEn: string | null;
   lessons: Lesson[];
 }
 interface Part {
   code: string;
   title: string;
   tagline: string;
+  descriptionEn: string | null;
   units: Unit[];
 }
 
@@ -44,7 +46,13 @@ export function buildLevelMap(rows: LevelMapRow[]): LevelMapResponse | undefined
   let lesson: Lesson | undefined;
   for (const row of rows) {
     if (!part || part.code !== row.partCode) {
-      part = { code: row.partCode, title: row.partTitle, tagline: row.partTagline, units: [] };
+      part = {
+        code: row.partCode,
+        title: row.partTitle,
+        tagline: row.partTagline,
+        descriptionEn: row.partDescriptionEn,
+        units: [],
+      };
       parts.push(part);
       unit = undefined;
     }
@@ -54,6 +62,7 @@ export function buildLevelMap(rows: LevelMapRow[]): LevelMapResponse | undefined
         slug: row.unitSlug,
         title: row.unitTitle,
         subtitleEn: row.unitSubtitleEn,
+        contextEn: row.unitContextEn,
         lessons: [],
       };
       part.units.push(unit);

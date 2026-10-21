@@ -1,0 +1,102 @@
+/*
+ * The design tokens of Design Brief section 11, and only those (DESIGN-HAND-01; decision 0025).
+ * Tailwind's own colours, fonts, weights, radii and shadows are cleared, so a class that is not a Brief token
+ * does not exist. Spacing and breakpoints are Tailwind's defaults (Design Brief sections 12 and 15).
+ * This file and its test are the only places a hex value may appear in apps/web (TRD-FE-06).
+ */
+@theme {
+  --color-*: initial;
+  --font-*: initial;
+  --font-weight-*: initial;
+  --text-*: initial;
+  --radius-*: initial;
+  --shadow-*: initial;
+  --inset-shadow-*: initial;
+  --drop-shadow-*: initial;
+  --text-shadow-*: initial;
+
+  /* Brand colours (section 10, MP §21) */
+  --color-ink: #18212f;
+  --color-blue: #2f6fed;
+  --color-teal: #1f9d8b;
+  --color-gold: #e6a23c;
+  --color-red: #c94c4c;
+  --color-paper: #f7f5ef;
+  --color-surface: #eef3f8;
+  --color-muted: #667085;
+
+  /* Text-only variants, 4.5:1 on white, paper and surface (section 10) */
+  --color-blue-text: #1c62eb;
+  --color-red-text: #c13a3a;
+  --color-teal-text: #18796b;
+  --color-gold-text: #956113;
+  --color-muted-text: #636c81;
+
+  /* Neutrals (section 10): white, and deep ink at 12% for decorative card edges */
+  --color-white: #ffffff;
+  --color-border: rgb(24 33 47 / 0.12);
+
+  /* Inter with a system sans-serif fallback (DESIGN-TYPE-01, 05) */
+  --font-sans:
+    var(--font-inter), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Type scale (section 9), mobile values; the desktop values follow below. Sizes in rem (DESIGN-TYPE-06). */
+  --text-display: 1.75rem;
+  --text-display--line-height: 2.25rem;
+  --text-display--font-weight: 700;
+  --text-h2: 1.5rem;
+  --text-h2--line-height: 2rem;
+  --text-h2--font-weight: 600;
+  --text-h3: 1.25rem;
+  --text-h3--line-height: 1.75rem;
+  --text-h3--font-weight: 600;
+  --text-german-lg: 1.375rem;
+  --text-german-lg--line-height: 2rem;
+  --text-german-lg--font-weight: 500;
+  --text-german-md: 1.125rem;
+  --text-german-md--line-height: 1.75rem;
+  --text-german-md--font-weight: 500;
+  --text-reading: 1.0625rem;
+  --text-reading--line-height: 1.75rem;
+  --text-reading--font-weight: 400;
+  --text-body: 1rem;
+  --text-body--line-height: 1.625rem;
+  --text-body--font-weight: 400;
+  --text-small: 0.875rem;
+  --text-small--line-height: 1.375rem;
+  --text-small--font-weight: 400;
+  --text-caption: 0.8125rem;
+  --text-caption--line-height: 1.125rem;
+  --text-caption--font-weight: 500;
+
+  /* Radius (section 11) */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+
+  /* Page content width, at most 1200 px (DESIGN-LAYOUT-02): max-w-page */
+  --container-page: 75rem;
+}
+
+/* Desktop type sizes (section 9) from Tailwind's lg breakpoint, 1024 px, where section 15's desktop starts. */
+@media (width >= 64rem) {
+  :root {
+    --text-display: 2.25rem;
+    --text-display--line-height: 2.75rem;
+    --text-h2: 1.75rem;
+    --text-h2--line-height: 2.25rem;
+    --text-h3: 1.375rem;
+    --text-h3--line-height: 1.875rem;
+    --text-german-lg: 1.5rem;
+    --text-german-lg--line-height: 2.125rem;
+    --text-german-md: 1.25rem;
+    --text-german-md--line-height: 1.875rem;
+    --text-reading: 1.125rem;
+    --text-reading--line-height: 1.875rem;
+  }
+}

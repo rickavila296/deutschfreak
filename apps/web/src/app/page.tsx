@@ -1,0 +1,12 @@
+import { notFound } from 'next/navigation';
+import { connection } from 'next/server';
+import { GermanMap } from '../components/map/german-map.tsx';
+import { getLevelMap } from '../lib/api.ts';
+
+// Home shows the German Map until a home page is built (decision 0028).
+export default async function HomePage() {
+  await connection();
+  const map = await getLevelMap('A1');
+  if (!map) notFound();
+  return <GermanMap map={map} />;
+}

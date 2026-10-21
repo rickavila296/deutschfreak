@@ -11,10 +11,12 @@ export interface LevelMapRow {
   partCode: string;
   partTitle: string;
   partTagline: string;
+  partDescriptionEn: string | null;
   unitCode: string;
   unitSlug: string;
   unitTitle: string;
   unitSubtitleEn: string;
+  unitContextEn: string | null;
   lessonCode: string;
   lessonSlug: string;
   lessonTitle: string;
@@ -34,10 +36,12 @@ export function findLevelMapRows(db: Db, levelCode: string): Promise<LevelMapRow
       partCode: courseParts.code,
       partTitle: courseParts.title,
       partTagline: courseParts.tagline,
+      partDescriptionEn: courseParts.descriptionEn,
       unitCode: units.code,
       unitSlug: units.slug,
       unitTitle: units.title,
       unitSubtitleEn: units.subtitleEn,
+      unitContextEn: units.contextEn,
       lessonCode: lessons.code,
       lessonSlug: lessons.slug,
       lessonTitle: lessons.title,

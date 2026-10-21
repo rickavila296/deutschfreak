@@ -442,3 +442,207 @@ The entry format is in `CLAUDE.md`, under "PROGRESS.md entry".
 - **Checks:** `pnpm lint` clean; `pnpm typecheck` passed; `pnpm test` 249 passed; `pnpm content:check` valid; `pnpm test:db` 76 + 16 passed; CI on pull request #3 (phase-03/review-fixes → main) running at the time of this entry.
 - **Status:** passed
 - **Notes:** The owner merges pull request #3 into main once its check and database jobs are green; Vercel then builds Production from main. Carried forward: teacher review of 22 German strings (docs/content-review/A1.1.U01.md); Phase 6 follow-ups of decision 0013 (seed batching would also shorten CI); Piper voice licences before audio; Phase 4: how the web app reaches the protected API, listening items without playable audio until Phase 7, and a production database before real learners; Bible documentation update for decisions 0014, 0015, 0019, 0020, 0021 and TRD §24/§25. Phase 4 starts in a new session.
+
+## 2026-10-17 · Phase 3 · docs · Bible aligned with decisions 0001 to 0022
+
+- **Phase:** 3 API foundation (documentation, after gate M2)
+- **Module:** docs/bible (local), docs/prompts (local), CLAUDE.md (local), docs/decisions
+- **Update:** Bible documentation update for the decisions made in Phases 1 to 3
+- **Type:** decision
+- **What was done:** The owner approved all edits of the Bible alignment change set of 2026-10-17 ("all yes") and decided P4 (decision 0022: A1.1.U01 may be shown publicly before the teacher review). Applied to the local Bible: PRD v0.4 (OQ-03 resolved; NFR-005 exceptions 0009 and 0022), TRD v0.5 (error code list in §19; TRD-LOG-03 approved and the approval note removed; BE-05, BE-07, API-01, API-03, ERR-01, ERR-03, LOG-01, SEC-11; TRD-TEST-10; CI-01 triggers, CI-06, CI-07; DEP-05 proven with bundled entry and fra1; preview database; §25 final names with DATABASE_DEV_HOST and PORT; CNT-01, CNT-05, VAL-03; TRD-OQ-08 and 18 resolved), Flow v0.4 (FLOW-OQ-05 API side), Schema v0.4 (0001 subtitles, 0006 skills, 0008 slug rules, 0009 note, DB-OQ-07; the 0005, 0007 and 0013 edits were already present), Plan v0.5 (PLAN-DEC-01 to 03 decided, Phase 3 task notes, carry-overs into Phases 2b and 4 to 8, production database on the release checklist). Kit: CLAUDE.md fidelity rule 4 (decisions 0004, 0009, 0022); phase-03 brief updated; carry-overs added to the watch-outs of the phase-04 to phase-08 briefs. `node docs/bible/build.mjs` rebuilt INDEX.md and dist.
+- **Files:** docs/decisions/0022-u01-public-before-teacher-review.md, PROGRESS.md; local and git-ignored: docs/bible/01-prd.md, 02-trd.md, 03-flow.md, 05-schema.md, 06-plan.md, INDEX.md, dist/, docs/prompts/phase-03.md to phase-08.md, CLAUDE.md
+- **Checks:** every edit matched its anchor exactly once; build.mjs reports the six parts at their new versions
+- **Status:** passed
+- **Notes:** PLAN-OQ-05 (repository public from the first commit) left open pending the owner's answer. The docx copy of the Bible was not regenerated. This entry and decision 0022 are uncommitted; commit them on the next branch.
+
+## 2026-10-17 · Phase 3 · repo · Decision 0023: repository private until launch
+
+- **Phase:** 3 API foundation (documentation, after gate M2)
+- **Module:** repo, docs/decisions, docs/bible (local)
+- **Update:** PLAN-OQ-05 decided: the repository is private until launch
+- **Type:** decision
+- **What was done:** The owner decided to switch `rickavila296/deutschfreak` to private until launch; Plan task 18.4 makes it public. Local Bible: Plan §14 PLAN-OQ-05 marked resolved and the v0.5 change summary updated; `node docs/bible/build.mjs` rebuilt INDEX.md and dist.
+- **Files:** docs/decisions/0023-repository-private-until-launch.md, PROGRESS.md; local and git-ignored: docs/bible/06-plan.md, INDEX.md, dist/
+- **Checks:** none (decision only)
+- **Status:** passed
+- **Notes:** The owner changes the visibility in GitHub settings. On GitHub Free a private repository does not enforce branch protection, so "a red build blocks merging" (TRD-CI-02) is followed by hand, and Actions has 2,000 minutes a month. Uncommitted, with decision 0022 and the Bible alignment entry; commit on the next branch.
+
+## 2026-10-17 · Phase 3 · repo · Decision 0024: repository stays public
+
+- **Phase:** 3 API foundation (documentation, after gate M2)
+- **Module:** repo, docs/decisions, docs/bible (local)
+- **Update:** PLAN-OQ-05 re-decided: the repository stays public; decision 0023 superseded
+- **Type:** decision
+- **What was done:** After comparing both options, the owner withdrew decision 0023 (private until launch) before the visibility was changed and chose to keep the repository public (decision 0024). Decision 0023 marked superseded. Local Bible: Plan §14 PLAN-OQ-05 and the v0.5 change summary now cite 0024; `node docs/bible/build.mjs` rebuilt INDEX.md and dist.
+- **Files:** docs/decisions/0023-repository-private-until-launch.md, docs/decisions/0024-repository-public.md, PROGRESS.md; local and git-ignored: docs/bible/06-plan.md, INDEX.md, dist/
+- **Checks:** none (decision only)
+- **Status:** passed
+- **Notes:** No GitHub setting changes. Branch protection and unlimited Actions minutes stay as they are. Uncommitted with decisions 0022 and 0023 and the Bible alignment entry; commit on the next branch.
+
+## 2026-10-17 · Phase 4 · apps/web · Task 4.1 web app with NEXT_PUBLIC_API_URL
+
+- **Phase:** 4 Web shell
+- **Module:** apps/web
+- **Update:** Task 4.1: Next.js App Router app created; NEXT_PUBLIC_API_URL set up
+- **Type:** feature
+- **What was done:** New workspace package `@deutschfreak/web` (Next.js 16 App Router, React 19, TypeScript strict via packages/config/tsconfig.base.json, Vitest). `src/lib/config.ts` `readApiUrl()` reads NEXT_PUBLIC_API_URL and refuses a missing value, a non-http(s) URL, credentials, a query or a fragment, naming the variable and never echoing the value; a trailing slash is dropped. `next.config.ts` loads the repo-root `.env` (shared with apps/api) when it exists; checked once that the value is inlined into the build. Placeholder root layout and start page only (theme 4.2, shell 4.4, map 4.5). `.env.example` lists NEXT_PUBLIC_API_URL; `.gitignore` ignores the generated `next-env.d.ts`. No dependency on packages/db; the existing lint rule refuses such an import (shown once).
+- **Files:** apps/web/package.json, tsconfig.json, next.config.ts, vitest.config.ts, src/app/layout.tsx, src/app/page.tsx, src/lib/config.ts, src/lib/config.test.ts; .env.example; .gitignore; pnpm-lock.yaml
+- **Checks:** `pnpm lint` clean; `pnpm typecheck` passed (6 packages); `pnpm test` 254 passed (web 5, validation 101, config 7, content 10, db 84, api 47); `pnpm content:check` valid; `pnpm --filter @deutschfreak/web build` succeeded; eslint refused a test import of `@deutschfreak/db` in apps/web
+- **Status:** passed
+- **Notes:** `@types/node` resolved to ^26 for apps/web (apps/api has ^24; runtime is Node 24). Vercel Production of the API has no environment variables (only Preview has them): Production answers /health but /health/ready and /v1 return internal_error, which blocks gate M3 until a production database and WEB_ORIGIN are set. PLAN-DEC-04 (DESIGN-OQ-01) must be decided before task 4.2.
+
+## 2026-10-17 · Phase 4 · docs/decisions · Decision 0025: design recommendations approved
+
+- **Phase:** 4 Web shell
+- **Module:** docs/decisions
+- **Update:** PLAN-DEC-04 decided: the Design Brief's recommendations are approved as written (DESIGN-OQ-01 closed)
+- **Type:** decision
+- **What was done:** The owner approved the Design Brief values as written: type scale, text-variant hex values, neutrals, radius, spacing, grid, breakpoints, touch-target size, token names, rail layout and word-order tap model. Logged as decision 0025.
+- **Files:** docs/decisions/0025-design-recommendations-approved.md, PROGRESS.md
+- **Checks:** none (decision only)
+- **Status:** passed
+- **Notes:** The local Bible still lists PLAN-DEC-04 and DESIGN-OQ-01 as open; the edits marking them decided await the owner's approval. DESIGN-OQ-05 (icon set) is still open and is needed before icons are used.
+
+## 2026-10-17 · Phase 4 · docs/bible · PLAN-DEC-04 marked decided in the Bible
+
+- **Phase:** 4 Web shell
+- **Module:** docs/bible (local)
+- **Update:** Bible bookkeeping for decision 0025
+- **Type:** docs
+- **What was done:** With the owner's approval ("yes bible"): Plan §5 PLAN-DEC-04 marked "Decided 17 Oct 2026 (decision 0025)" and the v0.5 change summary updated; Design Brief raised to v0.4 (version, date, change summary) with DESIGN-OQ-01 marked resolved. `node docs/bible/build.mjs` rebuilt INDEX.md and dist.
+- **Files:** PROGRESS.md; local and git-ignored: docs/bible/06-plan.md, 04-design.md, INDEX.md, dist/
+- **Checks:** every edit matched its anchor exactly once; build.mjs reports design v0.4 and plan v0.5
+- **Status:** passed
+- **Notes:** The Rec labels in Design §9 to §15 were left as they are; decision 0025 and the change summary record that they are now approved.
+
+## 2026-10-17 · Phase 4 · apps/web · Task 4.2 Tailwind theme and Inter
+
+- **Phase:** 4 Web shell
+- **Module:** apps/web
+- **Update:** Task 4.2: Tailwind theme built from the Design Brief tokens; Inter served from the app's own files
+- **Type:** feature
+- **What was done:** Tailwind CSS 4 via @tailwindcss/postcss. `src/app/theme.css` holds the Design Brief section 11 tokens and only those (DESIGN-HAND-01, decision 0025): Tailwind's default colours, fonts, weights, type sizes, radii and shadows are cleared; colours ink, blue, teal, gold, red, paper, surface, muted, the five text variants, white and border (ink at 12%); the nine type-scale steps with mobile values, switched to the desktop values from Tailwind's lg breakpoint (1024 px), sizes in rem; weights 400 to 700; radius sm 4, md 8, lg 12 px. Spacing and breakpoints stay Tailwind's defaults (sections 12, 15). Inter: the variable latin woff2 from @fontsource-variable/inter (SIL OFL 1.1) through next/font/local, so the build serves and preloads it from the app's own origin with no font service (DESIGN-HAND-02), with a system sans-serif fallback (DESIGN-TYPE-05). The root layout applies font-sans, text-body and text-ink.
+- **Files:** apps/web/package.json, postcss.config.mjs, src/app/theme.css, src/app/globals.css, src/app/fonts.ts, src/app/layout.tsx, src/theme.test.ts; pnpm-lock.yaml
+- **Checks:** `pnpm lint` clean; `pnpm typecheck` passed (6 packages); `pnpm test` 260 passed (web 11, validation 101, config 7, content 10, db 84, api 47); `pnpm content:check` valid; web build succeeded, built CSS has the local @font-face and a woff2 preload, no Google font URL. The theme tests were shown to fail once with a wrong gold-text hex, a wrong h3 size and a hex in a source file.
+- **Status:** passed
+- **Notes:** Not specified by the Brief, so open: the value of the one shadow level (section 11; no shadow token is defined until a floating component needs it) and whether tablet widths use the mobile or desktop type sizes (section 9 gives two columns; desktop sizes start at 1024 px here). The focus outline (section 11) is applied in task 4.4.
+
+## 2026-10-17 · Phase 4 · docs/decisions · Decisions 0026 and 0027: Lucide icons, tablet type sizes, shadow level
+
+- **Phase:** 4 Web shell
+- **Module:** docs/decisions, docs/bible (local)
+- **Update:** DESIGN-OQ-05 icon set decided (Lucide); the two theme points the Design Brief leaves open decided
+- **Type:** decision
+- **What was done:** The owner chose Lucide as the icon set (decision 0026; the mock-up half of DESIGN-OQ-05 stays open) and approved applying the two choices from the task 4.2 report (decision 0027): the §9 Mobile type sizes apply below 1024 px, tablets included, and the Desktop sizes from 1024 px; the §11 shadow level gets no token until the first floating component, when its value is decided. Local Bible: Design Brief v0.4 §9 note, §11 Shadow row, §40 handoff note, DESIGN-OQ-05 and the change summary updated; `node docs/bible/build.mjs` rebuilt INDEX.md and dist.
+- **Files:** docs/decisions/0026-icon-set-lucide.md, docs/decisions/0027-theme-points-the-brief-leaves-open.md, PROGRESS.md; local and git-ignored: docs/bible/04-design.md, INDEX.md, dist/
+- **Checks:** every Bible edit matched its anchor exactly once; build.mjs reports design v0.4. No code change: theme.css already follows decision 0027.
+- **Status:** passed
+- **Notes:** The Lucide React package is added when the first icon is used (task 4.4 or later).
+
+## 2026-10-17 · Phase 4 · docs/decisions · Task 4.3 page route paths (decision 0028)
+
+- **Phase:** 4 Web shell
+- **Module:** docs/decisions, docs/bible (local)
+- **Update:** Task 4.3: page route paths decided and recorded before any page is built
+- **Type:** decision
+- **What was done:** The owner approved the proposed paths ("approve routes"), logged as decision 0028: `/` home (shows the German Map until a home page exists), `/learn` German Map with part anchors `#a1-1` to `#a1-4`, `/learn/units/<unit-slug>`, `/learn/lessons/<lesson-slug>` with the stages on one page; a planned lesson's address and any unknown slug show the not-found page with HTTP 404 and a link back to `/learn`, which settles FLOW-OQ-05. Local Bible: TRD-FE-12 and the TRD change summary; Flow v0.4 version line, change summary, §5 planned-lesson sentence and FLOW-OQ-05 marked resolved; `node docs/bible/build.mjs` rebuilt INDEX.md and dist.
+- **Files:** docs/decisions/0028-page-route-paths.md, PROGRESS.md; local and git-ignored: docs/bible/02-trd.md, 03-flow.md, INDEX.md, dist/
+- **Checks:** every Bible edit matched its anchor exactly once; build.mjs reports trd v0.5 and flow v0.4. No code change.
+- **Status:** passed
+- **Notes:** Paths for knowledge, Germany, dashboard and account pages are decided in their own phases. Slugs are the literal ones in a1.yaml (decision 0008).
+
+## 2026-10-17 · Phase 4 · docs/decisions · Decision 0029: production uses the dev database
+
+- **Phase:** 4 Web shell
+- **Module:** docs/decisions, docs/bible (local)
+- **Update:** Production database for gate M3 decided: Production uses the dev branch for now
+- **Type:** decision
+- **What was done:** The owner decided "prod uses dev" (decision 0029): the Vercel API project's Production environment gets the dev branch's DATABASE_URL and DATABASE_URL_DIRECT, like Preview (decision 0019), and WEB_ORIGIN set to the web app's production origin. A separate production database stays required before real learners. Local Bible: TRD §25 DATABASE_URL row and the v0.5 change summary; `node docs/bible/build.mjs` rebuilt INDEX.md and dist.
+- **Files:** docs/decisions/0029-production-uses-dev-database.md, PROGRESS.md; local and git-ignored: docs/bible/02-trd.md, INDEX.md, dist/
+- **Checks:** the Bible edit matched its anchor exactly once
+- **Status:** passed
+- **Notes:** Found during the Phase 4 prerequisite check: Production had no environment variables, so /health answered but /health/ready and /v1 returned internal_error. The owner sets the variables in Vercel and redeploys Production; Claude Code does not handle the connection strings.
+
+## 2026-10-17 · Phase 4 · apps/web · Task 4.4 page shell
+
+- **Phase:** 4 Web shell
+- **Module:** apps/web
+- **Update:** Task 4.4: header, primary navigation (no Practice item), footer, skip link and focus styles
+- **Type:** feature
+- **What was done:** The root layout wraps every page: skip link "Skip to content" as the first focusable element (DESIGN-UI-006), header with the DeutschFreak wordmark in Inter 700 deep ink and the primary navigation (DESIGN-UI-001), `<main id="main">`, footer. `src/lib/routes.ts` holds the decision 0028 paths, the navigation list and the footer groups. Navigation: a row from md (tablet and desktop) and, on mobile, a "Menu" button with a Lucide icon that opens the list, keyboard operable, Escape closes it and returns focus (DESIGN-UI-004, TRD-A11Y-02); the current section has aria-current, weight 600 and an underline (DESIGN-UI-003). Only items whose page exists are listed: Learn now; Browse, Vocabulary, Pronunciation, Germany and Progress are added in the launch order when their pages are built; login and sign-up come with accounts in Phase 5. Footer: the line "Open-source German learning" and the DeutschFreak (Learn) and Project (GitHub, Report an issue) groups; links without a destination yet (FLOW-OQ-08, no licence file yet) and the empty Community group are left out. Focus: 2 px deep-ink outline with 2 px offset on every focusable element. Content width 1200 px through a new `--container-page` token (DESIGN-LAYOUT-02) and the section 14 side margins; touch targets at least 44 px. Component tests run in jsdom with Testing Library.
+- **Files:** apps/web/package.json (lucide-react; jsdom, @testing-library/react, @testing-library/user-event), vitest.config.ts, src/app/layout.tsx, page.tsx, globals.css, theme.css, src/lib/routes.ts, src/components/skip-link.tsx, nav-list.tsx, primary-nav.tsx, mobile-menu.tsx, site-header.tsx, site-footer.tsx, page-shell.test.tsx; pnpm-lock.yaml
+- **Checks:** `pnpm lint` clean; `pnpm typecheck` passed (5 packages with a typecheck script); `pnpm test` 267 passed (web 18, validation 101, config 7, content 10, db 84, api 47); `pnpm content:check` valid; web build succeeded. The tests failed once with aria-current removed and with the Escape focus return removed. Checked in the browser at 800 px (navigation row, skip link visible on Tab) and 375 px (Menu button opens the list).
+- **Status:** passed
+- **Notes:** Earlier entries say "6 packages" for typecheck; the count is 5 (packages/config has no typecheck script). Navigation and footer show only what exists, which is the owner-approved reading of FLOW-NAV-001/005 for Phase 4.
+
+## 2026-10-17 · Phase 4 · apps/web · Task 4.5 German Map page
+
+- **Phase:** 4 Web shell
+- **Module:** apps/web
+- **Update:** Task 4.5: the German Map at /learn (and at / until a home page exists) as a server component from the API
+- **Type:** feature
+- **What was done:** `src/lib/api.ts` fetches `GET /v1/levels/A1/map` on the server from NEXT_PUBLIC_API_URL and checks it with `levelMapResponseSchema` from packages/validation (TRD-FE-01, FE-05); a 404 becomes the not-found page, any other failure an ApiRequestError; responses cached 5 minutes; pages render per request so the build never needs the API. `GermanMap` shows the whole tree as an outline (DESIGN-UI-080): four parts as native `<details>` (A1.1 open, DESIGN-UI-084) with anchors `#a1-1` to `#a1-4`, a small client component opens the part named in the address; 24 units linked to `/learn/units/<slug>`; 92 lesson rows with ID, title, can-do objective and primary archetype (DESIGN-UI-081). Only `published` lessons link to `/learn/lessons/<slug>`; planned and retired rows are muted, say "Planned" and contain no link or focusable element (DESIGN-UI-082, FLOW-LEARN-001). A part with a live lesson carries "Available now". Checkpoint lessons and each part's sixth unit (close-out, PRD unit pattern) carry "Checkpoint" (DESIGN-UI-085). German titles have lang="de". packages/validation is transpiled by Next.js.
+- **Files:** apps/web/package.json (@deutschfreak/validation), next.config.ts, src/app/page.tsx, src/app/learn/page.tsx, src/lib/api.ts, src/lib/api.test.ts, src/components/map/german-map.tsx, lesson-row.tsx, tag.tsx, map-rules.ts, open-part-from-hash.tsx, german-map.test.tsx; pnpm-lock.yaml
+- **Checks:** `pnpm lint` clean; `pnpm typecheck` passed (5 packages); `pnpm test` 279 passed (web 30, validation 101, config 7, content 10, db 84, api 47); `pnpm content:check` valid; web build against the production API succeeded. The planned-lesson test failed once with retired lessons treated as live. In the browser against production data: 4 parts, 24 units, 92 lessons, 1 link (A1.1.U01.L01), 91 rows marked Planned; no horizontal scroll at 375 px; `/learn#a1-3` opens A1.3.
+- **Status:** passed
+- **Notes:** Signed-in status tags (DESIGN-UI-083) come with accounts. Unit links lead to 404 until task 4.6. The Playwright test that opens the map and a lesson (Plan Phase 4 tests) is planned with task 4.7.
+
+## 2026-10-17 · Phase 4 · content, db, api, web · Unit context and part course-page copy (decision 0030)
+
+- **Phase:** 4 Web shell (follow-up to task 4.6)
+- **Module:** packages/content, packages/validation, packages/db, apps/api, apps/web, docs/decisions, docs/bible (local)
+- **Update:** The unit context and the part course-page copy named in FLOW-LEARN-002/003 are loaded and shown
+- **Type:** feature
+- **What was done:** Decision 0030. a1.yaml gains `context_en` for 19 units (the Spec's "Context:" clauses, first letter capitalised) and `description_en` for the 4 parts (Spec §13 copy, italics removed), both copied by script from the Specification, not retyped; the structure schema allows both as optional. New nullable column `course_parts.description_en`, migration `0005_part_description.sql` (generated: one ADD COLUMN). The seed writes and updates both; the map repository selects them; the map service and `mapPartSchema`/`mapUnitSchema` carry `descriptionEn` and `contextEn` (nullable). The web shows the part copy at the top of each open part on the map and the context under the subtitle on the unit page. Local Bible: Schema §8.2 row and notes for §8.2 and §8.3, Schema change summary, Flow FLOW-LEARN-002; `node docs/bible/build.mjs` rebuilt INDEX.md and dist.
+- **Files:** packages/content/structure/a1.yaml, packages/content/src/structure.test.ts, packages/validation/src/structure.ts, packages/validation/src/api-map.ts, packages/db/src/schema.ts, packages/db/src/schema.test.ts, packages/db/src/seed.ts, packages/db/src/seed.db.test.ts, packages/db/src/repositories/level-map.ts, packages/db/migrations/0005_part_description.sql, packages/db/migrations/meta/*, apps/api/src/services/level-map.ts, apps/api/src/services/level-map.test.ts, apps/api/src/routes/levels.db.test.ts, apps/web/src/components/map/german-map.tsx, unit-page.tsx, german-map.test.tsx, unit-page.test.tsx, apps/web/src/lib/api.test.ts, docs/decisions/0030-unit-context-and-part-copy.md, PROGRESS.md; local: docs/bible/05-schema.md, 03-flow.md, INDEX.md, dist/
+- **Checks:** `pnpm lint` clean; `pnpm typecheck` passed; `pnpm test` 286 passed (web 35, validation 101, config 7, content 11, db 84, api 48); `pnpm content:check` valid; `pnpm test:db` 77 + 17 passed on the Neon test branch (migration 0005 applied there by the test setup). The API service test failed once with the context mapping removed.
+- **Status:** passed
+- **Notes:** Migration 0005 and the re-seed are not yet applied to the dev branch; until they are and the API is redeployed, a web build with the new schema cannot read the production map (it now requires `descriptionEn`/`contextEn`). Order: migrate and seed dev, merge, API deploys, then web.
+
+## 2026-10-17 · Phase 4 · apps/web · Task 4.6 unit page and part section
+
+- **Phase:** 4 Web shell
+- **Module:** apps/web
+- **Update:** Task 4.6: unit page at /learn/units/<slug>; the part section is the map's part (task 4.5)
+- **Type:** feature
+- **What was done:** The API has no unit endpoint, so the unit page reads the A1 map (`GET /v1/levels/A1/map`, cached) and finds the unit by slug (`findUnit`); an unknown slug calls notFound() and answers 404 (decision 0028). The page shows a link back to its part section (`/learn#a1-N`), the unit code, the German title (lang="de") as the page heading, the English subtitle, and its lessons in order through the same lesson row as the map: only published lessons link, planned ones say "Planned" and are not interactive, the checkpoint lesson is marked; a close-out unit carries "Checkpoint" (FLOW-LEARN-003, DESIGN-UI-081, 082, 085). The page title is "<unit title> · DeutschFreak". The part section (FLOW-LEARN-002) is the collapsible part on the German Map with its title, learner statement and units.
+- **Files:** apps/web/src/app/learn/units/[slug]/page.tsx, src/components/map/unit-page.tsx, unit-page.test.tsx, map-rules.ts
+- **Checks:** `pnpm lint` clean; `pnpm typecheck` passed (5 packages); `pnpm test` 283 passed (web 34, validation 101, config 7, content 10, db 84, api 47); `pnpm content:check` valid; web build against the production API succeeded. In the browser against production data: /learn/units/hallo shows "Hallo!" with its 5 lessons (L01 linked, L02 to L05 Planned, L05 Checkpoint) and the link back to /learn#a1-1; /learn/units/no-such-unit answers 404; /learn/units/a1-1-abschluss answers 200.
+- **Status:** passed
+- **Notes:** Not in the content yet, so not shown: the unit's context text (`units.context_en` is empty) and a part's course-page copy (FLOW-LEARN-002). Signed-in lesson statuses and missed checkpoint objectives come with accounts and progress.
+
+## 2026-10-21 · Phase 4 · apps/web · Task 4.7 read-only lesson page
+
+- **Phase:** 4 Web shell
+- **Module:** apps/web, root scripts
+- **Update:** Task 4.7: read-only lesson page with the stage rail; first Playwright test
+- **Type:** feature
+- **What was done:** `/learn/lessons/<slug>` fetches `GET /v1/lessons/:slug` on the server and checks it with `lessonResponseSchema` (TRD-FE-05; an answer field fails the schema); a 404 (unknown slug or planned lesson, decision 0017) shows the not-found page (decision 0028). The page shows a link back to the unit, the lesson code and the German title, then `LessonStages`: all nine stages are rendered on the server so the full text is in the HTML (TRD-SEO-01), one is shown at a time. The rail (client component, TRD-FE-02) always shows nine named steps (FLOW-LESSON-010, DESIGN-UI-070); Continue moves on one stage (FLOW-LESSON-011, DESIGN-UI-076) and moves focus to the new stage heading; reached steps are buttons with a check mark, the current one is blue, filled, bold and `aria-current="step"`, steps ahead are muted, not selectable and have no padlock (FLOW-LESSON-012, DESIGN-UI-071, 072); light stages have a smaller marker. Desktop: vertical rail beside the content, sticky; mobile and tablet: "Stage N of 9: Name" button that expands the full rail (DESIGN-UI-073). One generic block renderer picks a component by kind (TRD-FE-03): text, vocabulary (nouns with their article), phrase (with register), example, concept, dialogue (speaker, German line, translation) and exercise (instruction, prompts and options as text, no inputs). German is marked lang="de" and set one step larger than the English. Translations are hidden in stages 7 and 9 (TRD-FE-11). No audio (decision 0021). Playwright: `@playwright/test`, `apps/web/playwright.config.ts` starts the API (repo-root .env database) and builds and starts the web app against it; locally it uses the installed Microsoft Edge, so no browser download; projects "laptop" and "phone" (Pixel 7); `e2e/map-and-lesson.spec.ts` opens the map (4 parts, 92 lessons, one lesson link), opens the published lesson and continues a stage, checks a planned lesson address answers 404, and checks no horizontal scroll on map, unit and lesson pages. Scripts `pnpm test:e2e` (root and web). Playwright output is ignored by git and ESLint.
+- **Files:** apps/web/src/app/learn/lessons/[slug]/page.tsx, src/components/lesson/lesson-page.tsx, stage-rail.tsx, block.tsx, stages.ts, lesson-page.test.tsx, src/lib/api.ts, src/lib/api.test.ts, apps/web/playwright.config.ts, apps/web/e2e/map-and-lesson.spec.ts, apps/web/package.json, apps/web/tsconfig.json, package.json, packages/config/eslint.config.js, .gitignore, pnpm-lock.yaml
+- **Checks:** `pnpm lint` clean; `pnpm typecheck` passed (5 packages); `pnpm test` 297 passed (web 46, validation 101, config 7, content 11, db 84, api 48); `pnpm content:check` valid; `pnpm test:e2e` 6 passed (3 tests × laptop and phone) against the dev branch. The rail tests failed once with steps ahead made selectable. Checked in the browser at 1280 px (rail beside content, stage 3 after two Continues) and 375 px (compact rail expanded).
+- **Status:** passed
+- **Notes:** Not built yet, by design or because the Bible leaves it open: the "completed"/"mastered" rail markers (DESIGN-UI-074, FLOW-OQ-17; need progress), stages 2 and 3 collapsed in checkpoint lessons (DESIGN-UI-075; no checkpoint lesson is published yet), one block at a time on a phone (TRD-FE-10; comes with the interactive lesson), and lang="de" on exercise options (the API does not say which options are German). The e2e test is not in CI: it needs a database with the content, and CI has only the test branch secrets.
+
+## 2026-10-21 · Phase 4 · apps/web · Task 4.8 not-found and error pages
+
+- **Phase:** 4 Web shell
+- **Module:** apps/web
+- **Update:** Task 4.8: not-found page and whole-page load error
+- **Type:** feature
+- **What was done:** `src/app/not-found.tsx` renders `NotFoundMessage` inside the page shell for every `notFound()` and unknown address, with status 404 (FLOW-ERR-001, DESIGN-UI-134, decision 0028): heading "Page not found", one plain sentence that covers a planned lesson or a typo, and a primary link "Go to the German Map". `src/app/error.tsx` renders `LoadErrorMessage` when a page's data cannot be loaded (FLOW-ERR-002, DESIGN-UI-130, 131): role="alert", a red-text heading "This page could not be loaded" with a Lucide icon, a sentence on what to do, no error code or blame, a "Try again" button (refreshes the page from the server and resets) and a link to the German Map; header and navigation stay usable around it. The Playwright spec now also checks the not-found heading and the way back for a planned lesson, and a 404 for an unknown address.
+- **Files:** apps/web/src/app/not-found.tsx, src/app/error.tsx, src/components/states/not-found-message.tsx, load-error-message.tsx, states.test.tsx, apps/web/e2e/map-and-lesson.spec.ts
+- **Checks:** `pnpm lint` clean; `pnpm typecheck` passed; `pnpm test` 300 passed (web 49, validation 101, config 7, content 11, db 84, api 48); `pnpm content:check` valid; `pnpm test:e2e` 8 passed (4 tests × laptop and phone) against the dev branch. With the web app built against an unreachable API, /learn showed the error page with status 500 and the navigation in place.
+- **Status:** passed
+- **Notes:** The not-found page offers only the German Map; Browse and search (FLOW-ERR-001) are added when those pages exist. The copy is mine within the Design Brief's voice rules; the Bible gives no exact wording.
+
+## 2026-10-21 · Phase 4 · apps/web · Phase 4 review fixes 1 to 10
+
+- **Phase:** 4 Web shell
+- **Module:** apps/web, docs/reviews
+- **Update:** Fixes for the /review 4 findings on phase-04/4.8-error-pages at 617506a
+- **Type:** fix
+- **What was done:** All ten findings fixed on phase-04/review-fixes, as listed in docs/reviews/phase-04-review-fixes.md. Bugs: (1) the stage rail navigates over the stages present, a missing stage is "not available" and never leads to a blank screen; (2) an undecodable `#` fragment on the map is ignored; (3) pages use `await connection()` instead of `dynamic = 'force-dynamic'`, which in Next 16 set every fetch to no-store (confirmed in the shipped Next docs), so the 5-minute API cache now applies; (4) only the API's own `lesson_not_found` / `level_not_found` 404 means "Page not found", any other 404 shows the load-error page; (5) a non-JSON response is an ApiRequestError; (6) each map part is a labelled section with a real h2, and only its unit list collapses; (7) rail step numbers and states are visually hidden text instead of ignored aria-labels; (8) translations follow the part: shown in A1.1, tap-to-reveal from A1.2, hidden in stages 7 and 9. Cleanups: (9) one `getChecked` for both API calls; (10) `routes.partAnchor`.
+- **Files:** apps/web/src/lib/api.ts, api.test.ts, routes.ts, src/app/page.tsx, src/app/learn/page.tsx, src/app/learn/units/[slug]/page.tsx, src/app/learn/lessons/[slug]/page.tsx, src/app/segment-config.test.ts, src/components/lesson/stage-rail.tsx, stages.ts, block.tsx, lesson-page.tsx, lesson-page.test.tsx, src/components/map/german-map.tsx, open-part-from-hash.tsx, german-map.test.tsx, docs/reviews/phase-04-review-fixes.md, PROGRESS.md
+- **Checks:** `pnpm lint` clean; `pnpm typecheck` passed (5 packages); `pnpm test` 311 passed (web 60, validation 101, config 7, content 11, db 84, api 48); `pnpm content:check` valid; web build passed; `pnpm test:e2e` 8 passed (laptop and phone). With the 4.8 source files restored, 14 web tests failed (every new finding test plus the rail and map tests that depend on the fixed markup). Cache measured: from a cold cache, 6 page loads made 1 API request. Browser: part headings in place, `/learn#a1-2` opens A1.2.
+- **Status:** passed
+- **Notes:** Translation tap-to-reveal from A1.2 is a native disclosure labelled "Show translation"; no A1.2 lesson is published yet. Next: push, pull request to main, merge, API redeploy, then task 4.9 (Vercel web project, phone check) and gate M3.

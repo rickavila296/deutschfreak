@@ -72,6 +72,24 @@ describe('inside a transaction', () => {
     expect(await one(`select position from lessons where code = 'A1.1.U01.L03'`)).toEqual({ position: 3 });
   });
 
+  it('writes the part descriptions and the unit contexts from the file; close-out units have none (decision 0030)', async () => {
+    await seedStructure(db, file);
+    expect(await one(`select count(description_en)::int as n from course_parts where code like 'A1.%'`)).toEqual({
+      n: 4,
+    });
+    expect(await one(`select count(context_en)::int as n from units where code like 'A1.%'`)).toEqual({ n: 19 });
+    expect(await one(`select context_en from units where code = 'A1.1.U01'`)).toEqual({
+      context_en: 'Meeting someone for the first time, formally and informally.',
+    });
+    expect(await one(`select context_en from units where code = 'A1.1.U06'`)).toEqual({ context_en: null });
+    const changed = copy();
+    changed.level.parts[0]!.description_en = 'Changed copy.';
+    await seedStructure(db, changed);
+    expect(await one(`select description_en from course_parts where code = 'A1.1'`)).toEqual({
+      description_en: 'Changed copy.',
+    });
+  });
+
   it('writes slugs, titles and skills literally from the file', async () => {
     await seedStructure(db, file);
     expect(await one(`select slug, title, archetypes from lessons where code = 'A1.1.U01.L01'`)).toEqual({

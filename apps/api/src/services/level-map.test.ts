@@ -8,10 +8,12 @@ const row = (over: Partial<LevelMapRow>): LevelMapRow => ({
   partCode: 'A1.1',
   partTitle: 'Part one',
   partTagline: 'Tagline one',
+  partDescriptionEn: null,
   unitCode: 'A1.1.U01',
   unitSlug: 'unit-one',
   unitTitle: 'Unit one',
   unitSubtitleEn: 'Subtitle one',
+  unitContextEn: null,
   lessonCode: 'A1.1.U01.L01',
   lessonSlug: 'lesson-one',
   lessonTitle: 'Lesson one',
@@ -67,6 +69,15 @@ describe('buildLevelMap (TRD-API-02)', () => {
     expect(u1!.lessons[0]!.objectives.map((o) => o.code)).toEqual(['A1.1.U01.L01.O1', 'A1.1.U01.L01.O2']);
     expect(u2!.lessons[0]!.objectives).toEqual([]);
     expect(map!.parts[1]!.units[0]!.lessons[0]!.code).toBe('A1.2.U01.L01');
+  });
+
+  it('carries the part description and unit context, null when there is none (decision 0030)', () => {
+    const map = buildLevelMap([
+      row({ partDescriptionEn: 'Part copy.', unitContextEn: 'A situation.' }),
+      row({ unitCode: 'A1.1.U06', unitSlug: 'close-out', lessonCode: 'A1.1.U06.L01', lessonSlug: 'lesson-six' }),
+    ]);
+    expect(map!.parts[0]!.descriptionEn).toBe('Part copy.');
+    expect(map!.parts[0]!.units.map((u) => u.contextEn)).toEqual(['A situation.', null]);
   });
 
   it('treats a row that breaks the response schema as a server fault, not a client error', () => {

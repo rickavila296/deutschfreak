@@ -1,0 +1,15 @@
+@import 'tailwindcss';
+@import './theme.css';
+
+@layer base {
+  /* Focus (Design Brief section 11): a 2 px deep-ink outline with a 2 px offset on every focusable element. */
+  :focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 2px;
+  }
+
+  /* The skip link moves focus to <main>, which needs no visible ring of its own. */
+  main:focus {
+    outline: none;
+  }
+}
