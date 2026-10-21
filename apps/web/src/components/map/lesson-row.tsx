@@ -34,7 +34,7 @@ export function LessonRow({ lesson }: { lesson: MapLesson }) {
       </div>
       <div className="flex flex-wrap gap-2 md:justify-end md:pt-1">
         {/* A checkpoint lesson's primary archetype is `checkpoint`, so its archetype tag is its checkpoint mark. */}
-        <Tag tone={live || isCheckpointLesson(lesson) ? 'checkpoint' : 'planned'}>
+        <Tag tone={isCheckpointLesson(lesson) ? 'checkpoint' : 'archetype'}>
           {isCheckpointLesson(lesson) ? 'Checkpoint' : archetypeLabel(lesson.archetypes[0])}
         </Tag>
         {!live && <Tag tone="planned">Planned</Tag>}

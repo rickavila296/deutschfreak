@@ -23,12 +23,15 @@ export class ApiRequestError extends Error {
 }
 
 /**
- * GETs an API path. Returns null only when the API itself says the thing does not exist: a 404 in its error shape
+ * GETs an API path. Returns { found: false } only when the API itself says the thing does not exist: a 404 in its error shape
  * with `notFoundCode` (decision 0015). Any other 404 (a wrong NEXT_PUBLIC_API_URL, a page in front of the API) and any
  * body that is not JSON is an ApiRequestError, so the page shows its error state, not "Page not found" (review 4
- * findings 4 and 5).
+ * findings 4 and 5). A separate flag, not null, marks "not found", so a 2xx body that is literally null goes to the
+ * schema check and fails there (review 4b finding 1).
  */
-async function getJson(path: string, notFoundCode: ApiErrorCode, fetchImpl: typeof fetch): Promise<unknown | null> {
+type JsonResult = { found: false } | { found: true; body: unknown };
+
+async function getJson(path: string, notFoundCode: ApiErrorCode, fetchImpl: typeof fetch): Promise<JsonResult> {
   let response: Response;
   try {
     response = await fetchImpl(`${readApiUrl()}${path}`, {
@@ -46,11 +49,11 @@ async function getJson(path: string, notFoundCode: ApiErrorCode, fetchImpl: type
   }
   if (response.status === 404) {
     const apiError = apiErrorResponseSchema.safeParse(body);
-    if (apiError.success && apiError.data.error.code === notFoundCode) return null;
+    if (apiError.success && apiError.data.error.code === notFoundCode) return { found: false };
     throw new ApiRequestError(`Unexpected 404 for ${path}; is NEXT_PUBLIC_API_URL the API?`);
   }
   if (!response.ok) throw new ApiRequestError(`The API answered ${response.status} for ${path}.`);
-  return body;
+  return { found: true, body };
 }
 
 /** What getChecked needs from a shared Zod schema. */
@@ -69,9 +72,9 @@ async function getChecked<T>(
   label: string,
   fetchImpl: typeof fetch,
 ): Promise<T | null> {
-  const body = await getJson(path, notFoundCode, fetchImpl);
-  if (body === null) return null;
-  const parsed = schema.safeParse(body);
+  const result = await getJson(path, notFoundCode, fetchImpl);
+  if (!result.found) return null;
+  const parsed = schema.safeParse(result.body);
   if (!parsed.success) {
     throw new ApiRequestError(`The ${label} response does not match its schema.`, { cause: parsed.error });
   }

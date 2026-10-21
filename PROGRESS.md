@@ -646,3 +646,15 @@ The entry format is in `CLAUDE.md`, under "PROGRESS.md entry".
 - **Checks:** `pnpm lint` clean; `pnpm typecheck` passed (5 packages); `pnpm test` 311 passed (web 60, validation 101, config 7, content 11, db 84, api 48); `pnpm content:check` valid; web build passed; `pnpm test:e2e` 8 passed (laptop and phone). With the 4.8 source files restored, 14 web tests failed (every new finding test plus the rail and map tests that depend on the fixed markup). Cache measured: from a cold cache, 6 page loads made 1 API request. Browser: part headings in place, `/learn#a1-2` opens A1.2.
 - **Status:** passed
 - **Notes:** Translation tap-to-reveal from A1.2 is a native disclosure labelled "Show translation"; no A1.2 lesson is published yet. Next: push, pull request to main, merge, API redeploy, then task 4.9 (Vercel web project, phone check) and gate M3.
+
+## 2026-10-21 · Phase 4 · apps/web · Phase 4 second review fixes 1 to 6
+
+- **Phase:** 4 Web shell
+- **Module:** apps/web, docs/reviews
+- **Update:** Fixes for the six low findings of the second Phase 4 review (main at 8443014, after PR #4)
+- **Type:** fix
+- **What was done:** On phase-04/review-2-fixes from main, as listed in docs/reviews/phase-04-review-fixes.md (second review): (1) the API client marks "not found" with a flag, so a literal null body fails the schema check instead of showing a 404; (2) a lesson with no sections shows "This lesson has no content yet." instead of the rail; (3) exercise options are keyed by position, so repeated options render; (4) a lesson's type is a quiet muted label, distinct from the boxed Checkpoint mark (DESIGN-UI-085); (5) Learn is the current navigation item on `/`, and `/` declares `/learn` as canonical, with `metadataBase` from Vercel's VERCEL_PROJECT_PRODUCTION_URL (localhost locally); (6) next.config takes only NEXT_PUBLIC_API_URL from the root .env through `loadWebEnv`, so the database strings never enter the web server (architecture rule 1, TRD-ENV-03).
+- **Files:** apps/web/next.config.ts, src/lib/root-env.ts, root-env.test.ts, src/lib/api.ts, api.test.ts, src/lib/routes.ts, src/app/layout.tsx, src/app/page.tsx, src/app/home-metadata.test.ts, src/components/lesson/lesson-page.tsx, block.tsx, lesson-page.test.tsx, src/components/map/lesson-row.tsx, tag.tsx, german-map.test.tsx, docs/reviews/phase-04-review-fixes.md, PROGRESS.md
+- **Checks:** `pnpm lint` clean; `pnpm typecheck` passed (5 packages); `pnpm test` 319 passed (web 68, validation 101, config 7, content 11, db 84, api 48); `pnpm content:check` valid; web build passed; `pnpm test:e2e` 8 passed (laptop and phone). With the source files of main 8443014 restored, the 6 new tests for findings 1 to 5 failed. Built HTML of `/`: `<link rel="canonical" href=".../learn">` and Learn has aria-current="page".
+- **Status:** passed
+- **Notes:** Owed: cleanups 7 to 10 of the second review (Rick deferred them). Next: push, pull request to main (opened from the cloud thread, as this PC has no gh), merge, API redeploy, then task 4.9 and gate M3.

@@ -45,5 +45,8 @@ export const footerGroups: readonly FooterGroup[] = [
 /** True when `path` is `href` or a page below it, so /learn/lessons/x marks Learn as the current section. */
 export function isCurrentSection(path: string, href: string): boolean {
   if (href === routes.home) return path === routes.home;
+  // Home shows the German Map until a home page exists (decision 0028), so Learn is the current section there too
+  // (review 4b finding 5).
+  if (path === routes.home) return href === routes.learn;
   return path === href || path.startsWith(`${href}/`);
 }

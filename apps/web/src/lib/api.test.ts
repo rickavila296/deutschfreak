@@ -131,3 +131,10 @@ describe('review 4 fixes (api client)', () => {
     expect(init.cache).toBeUndefined();
   });
 });
+
+describe('review 4b fixes (api client)', () => {
+  it('treats a 2xx body that is literally null as a schema failure, not as not-found (finding 1)', async () => {
+    await expect(getLevelMap('A1', fakeFetch(200, null))).rejects.toThrow(/schema/);
+    await expect(getLesson('x', fakeFetch(200, null))).rejects.toThrow(/schema/);
+  });
+});

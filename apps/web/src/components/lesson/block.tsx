@@ -82,8 +82,9 @@ function BlockBody({ block, translation }: BlockProps): ReactNode {
                 {item.prompt && <p>{item.prompt}</p>}
                 {item.options && (
                   <ul className="mt-1 flex flex-wrap gap-2">
-                    {item.options.map((option) => (
-                      <li key={option} className="rounded-md border border-muted px-3 py-1 text-small text-ink">
+                    {/* Keyed by position: options may repeat, e.g. der, die, der (review 4b finding 3). */}
+                    {item.options.map((option, index) => (
+                      <li key={index} className="rounded-md border border-muted px-3 py-1 text-small text-ink">
                         {option}
                       </li>
                     ))}
