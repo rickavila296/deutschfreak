@@ -14,3 +14,16 @@ Source: independent review of phase-04/4.8-error-pages at 617506a (tasks 4.1 to 
 10. components/map/german-map.tsx:31 (cleanup): the part id came from `routes.part(code).split('#')[1]`. FIX: `routes.partAnchor(code)`, used by `routes.part` and the map. No behaviour change.
 
 Checks after the fixes: `pnpm lint` clean; `pnpm typecheck` passed; `pnpm test` 311 passed (web 60); `pnpm content:check` valid; web build passed; `pnpm test:e2e` 8 passed (laptop and phone). Checked in the browser: part headings and `/learn#a1-2` opening A1.2.
+
+## Second review (2026-10-21, on main at 8443014 after PR #4): six low findings and four cleanups
+
+Rick approved "fix 1–6"; cleanups 7 to 10 are owed for later. Branch phase-04/review-2-fixes from main. With the source files of 8443014 restored, the six new tests for findings 1 to 5 failed; finding 6 is a new function with its own test.
+
+1. lib/api.ts:73: a 2xx body that was literally `null` read as "not found" and showed a 404. FIX: getJson returns `{ found: false }` or `{ found: true, body }`; a null body goes to the schema check and fails there. TEST: 200 with null throws for both calls.
+2. components/lesson/stage-rail.tsx:41: a lesson with no sections showed "Stage 1 of 9" over a blank page. FIX: the lesson page shows "This lesson has no content yet." instead of the rail. TEST: empty sections render the message and no rail.
+3. components/lesson/block.tsx:86: exercise options were keyed by text, so repeats (der, die, der) collided. FIX: keyed by position. TEST: three options render with no duplicate-key warning.
+4. components/map/lesson-row.tsx:37: a live lesson's type ("Conversation") used the boxed Checkpoint tone. FIX: new quiet `archetype` tone (muted text, no box); only checkpoints are boxed (DESIGN-UI-085). TEST: the type label has no border; the Checkpoint mark has one.
+5. lib/routes.ts:47: on `/` no navigation item was current, and `/` duplicated `/learn` without a canonical. FIX: Learn is current on `/`; `/` declares `/learn` as canonical; `metadataBase` comes from Vercel's VERCEL_PROJECT_PRODUCTION_URL (localhost locally), as Next 16 requires a base for relative metadata URLs. TESTS: isCurrentSection('/', '/learn'); the home metadata's canonical. Checked in the built HTML.
+6. next.config.ts:9: process.loadEnvFile loaded the whole root .env, database strings included, into the web server (architecture rule 1, TRD-ENV-03). FIX: `loadWebEnv` parses the file and copies only NEXT_PUBLIC_API_URL. TEST: from a file with DATABASE_URL, WEB_ORIGIN and NEXT_PUBLIC_API_URL only the last is set; an existing value is kept.
+
+Checks: `pnpm lint` clean; `pnpm typecheck` passed; `pnpm test` 319 passed (web 68); `pnpm content:check` valid; web build passed; `pnpm test:e2e` 8 passed.
