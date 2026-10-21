@@ -21,9 +21,15 @@ test('opens the German Map and from it the published lesson, then continues a st
   await expect(page.getByRole('heading', { level: 2, name: /Objective/ })).toBeHidden();
 });
 
-test('a planned lesson address shows not-found with status 404 (decision 0028)', async ({ page }) => {
+test('a planned lesson address shows the not-found page with status 404 and a way back (decision 0028, FLOW-ERR-001)', async ({
+  page,
+}) => {
   const response = await page.goto('/learn/lessons/wie-heisst-du');
   expect(response?.status()).toBe(404);
+  await expect(page.getByRole('heading', { level: 1, name: 'Page not found' })).toBeVisible();
+  await expect(page.getByRole('navigation', { name: 'Primary' })).toBeAttached();
+  await page.getByRole('link', { name: 'Go to the German Map' }).click();
+  await expect(page).toHaveURL(/\/learn$/);
 });
 
 test('the page has no horizontal scroll', async ({ page }) => {
@@ -32,4 +38,10 @@ test('the page has no horizontal scroll', async ({ page }) => {
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth);
     expect(overflow, path).toBe(false);
   }
+});
+
+test('an unknown address shows the not-found page with status 404', async ({ page }) => {
+  const response = await page.goto('/no-such-page');
+  expect(response?.status()).toBe(404);
+  await expect(page.getByRole('heading', { level: 1, name: 'Page not found' })).toBeVisible();
 });
