@@ -658,3 +658,15 @@ The entry format is in `CLAUDE.md`, under "PROGRESS.md entry".
 - **Checks:** `pnpm lint` clean; `pnpm typecheck` passed (5 packages); `pnpm test` 319 passed (web 68, validation 101, config 7, content 11, db 84, api 48); `pnpm content:check` valid; web build passed; `pnpm test:e2e` 8 passed (laptop and phone). With the source files of main 8443014 restored, the 6 new tests for findings 1 to 5 failed. Built HTML of `/`: `<link rel="canonical" href=".../learn">` and Learn has aria-current="page".
 - **Status:** passed
 - **Notes:** Owed: cleanups 7 to 10 of the second review (Rick deferred them). Next: push, pull request to main (opened from the cloud thread, as this PC has no gh), merge, API redeploy, then task 4.9 and gate M3.
+
+## 2026-10-21 · Phase 4 · deploy · Task 4.9 web app deployed on Vercel, checked on a real phone
+
+- **Phase:** 4 Web shell
+- **Module:** Vercel web project, apps/web
+- **Update:** Task 4.9: Vercel web project created, deployed from main, checked on a laptop and on the owner's phone
+- **Type:** feature
+- **What was done:** The owner created the Vercel project `deutschfreak-web`. The first two builds failed with "No entrypoint found": the project had Root Directory `.` and Framework Preset Express. Fixed by the owner: Root Directory `apps/web`, Framework Preset Next.js, NEXT_PUBLIC_API_URL = https://deutschfreak.vercel.app; redeployed from main fa83dba (PR #5), Ready. Function region set to Frankfurt (fra1) in the project settings, like the API. Public production address: https://deutschfreak-web.vercel.app (the team-suffixed URLs stay behind Vercel Deployment Protection); it matches the API's Production WEB_ORIGIN (decision 0029).
+- **Files:** none in the repository; Vercel project settings (owner)
+- **Checks:** Against the production API and database: `/`, `/learn`, `/learn/units/hallo`, `/learn/lessons/hallo-und-tschuess` answer 200; `/learn/lessons/wie-heisst-du` (planned) and `/nope` answer 404; the map has 4 parts, 92 lessons and exactly one lesson link; the A1.1 part copy and the U01 context line appear; Inter is served from the site; no horizontal scroll at 375 px; `/` declares `https://deutschfreak-web.vercel.app/learn` as canonical; the lesson opens at "Stage 1 of 9: Objective" with "Continue to Discover". Owner on a real phone: "phone ok" (map, lesson with Continue and rail, planned lesson 404, no sideways scroll).
+- **Status:** passed
+- **Notes:** Gate M3 (both pages render on a phone and a laptop from production data) is ready for `/gate M3`. Production data is still the Neon dev branch (decision 0029); a separate production database is required before real learners. Owed: cleanups 7 to 10 of the second Phase 4 review. The Vercel CLI on this PC is 64.5.0 in the npx cache; `npx vercel` now resolves 65.0.0, which is not installed.
